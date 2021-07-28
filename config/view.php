@@ -16,6 +16,7 @@ return [
     'paths' => [
         resource_path('views'),
         app_path('Modules/Front/Core/Views'),
+        app_path('Modules/Partners/Core/Views'),
     ],
 
     /*

@@ -2,8 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Modules\Front\Core\Http\Controllers\HomeController;
+use App\Modules\Partners\Core\Http\Controllers\PartnerLoginController;
+use App\Modules\Partners\Core\Http\Controllers\PartnerRegisterController;
+use App\Modules\Partners\Core\Http\Controllers\PartnerCabinetController;
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('front.index');
 //Route::get('/page/update', [HomeController::class, 'update']);// not implement
 Route::get('/policy',  [HomeController::class, 'policy'])->name('front.policy');
 Route::get('/terms',   [HomeController::class, 'terms'])->name('front.terms');
@@ -22,8 +25,16 @@ Route::get('/parfumes100', [HomeController::class, 'parfumes100']);
 Route::get('/parfumes500', [HomeController::class, 'parfumes500']);
 Route::get('/product/{art}', [HomeController::class, 'productArt']);
 
+//Route::get('/login', [PartnerLoginController::class, 'index']);
+//Route::get('/enter', [PartnerLoginController::class, 'enter'])->name('enter');
+//Route::get('/reset', [PartnerLoginController::class, 'resetPassword']);
+//Route::get('/register', [PartnerRegisterController::class, 'index'])->name('register');
+//Route::post('/login', [PartnerLoginController::class, 'login'])->name('login');
 
 /* это стд. ларины роуты аутентификации и /home страницы после аутентиф.*/
 Auth::routes();
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/cabinet', [PartnerCabinetController::class, 'cabinet'])->middleware(['auth'])->name('cabinet');
+
+//Route::get('/cabinet/profile', [PartnerCabinetController::class, 'profile'])->name('profile');
