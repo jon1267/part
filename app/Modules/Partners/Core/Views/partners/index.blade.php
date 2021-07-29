@@ -68,7 +68,7 @@
     <div style="max-width:400px; width:100%; margin: 0 auto;">
 
         <a href="/register" style="margin:0px; text-decoration:none; background:#449EA7" class="buyorder" value="Зарегистрироваться">Зарегистрироваться</a><br/>
-        <a href="/enter" style="margin:0px; text-decoration:none; background:#449EA7" class="buyorder" value="Зарегистрироваться">Войти</a><br/>
+        <a href="/login" style="margin:0px; text-decoration:none; background:#449EA7" class="buyorder" value="Зарегистрироваться">Войти</a><br/>
 
         <br/>
 
