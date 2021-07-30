@@ -27,7 +27,7 @@ Route::get('/product/{art}', [HomeController::class, 'productArt']);
 
 //Route::get('/login', [PartnerLoginController::class, 'index']);
 //Route::get('/enter', [PartnerLoginController::class, 'enter'])->name('enter');
-//Route::get('/reset', [PartnerLoginController::class, 'resetPassword']);
+Route::get('/reset', [PartnerLoginController::class, 'resetPassword']);
 //Route::get('/register', [PartnerRegisterController::class, 'index'])->name('register');
 //Route::post('/login', [PartnerLoginController::class, 'login'])->name('login');
 
@@ -39,3 +39,7 @@ Route::get('/welcome', [PartnerCabinetController::class, 'index']);
 Route::get('/cabinet', [PartnerCabinetController::class, 'cabinet'])->middleware(['auth'])->name('cabinet');
 Route::get('/cabinet/profile', [PartnerCabinetController::class, 'profile'])->middleware(['auth'])->name('profile');
 Route::post('/cabinet/update-profile', [PartnerCabinetController::class, 'updateProfile'])->middleware(['auth'])->name('update.profile');
+Route::get('/cabinet/how-to-earn', [PartnerCabinetController::class, 'howToEarn'])->name('cabinet.earn');
+
+//это тестовый - после отладки писем убрать
+//Route::get('/notify', [PartnerCabinetController::class, 'notify']);

@@ -9,6 +9,7 @@ use App\Models\Dropshipper;
 use Illuminate\Foundation\Auth\RegistersUsers;
 //use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Modules\Partners\Core\Events\PartnerRegisterd;
 
 class RegisterController extends Controller
 {
@@ -93,7 +94,7 @@ class RegisterController extends Controller
         //]);
 
         // this our for table dropshippers
-        return Dropshipper::create([
+        $partner = Dropshipper::create([
             'name' => $data['name'],
             'tel' => $data['tel'],
             'email' => $data['email'],
@@ -116,22 +117,27 @@ class RegisterController extends Controller
             'created' => date('Y-m-d'),
             'last_login' => date('Y-m-d H:i:s'),
             'orders' => 0,
-            'procent' => 0,
-            'procent_swan' => 0,
-            'procent_auction' => 0,
-            'procent_30ml' => 0,
-            'sub_procent' => 0,
+            'procent' => 20,
+            'procent_swan' => 20,
+            'procent_auction' => 20,
+            'procent_30ml' => 20,
+            'sub_procent' => 2,
             'earning' => 0,
             'orders_total' => 0,
             'facebook' => '',
             'code' => '',
             'price' => 0,
             'price50' => 0,
-            'notification' => 0,
+            'notification' => 1,
             'action_banner' => 0,
             'host' => config('app.host'),
             'manager' => 0,
             'ip' => $_SERVER['REMOTE_ADDR'] ?? null,
         ]);
+
+        event(new PartnerRegisterd($partner));
+
+        return $partner;
+
     }
 }

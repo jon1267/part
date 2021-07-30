@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 //use Illuminate\Http\Request;
 use App\Modules\Partners\Core\Http\Requests\PartnerProfileUpdateRequest as UpdateRequest;
 use App\Models\Dropshipper;
+use App\Notifications\PartnerRegisterdNotivication;
 
 class PartnerCabinetController extends Controller
 {
@@ -50,5 +51,20 @@ class PartnerCabinetController extends Controller
 
         return redirect()->route('cabinet')
             ->with(['error' => 'Ошибка обновления профиля.']);
+    }
+
+    public function howToEarn()
+    {
+
+        return view('partners.how-to-earn', [
+            'title' => 'Как начать зарабатывать',
+        ]);
+    }
+
+    public function notify()
+    {
+        $user = auth()->user();
+        $user->notify(new PartnerRegisterdNotivication());
+
     }
 }
