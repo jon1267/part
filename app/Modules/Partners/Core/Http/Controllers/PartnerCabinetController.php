@@ -61,10 +61,18 @@ class PartnerCabinetController extends Controller
         ]);
     }
 
-    public function notify()
+    public function material()
+    {
+        return view('partners.material', [
+            'title' => 'Рекламные материалы',
+        ]);
+    }
+
+    //для тестов (после тестир регистрации партнера убрать)
+    /*public function notify()
     {
         $user = auth()->user();
         $user->notify(new PartnerRegisterdNotivication());
 
-    }
+    }*/
 }

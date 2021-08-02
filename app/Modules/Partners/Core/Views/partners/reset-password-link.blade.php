@@ -1,9 +1,8 @@
 @extends('adminlte.start')
-
+<!-- эта форма - запрос ссылки сброса пароля (аналог лариной passwords\email.blade) -->
 @section('content')
     <div class="login-box">
         <div class="login-logo">
-            <!--<a href="../../index2.html"><b>Admin</b>LTE</a>-->
             <center>
                 <img src="{{ asset('/images/euro.png') }}" class="logo" style="max-width: 300px; width: 100%">
             </center>
@@ -31,7 +30,7 @@
 
                     <div class="row">
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">Сбросить пароль</button>
+                            <button type="submit" class="btn btn-primary btn-block">Отправить ссылку сброса пароля</button>
                         </div>
                         <!-- /.col -->
                     </div>

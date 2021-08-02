@@ -36,10 +36,12 @@ Auth::routes();
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/welcome', [PartnerCabinetController::class, 'index']);
+
 Route::get('/cabinet', [PartnerCabinetController::class, 'cabinet'])->middleware(['auth'])->name('cabinet');
 Route::get('/cabinet/profile', [PartnerCabinetController::class, 'profile'])->middleware(['auth'])->name('profile');
 Route::post('/cabinet/update-profile', [PartnerCabinetController::class, 'updateProfile'])->middleware(['auth'])->name('update.profile');
-Route::get('/cabinet/how-to-earn', [PartnerCabinetController::class, 'howToEarn'])->name('cabinet.earn');
+Route::get('/cabinet/how-to-earn', [PartnerCabinetController::class, 'howToEarn'])->middleware(['auth'])->name('cabinet.earn');
+Route::get('/cabinet/material', [PartnerCabinetController::class, 'material'])->middleware(['auth'])->name('cabinet.material');
 
 //это тестовый - после отладки писем убрать
 //Route::get('/notify', [PartnerCabinetController::class, 'notify']);

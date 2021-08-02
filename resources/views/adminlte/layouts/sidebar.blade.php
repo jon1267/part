@@ -34,6 +34,16 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="{{ route('cabinet.material') }}" class="nav-link">
+                        <i class="nav-icon fas fa-air-freshener"></i>
+                        <p>
+                            Рекламные материалы
+                            <!--<span class="right badge badge-danger">New</span>-->
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
