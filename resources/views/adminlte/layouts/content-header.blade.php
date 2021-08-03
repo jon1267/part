@@ -1,18 +1,20 @@
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
-            <div class="col-sm-6">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <h1 class="m-0">{{ $title ?? 'Кабинет Партнера' }}</h1>
-                    </div>
-                    <div>
+            <div class="col-sm-8">
+                {{--<div>
+                    <h1 class="m-0">{{ $title ?? 'Кабинет Партнера' }}</h1>
+                </div>--}}
+                <div>
+                    @if(auth()->user()->domain == '')
                         @include('partners.create-site')
-                    </div>
-
+                    @else
+                        <div>
+                            <h1 class="m-0">{{ $title ?? 'Кабинет Партнера' }}</h1>
+                        </div>
+                    @endif
                 </div>
-
-            </div><!-- /.col -->
+            </div>
 
             <!--<div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">

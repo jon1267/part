@@ -5,8 +5,11 @@ namespace App\Modules\Partners\Core\Http\Controllers;
 use App\Http\Controllers\Controller;
 //use Illuminate\Http\Request;
 use App\Modules\Partners\Core\Http\Requests\PartnerProfileUpdateRequest as UpdateRequest;
+use App\Modules\Partners\Core\Http\Requests\PartnerCreateSiteRequest as CreateSite;
 use App\Models\Dropshipper;
-use App\Notifications\PartnerRegisterdNotivication;
+use function PHPUnit\Framework\isEmpty;
+
+//use App\Notifications\PartnerRegisterdNotivication;
 
 class PartnerCabinetController extends Controller
 {
@@ -66,6 +69,25 @@ class PartnerCabinetController extends Controller
         return view('partners.material', [
             'title' => 'Рекламные материалы',
         ]);
+    }
+
+    public function createSite(CreateSite $request)
+    {
+        $data = $request->except('_token');
+        $user = auth()->user();
+        //dd($data, $user->host);
+        $hasSameNameHost = Dropshipper::where('host', $user->host)
+            ->where('domain', $request->domain)
+            ->first();
+
+        if (!$hasSameNameHost) {
+            $user->update($data);
+            return redirect()->route('cabinet')
+                ->with(['status' => 'Ваш сайт успешно создан.']);
+        }
+
+        return redirect()->route('cabinet')
+            ->with(['error' => 'Ошибка создания сайта. Такой домен на платформе кажется уже есть.']);
     }
 
     //для тестов (после тестир регистрации партнера убрать)
