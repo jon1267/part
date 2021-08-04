@@ -7,8 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Modules\Partners\Core\Http\Requests\PartnerProfileUpdateRequest as UpdateRequest;
 use App\Modules\Partners\Core\Http\Requests\PartnerCreateSiteRequest as CreateSite;
 use App\Models\Dropshipper;
-use function PHPUnit\Framework\isEmpty;
-
+use App\Models\Order;
+use Illuminate\Support\Facades\DB;
 //use App\Notifications\PartnerRegisterdNotivication;
 
 class PartnerCabinetController extends Controller
@@ -88,6 +88,22 @@ class PartnerCabinetController extends Controller
 
         return redirect()->route('cabinet')
             ->with(['error' => 'Ошибка создания сайта. Такой домен на платформе кажется уже есть.']);
+    }
+
+    public function orders()
+    {
+        $orders = DB::table('landing_orders', 'orders')
+            ->select('orders.kod', 'orders.datebuy', 'orders.product', 'orders.sum', 'status2.name as status', 'adv.name as adv' , 'status2.id as status_id' , )
+            ->leftJoin('status2', 'orders.status', '=', 'status2.id')
+            ->leftJoin('adv', 'orders.adv', '=', 'adv.id')
+            ->where('orders.kod', auth()->user()->kod )
+            ->paginate(10);
+        //dd($orders);
+
+        return view('partners.orders-table', [
+            'title' => 'Заказы',
+            'orders' => $orders,
+        ]);
     }
 
     //для тестов (после тестир регистрации партнера убрать)

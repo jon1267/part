@@ -44,6 +44,16 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="{{ route('cabinet.orders') }}" class="nav-link">
+                        <i class="nav-icon fas fa-gift"></i>
+                        <p>
+                            Заказы
+                            <!--<span class="right badge badge-danger">New</span>-->
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>

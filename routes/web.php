@@ -43,6 +43,6 @@ Route::post('/cabinet/update-profile', [PartnerCabinetController::class, 'update
 Route::get('/cabinet/how-to-earn', [PartnerCabinetController::class, 'howToEarn'])->middleware(['auth'])->name('cabinet.earn');
 Route::get('/cabinet/material', [PartnerCabinetController::class, 'material'])->middleware(['auth'])->name('cabinet.material');
 Route::post('/cabinet/create-site', [PartnerCabinetController::class, 'createSite'])->middleware(['auth'])->name('cabinet.create.site');
-
+Route::get('/cabinet/orders', [PartnerCabinetController::class, 'orders'])->middleware(['auth'])->name('cabinet.orders');
 //это тестовый - после отладки писем убрать
 //Route::get('/notify', [PartnerCabinetController::class, 'notify']);
