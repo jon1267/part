@@ -33,7 +33,7 @@ Route::get('/reset', [PartnerLoginController::class, 'resetPassword']);
 
 /* это стд. ларины роуты аутентификации и /home страницы после аутентиф.*/
 Auth::routes();
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/welcome', [PartnerCabinetController::class, 'index']);
 

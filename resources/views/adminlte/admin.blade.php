@@ -19,6 +19,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('template/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('template/plugins/toastr/toastr.min.css') }}">
+    <!-- Ekko Lightbox -->
+    <link rel="stylesheet" href="{{ asset('template/plugins/ekko-lightbox/ekko-lightbox.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('template/dist/css/adminlte.min.css') }}">
 </head>
@@ -70,8 +72,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <!-- Toastr -->
 <script src="{{ asset('template/plugins/toastr/toastr.min.js') }}"></script>
+<!-- Ekko Lightbox -->
+<script src="{{ asset('template/plugins/ekko-lightbox/ekko-lightbox.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('template/dist/js/adminlte.min.js') }}"></script>
+<script>
+    $(function () {
+        $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+            event.preventDefault();
+            $(this).ekkoLightbox({
+                alwaysShowClose: true
+            });
+        });
+    })
+</script>
 
 @include('adminlte.layouts.status-block')
 
