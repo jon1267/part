@@ -65,7 +65,7 @@
                                 @endif
                             </table>
 
-                            <div class="mt-3">
+                            <div class="mt-2 ml-3 ">
                                 @if($orders->hasPages())
                                     {{ $orders->links() }}
                                 @endif

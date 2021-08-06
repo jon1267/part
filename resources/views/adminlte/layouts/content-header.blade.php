@@ -1,6 +1,7 @@
 <div class="content-header">
     <div class="container-fluid">
-        <div class="row mb-2">
+        <!--<div class="row mb-2">-->
+        <div class="row ">
             <div class="col-sm-8">
                 {{--<div>
                     <h1 class="m-0">{{ $title ?? 'Кабинет Партнера' }}</h1>
@@ -9,9 +10,9 @@
                     @if(auth()->user()->domain == '')
                         @include('partners.create-site')
                     @else
-                        <div>
+                        {{--<div>
                             <h1 class="m-0">{{ $title ?? 'Кабинет Партнера' }}</h1>
-                        </div>
+                        </div>--}}
                     @endif
                 </div>
             </div>

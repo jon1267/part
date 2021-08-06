@@ -14,7 +14,7 @@
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="{{ route('profile') }}" class="nav-link">
+                    <a href="{{ route('profile') }}" class="nav-link {{ $active[0] ?? '' }}">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Профиль
@@ -24,7 +24,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('cabinet.earn') }}" class="nav-link">
+                    <a href="{{ route('cabinet.earn') }}" class="nav-link {{ $active[1] ?? '' }}">
                         <i class="nav-icon fas fa-coins"></i>
                         <p>
                             Как зарабатывать
@@ -34,7 +34,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('cabinet.material') }}" class="nav-link">
+                    <a href="{{ route('cabinet.material') }}" class="nav-link {{ $active[2] ?? '' }}">
                         <i class="nav-icon fas fa-air-freshener"></i>
                         <p>
                             Рекламные материалы
@@ -44,11 +44,28 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('cabinet.orders') }}" class="nav-link">
+                    <a href="{{ route('cabinet.orders') }}" class="nav-link {{ $active[3] ?? '' }}">
                         <i class="nav-icon fas fa-gift"></i>
                         <p>
                             Заказы
-                            <!--<span class="right badge badge-danger">New</span>-->
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('cabinet.subpartners') }}" class="nav-link {{ $active[4] ?? '' }}">
+                        <i class="nav-icon fas fa-user-friends"></i>
+                        <p>
+                            Заказы субпартнеров
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('cabinet.profit') }}" class="nav-link {{ $active[5] ?? '' }}">
+                        <i class="nav-icon fas fa-funnel-dollar"></i>
+                        <p>
+                            Мой доход
                         </p>
                     </a>
                 </li>
