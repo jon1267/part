@@ -42,6 +42,10 @@
 
 @endforeach
 
+<p>
+    <img src="{{ asset('/images/clock.jpg') }}" width="160px" alt="Clock">
+</p>
+
 {{-- Salutation --}}
 @if (! empty($salutation))
 {{ $salutation }}

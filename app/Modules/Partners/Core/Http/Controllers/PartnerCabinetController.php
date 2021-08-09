@@ -2,6 +2,7 @@
 
 namespace App\Modules\Partners\Core\Http\Controllers;
 
+use App\Console\Commands\PassivePartner;
 use App\Http\Controllers\Controller;
 //use Illuminate\Http\Request;
 use App\Modules\Partners\Core\Http\Requests\PartnerProfileUpdateRequest as UpdateRequest;
@@ -9,7 +10,11 @@ use App\Modules\Partners\Core\Http\Requests\PartnerCreateSiteRequest as CreateSi
 use App\Models\Dropshipper;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
+
+use Carbon\Carbon;
 //use App\Notifications\PartnerRegisterdNotivication;
+use App\Notifications\PassivePartnerNotification;
+use Illuminate\Support\Facades\Notification;
 
 class PartnerCabinetController extends Controller
 {
@@ -166,11 +171,18 @@ class PartnerCabinetController extends Controller
 
     }
 
-    //для тестов (после тестир регистрации партнера убрать)
-    /*public function notify()
-    {
-        $user = auth()->user();
-        $user->notify(new PartnerRegisterdNotivication());
+    //$user = auth()->user();
+    //$user->notify(new PartnerRegisterdNotivication());
 
-    }*/
+    //для тестов (после тестир регистрации партнера убрать)
+    public function notify()
+    {
+        $partners = Dropshipper::where('domain','')
+            ->whereDate('created', '<', Carbon::now()->subDays(3)->toDateTimeString())
+            ->get();
+        dd($partners, count($partners));
+
+        Notification::send($partners, new PassivePartnerNotification());
+
+    }
 }

@@ -73,6 +73,7 @@ return [
     |
     */
 
+    //'timezone' => 'Europe/Kiev',
     'timezone' => 'UTC',
 
     /*

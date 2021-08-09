@@ -48,4 +48,4 @@ Route::get('/cabinet/subpartners', [PartnerCabinetController::class, 'subPartner
 Route::get('/cabinet/profit', [PartnerCabinetController::class, 'profit'])->name('cabinet.profit');
 
 //это тестовый - после отладки писем убрать
-//Route::get('/notify', [PartnerCabinetController::class, 'notify']);
+Route::get('/notify', [PartnerCabinetController::class, 'notify']);
