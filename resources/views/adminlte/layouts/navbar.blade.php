@@ -129,9 +129,17 @@
         @if(auth()->user()->domain != '')
             <div class="input-group input-group-sm align-items-center">
                 <span class="mr-3 " >Ваш сайт</span>
-                <input class="form-control" style="text-align: center; font-size: 16px;" type="text" value="{{ auth()->user()->domain.'.pdparis.com' }}" readonly > <span class="h6 m-2"></span>
+                <input class="form-control" style="text-align: center; font-size: 16px;" type="text" value="{{ auth()->user()->domain.'.pdparis.com' }}" readonly > <span class="m-2"></span>
+            </div>
+
+            <div class="input-group col-7 input-group-sm align-items-center">
+                <span class="mr-3 " >Украшения</span>
+                <input class="form-control " style="font-size: 16px;" type="text" value="http://luxury-sets.com.ua/?p={{ auth()->user()->kod }}" readonly > <span class="m-2"></span>
             </div>
         @endif
+
+
+
 
         <li class="nav-item">
             <!--<a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button"><i

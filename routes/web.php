@@ -44,8 +44,14 @@ Route::get('/cabinet/how-to-earn', [PartnerCabinetController::class, 'howToEarn'
 Route::get('/cabinet/material', [PartnerCabinetController::class, 'material'])->middleware(['auth'])->name('cabinet.material');
 Route::post('/cabinet/create-site', [PartnerCabinetController::class, 'createSite'])->middleware(['auth'])->name('cabinet.create.site');
 Route::get('/cabinet/orders', [PartnerCabinetController::class, 'orders'])->middleware(['auth'])->name('cabinet.orders');
-Route::get('/cabinet/subpartners', [PartnerCabinetController::class, 'subPartners'])->name('cabinet.subpartners');
 Route::get('/cabinet/profit', [PartnerCabinetController::class, 'profit'])->name('cabinet.profit');
+Route::get('/cabinet/visitka', [PartnerCabinetController::class, 'visitka'])->middleware(['auth'])->name('cabinet.visitka');
+
+Route::get('/cabinet/subpartners', [PartnerCabinetController::class, 'subPartners'])->name('cabinet.subpartners');
+Route::get('/cabinet/subpartners-orders', [PartnerCabinetController::class, 'subPartnersOrders'])->middleware(['auth'])->name('cabinet.subpartners.orders');
+
+Route::get('/cabinet/contact-us', [PartnerCabinetController::class, 'contactUs'])->middleware(['auth'])->name('cabinet.contact-us');
+Route::post('/cabinet/send-letter', [PartnerCabinetController::class, 'sendLetter'])->middleware(['auth'])->name('cabinet.send.letter');;
 
 //это тестовый - после отладки писем убрать
-Route::get('/notify', [PartnerCabinetController::class, 'notify']);
+//Route::get('/notify', [PartnerCabinetController::class, 'notify']);

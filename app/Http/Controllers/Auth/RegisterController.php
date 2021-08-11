@@ -86,12 +86,27 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        // this was in lara default
-        //return User::create([
-        //    'name' => $data['name'],
-        //    'email' => $data['email'],
-        //    'password' => Hash::make($data['password']),
-        //]);
+        $kodParent = 0;
+        $subDomain = '';
+        // $parseUrl['schema'] = 'https://'; $parseUrl['host'] = 'test1.pdp-partner.loc'; ...
+        $parseUrl = parse_url(url()->current());
+        if (isset($parseUrl['host'])) {
+
+            if(substr_count($parseUrl['host'],'.') >= 2) {
+                $subDomain = strstr($parseUrl['host'], '.', true);
+            }
+        }
+
+        //dd($subDomain);
+        if (($subDomain != '') && ($subDomain != 'partner')) {
+            $partner = Dropshipper::where('domain', $subDomain)
+                ->where('host', config('app.host'))
+                ->first();
+
+            if ($partner ) {
+                $kodParent = $partner->kod;
+            }
+        }
 
         // this our for table dropshippers
         $partner = Dropshipper::create([
@@ -106,7 +121,7 @@ class RegisterController extends Controller
             'country' => '',
             'city' => '',
             'text' => '',
-            'kod_parent' => 0,
+            'kod_parent' => $kodParent,
             'webmoney' => '',
             'bank' => '',
             'shorturl' => '',
@@ -140,4 +155,5 @@ class RegisterController extends Controller
         return $partner;
 
     }
+
 }

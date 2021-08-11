@@ -56,6 +56,15 @@
                     <a href="{{ route('cabinet.subpartners') }}" class="nav-link {{ $active[4] ?? '' }}">
                         <i class="nav-icon fas fa-user-friends"></i>
                         <p>
+                            Субпартнеры
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('cabinet.subpartners.orders') }}" class="nav-link {{ $active[6] ?? '' }}">
+                        <i class="nav-icon fas fa-gifts"></i>
+                        <p>
                             Заказы субпартнеров
                         </p>
                     </a>
@@ -66,6 +75,24 @@
                         <i class="nav-icon fas fa-funnel-dollar"></i>
                         <p>
                             Мой доход
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('cabinet.visitka') }}" class="nav-link">
+                        <i class="nav-icon fas fa-address-card"></i>
+                        <p>
+                            Скачать визитку
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('cabinet.contact-us') }}" class="nav-link {{ $active[7] ?? '' }}">
+                        <i class="nav-icon far fa-envelope"></i>
+                        <p>
+                            Написать нам
                         </p>
                     </a>
                 </li>

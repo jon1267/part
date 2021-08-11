@@ -4,17 +4,22 @@ namespace App\Modules\Partners\Core\Http\Controllers;
 
 use App\Console\Commands\PassivePartner;
 use App\Http\Controllers\Controller;
-//use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use App\Modules\Partners\Core\Http\Requests\PartnerProfileUpdateRequest as UpdateRequest;
 use App\Modules\Partners\Core\Http\Requests\PartnerCreateSiteRequest as CreateSite;
 use App\Models\Dropshipper;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
-
-use Carbon\Carbon;
-//use App\Notifications\PartnerRegisterdNotivication;
-use App\Notifications\PassivePartnerNotification;
+use App\Services\Fpdf\Fpdf;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\ContactUsNotification;
+use App\Modules\Partners\Core\Http\Requests\ContactUsRequest;
+
+//use Carbon\Carbon;
+//use App\Notifications\PartnerRegisterdNotivication;
+//use App\Notifications\PassivePartnerNotification;
+
+
 
 class PartnerCabinetController extends Controller
 {
@@ -168,15 +173,84 @@ class PartnerCabinetController extends Controller
             'active' => $active,
         ]);
 
+    }
+
+    public function visitka()
+    {
+        header('Content-Type: application/pdf');
+        header("Content-Disposition: attachment; filename=vizitka.pdf");
+
+        $user = auth()->user();
+        $imgTemplate = public_path('images/template.png'); //$imgTemplate = $_SERVER['DOCUMENT_ROOT'] . '/images/template.png';
+
+        $x = 98;
+        $y = 55;
+        $text = strtoupper($user->domain . '.pdparis.com');
+        $pdf = new Fpdf('L','mm',array($y,$x));
+        //dd($pdf, $text, $imgTemplate);
+
+        $pdf->AddPage();
+        $pdf->SetTextColor(163,71,109);
+        $pdf->Image($imgTemplate , 0, 0, $x, $y);
+
+        $pdf->SetFont('Times','B',14);
+        $pdf->Text(($x - $pdf->GetStringWidth($text)) / 2, 46, $text);
+        $pdf->Output();
 
     }
 
-    //$user = auth()->user();
-    //$user->notify(new PartnerRegisterdNotivication());
-
-    //для тестов (после тестир регистрации партнера убрать)
-    public function notify()
+    public function subPartnersOrders()
     {
+        for($i = 0; $i<10; $i++)  $active[$i] = null;
+        $active[6] = 'active';
+
+        $orders = DB::table('landing_orders', 'orders')
+            ->select('orders.id','orders.kod', 'orders.datebuy', 'orders.product', 'orders.sum', 'status2.name as status', 'adv.name as adv' , 'status2.id as status_id' ,
+                'dropshippers.domain')
+            ->leftJoin('status2', 'orders.status', '=', 'status2.id')
+            ->leftJoin('adv', 'orders.adv', '=', 'adv.id')
+            ->leftJoin('dropshippers', 'orders.kod','=', 'dropshippers.kod')
+            ->where('dropshippers.kod_parent', auth()->user()->kod )
+            ->orderBy('orders.id', 'desc')
+            ->paginate(10);
+        //dd($orders);
+
+        return view('subpartners.subpartners-orders-table', [
+            'title' => 'Заказы',
+            'orders' => $orders,
+            'active' => $active,
+        ]);
+    }
+
+    public function contactUs()
+    {
+        for($i = 0; $i<10; $i++)  $active[$i] = null;
+        $active[7] = 'active';
+
+        return view('partners.contact-us', [
+            'title' => 'Написать нам',
+            'active' => $active,
+        ]);
+
+    }
+
+    public function sendLetter(ContactUsRequest $request)
+    {
+        $data = $request->except('_token');
+
+        Notification::route('mail', env('MAIL_FROM_ADDRESS', 'pdparis@test.com'))
+            ->notify(new ContactUsNotification($data));
+
+        return redirect()->route('cabinet')
+            ->with(['status' => 'Ваше письмо отправлено.']);
+    }
+
+    //для тестов (после тестир отправки писем убрать)
+    /*public function notify()
+    {
+        ////$user = auth()->user();
+        ////$user->notify(new PartnerRegisterdNotivication());
+
         $partners = Dropshipper::where('domain','')
             ->whereDate('created', '<', Carbon::now()->subDays(3)->toDateTimeString())
             ->get();
@@ -184,5 +258,5 @@ class PartnerCabinetController extends Controller
 
         Notification::send($partners, new PassivePartnerNotification());
 
-    }
+    }*/
 }

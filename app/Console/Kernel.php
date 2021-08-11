@@ -26,10 +26,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        ////запуск письма на кучу (~389) пользователей ... как отработает хз ... закомментировал
-        ////$schedule->command(PassivePartner::class)->daily();
-        //// запуск лариного Щедулера - php artisan schedule:run (однократно, для тестов но тогда не ->daily() а ->dailyAt(13:00))
-        //// запуск лариного Щедулера для постоянного юзанья - php artisan schedule:work ... но если что как его снимать ???
+        $schedule->command(PassivePartner::class)->daily();
     }
 
     /**
