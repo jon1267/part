@@ -5,6 +5,8 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\PassivePartner;
+use App\Console\Commands\UpdateEarning;
+use App\Console\Commands\EnjoyEarning;
 
 class Kernel extends ConsoleKernel
 {
@@ -27,6 +29,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command(PassivePartner::class)->daily();
+        $schedule->command(UpdateEarning::class)->everyFiveMinutes();
+        $schedule->command(EnjoyEarning::class)->weekly(); //run task every Sunday at 00:00
     }
 
     /**

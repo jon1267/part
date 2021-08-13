@@ -5,6 +5,7 @@ use App\Modules\Front\Core\Http\Controllers\HomeController;
 use App\Modules\Partners\Core\Http\Controllers\PartnerLoginController;
 use App\Modules\Partners\Core\Http\Controllers\PartnerRegisterController;
 use App\Modules\Partners\Core\Http\Controllers\PartnerCabinetController;
+use App\Modules\Payment\Core\Http\Controllers\PartnerPaymentController;
 
 Route::get('/', [HomeController::class, 'index'])->name('front.index');
 //Route::get('/page/update', [HomeController::class, 'update']);// not implement
@@ -27,7 +28,7 @@ Route::get('/product/{art}', [HomeController::class, 'productArt']);
 
 //Route::get('/login', [PartnerLoginController::class, 'index']);
 //Route::get('/enter', [PartnerLoginController::class, 'enter'])->name('enter');
-Route::get('/reset', [PartnerLoginController::class, 'resetPassword']);
+//Route::get('/reset', [PartnerLoginController::class, 'resetPassword']);
 //Route::get('/register', [PartnerRegisterController::class, 'index'])->name('register');
 //Route::post('/login', [PartnerLoginController::class, 'login'])->name('login');
 
@@ -51,7 +52,8 @@ Route::get('/cabinet/subpartners', [PartnerCabinetController::class, 'subPartner
 Route::get('/cabinet/subpartners-orders', [PartnerCabinetController::class, 'subPartnersOrders'])->middleware(['auth'])->name('cabinet.subpartners.orders');
 
 Route::get('/cabinet/contact-us', [PartnerCabinetController::class, 'contactUs'])->middleware(['auth'])->name('cabinet.contact-us');
-Route::post('/cabinet/send-letter', [PartnerCabinetController::class, 'sendLetter'])->middleware(['auth'])->name('cabinet.send.letter');;
+Route::post('/cabinet/send-letter', [PartnerCabinetController::class, 'sendLetter'])->middleware(['auth'])->name('cabinet.send.letter');
+Route::get('/cabinet/request-payment-mail', [PartnerPaymentController::class, 'requestPayment'] )->middleware(['auth'])->name('cabinet.request.payment');
 
 //это тестовый - после отладки писем убрать
 //Route::get('/notify', [PartnerCabinetController::class, 'notify']);

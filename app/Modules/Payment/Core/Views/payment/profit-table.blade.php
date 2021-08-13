@@ -8,7 +8,33 @@
                 <!-- /.col-md-6 -->
                 <!-- class="col-10 mx-auto"  -->
                 <div class="col-10">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-around">
+                                <p class="h5">Ваш доход: <span class="text-green text-bold">{{ $earnings }} {{ $valuta }}</span></p>
+                                <p class="h5">Доход от субпартнеров: <span class="text-green text-bold">{{ $subearnings }} {{ $valuta}}</span></p>
+                            </div>
+
+                            <div class="my-3 d-flex justify-content-center">
+                                <a href="{{ route('cabinet.request.payment') }}" class="btn @if($payButtonEnabled) btn-primary @else btn-secondary disabled  @endif">
+                                    Запрос выплаты
+                                </a>
+                            </div>
+
+                            @if(!$payButtonEnabled)
+                            <div class="d-flex justify-content-center">
+                                <p class="h5">Вы сможете запросить платеж, как только ваш доход составит не менее 200 грн. </p>
+                            </div>
+                            @endif
+
+                        </div>
+                    </div>
+
                     <div class="card ">
+                        <div class="card-header d-flex align-items-baseline ">
+                            <h5 class="m-0"> Выплаты: </h5>
+                        </div>
                         <div class="card-body table-responsive p-0">
                             <!--<table class="table table-bordered table-striped table-sm " id="table">-->
                             <table class="table table-hover " id="table">
@@ -33,7 +59,7 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="5"><p class="lead">Запрошенных выплат пока нет.</p></td>
+                                        <td colspan="5"><p class="lead text-center">Запрошенных выплат пока нет.</p></td>
                                     </tr>
                                 @endif
                             </table>

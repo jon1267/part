@@ -16,7 +16,7 @@ use App\Notifications\ContactUsNotification;
 use App\Modules\Partners\Core\Http\Requests\ContactUsRequest;
 
 //use Carbon\Carbon;
-//use App\Notifications\PartnerRegisterdNotivication;
+//use App\Notifications\EnjoyEarningNotification;
 //use App\Notifications\PassivePartnerNotification;
 
 
@@ -36,13 +36,9 @@ class PartnerCabinetController extends Controller
 
     public function profile()
     {
-        for($i = 0; $i<10; $i++)  $active[$i] = null;
-        $active[0] = 'active';
-
         return view('partners.profile', [
             'title' => 'Ваш профиль',
             'user' => auth()->user(),
-            'active' => $active,
         ]);
     }
 
@@ -51,7 +47,6 @@ class PartnerCabinetController extends Controller
         $user = auth()->user();
         $data = $request->except('_token', '_method' ,'password_confirmation');
         $data['notification'] = (isset($data['notification']) && $data['notification'] == 'on') ? 1 : 0;
-        for($i = 0; $i<10; $i++)  $active[$i] = null;
 
         // ввели пароль - меняем, не ввели - оставляем старый
         if(isset($data['password'])) {
@@ -73,23 +68,15 @@ class PartnerCabinetController extends Controller
 
     public function howToEarn()
     {
-        for($i = 0; $i<10; $i++)  $active[$i] = null;
-        $active[1] = 'active';
-
         return view('partners.how-to-earn', [
             'title' => 'Как начать зарабатывать',
-            'active' => $active,
         ]);
     }
 
     public function material()
     {
-        for($i = 0; $i<10; $i++)  $active[$i] = null;
-        $active[2] = 'active';
-
         return view('partners.material', [
             'title' => 'Рекламные материалы',
-            'active' => $active,
         ]);
     }
 
@@ -114,9 +101,6 @@ class PartnerCabinetController extends Controller
 
     public function orders()
     {
-        for($i = 0; $i<10; $i++)  $active[$i] = null;
-        $active[3] = 'active';
-
         $orders = DB::table('landing_orders', 'orders')
             ->select('orders.id','orders.kod', 'orders.datebuy', 'orders.product', 'orders.sum', 'status2.name as status', 'adv.name as adv' , 'status2.id as status_id' , )
             ->leftJoin('status2', 'orders.status', '=', 'status2.id')
@@ -129,15 +113,11 @@ class PartnerCabinetController extends Controller
         return view('partners.orders-table', [
             'title' => 'Заказы',
             'orders' => $orders,
-            'active' => $active,
         ]);
     }
 
     public function subPartners()
     {
-        for($i = 0; $i<10; $i++)  $active[$i] = null;
-        $active[4] = 'active';
-
         $subpartners = DB::table('dropshippers', 'dr')
             ->select('dr.id','dr.name', 'dr.tel', 'dr.domain', 'dr.created',
                 DB::raw('COUNT(landing_orders.id) as total_orders'))
@@ -151,15 +131,78 @@ class PartnerCabinetController extends Controller
         return view('partners.subpartners-table', [
             'title' => 'Заказы субпартнеров',
             'subpartners' => $subpartners,
-            'active' => $active,
         ]);
     }
 
     public function profit()
     {
-        for($i = 0; $i<10; $i++)  $active[$i] = null;
-        $active[5] = 'active';
+        //заработок по субпартнерам
+        $subearnings = 0;
+        $orders = DB::table('landing_orders')
+            ->select('landing_orders.id as id', 'landing_orders.sum as sum')
+            ->leftJoin('dropshippers', 'landing_orders.kod','=', 'dropshippers.kod')
+            ->where('landing_orders.sub_dropshipper_payment','=',0)
+            ->whereIn('landing_orders.status', [8])
+            ->where('dropshippers.kod_parent', auth()->user()->kod)
+            ->groupBy('landing_orders.id') // ??? ->sum('sum')
+            ->get(); //
 
+        $subProcentObj = DB::table('dropshippers')->select('sub_procent')
+            ->where('dropshippers.kod','=', auth()->user()->kod)->first(); //null,0,2 ...
+
+        $sub_procent = $subProcentObj->sub_procent ?: 2;
+
+        foreach ($orders as $order) {
+            $subearnings += $order->sum;
+        }
+
+        $subearnings = $subearnings * $sub_procent / 100;
+        //dd($sub_procent, $subearnings);
+
+        //основной заработок
+        $earnings = 0;
+        $orders = DB::table('landing_orders')
+            ->select('landing_orders.id as id', 'landing_orders.sum as sum', 'adv.swan', 'landing_orders.adv as adv',)
+            ->leftJoin('adv', 'adv.id','=', 'landing_orders.adv')
+            ->where('landing_orders.dropshipper_payment','=',0)
+            ->whereIn('landing_orders.status', [8])
+            ->where('landing_orders.kod', auth()->user()->kod)
+            ->get(); //??? ->sum('sum')
+
+        $dropperProcents = DB::table('dropshippers')
+            ->select('kod', 'procent', 'procent_swan', 'procent_auction', 'procent_30ml')
+            ->where('dropshippers.kod', auth()->user()->kod)
+            ->first();
+        //dd($orders, $dropperProcents);
+
+        $procent = $dropperProcents->procent ?: 20;
+        $procent_swan = $dropperProcents->procent_swan ?: 20;
+        $procent_auction = $dropperProcents->procent_auction ?: 20;
+        $procent_30ml = $dropperProcents->procent_30ml ?: 20;
+
+        foreach ($orders as $order) {
+
+            if ($order->swan == 1) {
+                $earnings += ($order->sum * $procent_swan / 100);
+
+            } elseif ($order->adv == 244) {
+                $earnings += ($order->sum * $procent_auction / 100);
+
+            } elseif ($order->adv == 246) {
+                $earnings += ($order->sum * $procent_auction / 100);
+
+            } elseif ($order->adv == 262) {
+                $earnings += ($order->sum * $procent_30ml / 100);
+
+
+            } else {
+                $earnings += ($order->sum * $procent / 100);
+            }
+        }
+
+        //dd($earnings, $subearnings);
+
+        //таблица выплат (с пагинацией)
         $profits = DB::table('dropshipper_payments', 'payments')
             ->select('payments.id', 'payments.date', 'payments.order', 'payments.total', 'payments.active', 'payments.host',)
             ->where('payments.kod', auth()->user()->kod )
@@ -167,10 +210,18 @@ class PartnerCabinetController extends Controller
             ->paginate(5);
         //dd($profits);
 
+        $host = auth()->user()->host;
+        $valuta = ($host == 1) ? ' грн.': ' руб.' ;
+        $payButtonEnabled = ($host==1 && (($earnings + $subearnings) >= 200)) || ($host==2 && (($earnings + $subearnings) >= 500));
+
+
         return view('payment.profit-table', [
             'title' => 'Мой доход',
             'profits' => $profits,
-            'active' => $active,
+            'earnings' => $earnings,
+            'subearnings' => $subearnings,
+            'valuta' => $valuta,
+            'payButtonEnabled' => $payButtonEnabled,
         ]);
 
     }
@@ -201,9 +252,6 @@ class PartnerCabinetController extends Controller
 
     public function subPartnersOrders()
     {
-        for($i = 0; $i<10; $i++)  $active[$i] = null;
-        $active[6] = 'active';
-
         $orders = DB::table('landing_orders', 'orders')
             ->select('orders.id','orders.kod', 'orders.datebuy', 'orders.product', 'orders.sum', 'status2.name as status', 'adv.name as adv' , 'status2.id as status_id' ,
                 'dropshippers.domain')
@@ -218,18 +266,13 @@ class PartnerCabinetController extends Controller
         return view('subpartners.subpartners-orders-table', [
             'title' => 'Заказы',
             'orders' => $orders,
-            'active' => $active,
         ]);
     }
 
     public function contactUs()
     {
-        for($i = 0; $i<10; $i++)  $active[$i] = null;
-        $active[7] = 'active';
-
         return view('partners.contact-us', [
             'title' => 'Написать нам',
-            'active' => $active,
         ]);
 
     }
@@ -244,19 +287,4 @@ class PartnerCabinetController extends Controller
         return redirect()->route('cabinet')
             ->with(['status' => 'Ваше письмо отправлено.']);
     }
-
-    //для тестов (после тестир отправки писем убрать)
-    /*public function notify()
-    {
-        ////$user = auth()->user();
-        ////$user->notify(new PartnerRegisterdNotivication());
-
-        $partners = Dropshipper::where('domain','')
-            ->whereDate('created', '<', Carbon::now()->subDays(3)->toDateTimeString())
-            ->get();
-        dd($partners, count($partners));
-
-        Notification::send($partners, new PassivePartnerNotification());
-
-    }*/
 }

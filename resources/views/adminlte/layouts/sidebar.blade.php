@@ -14,7 +14,7 @@
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="{{ route('profile') }}" class="nav-link {{ $active[0] ?? '' }}">
+                    <a href="{{ route('profile') }}" class="nav-link {{ (\Illuminate\Support\Facades\Route::currentRouteName() == 'profile') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Профиль
@@ -24,7 +24,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('cabinet.earn') }}" class="nav-link {{ $active[1] ?? '' }}">
+                    <a href="{{ route('cabinet.earn') }}" class="nav-link {{ \Illuminate\Support\Facades\Route::currentRouteName() == 'cabinet.earn' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-coins"></i>
                         <p>
                             Как зарабатывать
@@ -34,7 +34,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('cabinet.material') }}" class="nav-link {{ $active[2] ?? '' }}">
+                    <a href="{{ route('cabinet.material') }}" class="nav-link {{ \Illuminate\Support\Facades\Route::currentRouteName() == 'cabinet.material' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-air-freshener"></i>
                         <p>
                             Рекламные материалы
@@ -44,7 +44,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('cabinet.orders') }}" class="nav-link {{ $active[3] ?? '' }}">
+                    <a href="{{ route('cabinet.orders') }}" class="nav-link {{\Illuminate\Support\Facades\Route::currentRouteName() == 'cabinet.orders' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-gift"></i>
                         <p>
                             Заказы
@@ -53,7 +53,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('cabinet.subpartners') }}" class="nav-link {{ $active[4] ?? '' }}">
+                    <a href="{{ route('cabinet.subpartners') }}" class="nav-link {{\Illuminate\Support\Facades\Route::currentRouteName() == 'cabinet.subpartners' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-user-friends"></i>
                         <p>
                             Субпартнеры
@@ -62,7 +62,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('cabinet.subpartners.orders') }}" class="nav-link {{ $active[6] ?? '' }}">
+                    <a href="{{ route('cabinet.subpartners.orders') }}" class="nav-link {{\Illuminate\Support\Facades\Route::currentRouteName() == 'cabinet.subpartners.orders' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-gifts"></i>
                         <p>
                             Заказы субпартнеров
@@ -71,7 +71,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('cabinet.profit') }}" class="nav-link {{ $active[5] ?? '' }}">
+                    <a href="{{ route('cabinet.profit') }}" class="nav-link {{\Illuminate\Support\Facades\Route::currentRouteName() == 'cabinet.profit' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-funnel-dollar"></i>
                         <p>
                             Мой доход
@@ -80,7 +80,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('cabinet.visitka') }}" class="nav-link">
+                    <a href="{{ route('cabinet.visitka') }}" class="nav-link {{\Illuminate\Support\Facades\Route::currentRouteName() == 'cabinet.visitka' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-address-card"></i>
                         <p>
                             Скачать визитку
@@ -89,7 +89,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('cabinet.contact-us') }}" class="nav-link {{ $active[7] ?? '' }}">
+                    <a href="{{ route('cabinet.contact-us') }}" class="nav-link {{\Illuminate\Support\Facades\Route::currentRouteName() == 'cabinet.contact-us' ? 'active' : ''}}">
                         <i class="nav-icon far fa-envelope"></i>
                         <p>
                             Написать нам
