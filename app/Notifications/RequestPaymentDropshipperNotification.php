@@ -49,7 +49,7 @@ class RequestPaymentDropshipperNotification extends Notification
             ->line('Телефон: '. $this->payment['tel'])
             ->line('Email: '. $this->payment['email'])
             ->line('Банковская информация: '. $this->payment['bank'])
-            ->line('Сумма: '. number_format($this->payment['total'],2))
+            ->line('Сумма: '. number_format($this->payment['total'],2).$this->payment['valuta'])
             ->line('Заказы: '. $this->payment['order']);
             //->action('Notification Action', url('/'))
     }

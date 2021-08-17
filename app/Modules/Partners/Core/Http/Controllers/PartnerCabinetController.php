@@ -14,6 +14,7 @@ use App\Services\Fpdf\Fpdf;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\ContactUsNotification;
 use App\Modules\Partners\Core\Http\Requests\ContactUsRequest;
+use App\Modules\Payment\Core\Services\Calculator\EarningCalculator;
 
 //use Carbon\Carbon;
 //use App\Notifications\EnjoyEarningNotification;
@@ -136,70 +137,9 @@ class PartnerCabinetController extends Controller
 
     public function profit()
     {
-        //заработок по субпартнерам
-        $subearnings = 0;
-        $orders = DB::table('landing_orders')
-            ->select('landing_orders.id as id', 'landing_orders.sum as sum')
-            ->leftJoin('dropshippers', 'landing_orders.kod','=', 'dropshippers.kod')
-            ->where('landing_orders.sub_dropshipper_payment','=',0)
-            ->whereIn('landing_orders.status', [8])
-            ->where('dropshippers.kod_parent', auth()->user()->kod)
-            ->groupBy('landing_orders.id') // ??? ->sum('sum')
-            ->get(); //
-
-        $subProcentObj = DB::table('dropshippers')->select('sub_procent')
-            ->where('dropshippers.kod','=', auth()->user()->kod)->first(); //null,0,2 ...
-
-        $sub_procent = $subProcentObj->sub_procent ?: 2;
-
-        foreach ($orders as $order) {
-            $subearnings += $order->sum;
-        }
-
-        $subearnings = $subearnings * $sub_procent / 100;
-        //dd($sub_procent, $subearnings);
-
-        //основной заработок
-        $earnings = 0;
-        $orders = DB::table('landing_orders')
-            ->select('landing_orders.id as id', 'landing_orders.sum as sum', 'adv.swan', 'landing_orders.adv as adv',)
-            ->leftJoin('adv', 'adv.id','=', 'landing_orders.adv')
-            ->where('landing_orders.dropshipper_payment','=',0)
-            ->whereIn('landing_orders.status', [8])
-            ->where('landing_orders.kod', auth()->user()->kod)
-            ->get(); //??? ->sum('sum')
-
-        $dropperProcents = DB::table('dropshippers')
-            ->select('kod', 'procent', 'procent_swan', 'procent_auction', 'procent_30ml')
-            ->where('dropshippers.kod', auth()->user()->kod)
-            ->first();
-        //dd($orders, $dropperProcents);
-
-        $procent = $dropperProcents->procent ?: 20;
-        $procent_swan = $dropperProcents->procent_swan ?: 20;
-        $procent_auction = $dropperProcents->procent_auction ?: 20;
-        $procent_30ml = $dropperProcents->procent_30ml ?: 20;
-
-        foreach ($orders as $order) {
-
-            if ($order->swan == 1) {
-                $earnings += ($order->sum * $procent_swan / 100);
-
-            } elseif ($order->adv == 244) {
-                $earnings += ($order->sum * $procent_auction / 100);
-
-            } elseif ($order->adv == 246) {
-                $earnings += ($order->sum * $procent_auction / 100);
-
-            } elseif ($order->adv == 262) {
-                $earnings += ($order->sum * $procent_30ml / 100);
-
-
-            } else {
-                $earnings += ($order->sum * $procent / 100);
-            }
-        }
-
+        $calculator = app(EarningCalculator::class);
+        $earnings = $calculator->getEarning();
+        $subearnings = $calculator->getSubEarning();
         //dd($earnings, $subearnings);
 
         //таблица выплат (с пагинацией)
@@ -211,17 +151,15 @@ class PartnerCabinetController extends Controller
         //dd($profits);
 
         $host = auth()->user()->host;
-        $valuta = ($host == 1) ? ' грн.': ' руб.' ;
-        $payButtonEnabled = ($host==1 && (($earnings + $subearnings) >= 200)) || ($host==2 && (($earnings + $subearnings) >= 500));
-
 
         return view('payment.profit-table', [
             'title' => 'Мой доход',
             'profits' => $profits,
             'earnings' => $earnings,
             'subearnings' => $subearnings,
-            'valuta' => $valuta,
-            'payButtonEnabled' => $payButtonEnabled,
+            'min' => ($host == 1) ? 200 : 500 ,
+            'valuta' => ($host == 1) ? ' грн.': ' руб.',
+            'payButtonEnabled' =>  ($host==1 && (($earnings + $subearnings) >= 200)) || ($host==2 && (($earnings + $subearnings) >= 500)),
         ]);
 
     }

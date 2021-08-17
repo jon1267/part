@@ -53,7 +53,7 @@ Route::get('/cabinet/subpartners-orders', [PartnerCabinetController::class, 'sub
 
 Route::get('/cabinet/contact-us', [PartnerCabinetController::class, 'contactUs'])->middleware(['auth'])->name('cabinet.contact-us');
 Route::post('/cabinet/send-letter', [PartnerCabinetController::class, 'sendLetter'])->middleware(['auth'])->name('cabinet.send.letter');
-Route::get('/cabinet/request-payment-mail', [PartnerPaymentController::class, 'requestPayment'] )->middleware(['auth'])->name('cabinet.request.payment');
+Route::post('/cabinet/request-payment-mail', [PartnerPaymentController::class, 'requestPayment'] )->middleware(['auth'])->name('cabinet.request.payment');
 
 //это тестовый - после отладки писем убрать
 //Route::get('/notify', [PartnerCabinetController::class, 'notify']);

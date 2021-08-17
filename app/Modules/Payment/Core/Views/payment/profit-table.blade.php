@@ -16,15 +16,30 @@
                                 <p class="h5">Доход от субпартнеров: <span class="text-green text-bold">{{ $subearnings }} {{ $valuta}}</span></p>
                             </div>
 
+
                             <div class="my-3 d-flex justify-content-center">
-                                <a href="{{ route('cabinet.request.payment') }}" class="btn @if($payButtonEnabled) btn-primary @else btn-secondary disabled  @endif">
-                                    Запрос выплаты
-                                </a>
+                                @if($payButtonEnabled)
+                                {{--<a href="{{ route('cabinet.request.payment') }}" id="request-payment-link" class="btn  btn-primary ">--}}
+                                <form action="{{ route('cabinet.request.payment') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="earnings" value="{{ $earnings }}">
+                                    <input type="hidden" name="subearnings" value="{{ $subearnings }}">
+                                    <input type="hidden" name="host" value="{{ auth()->user()->host }}">
+
+                                    <button type="submit" id="request-payment-link" class=" btn btn-primary">
+                                        Запрос выплаты
+                                    </button>
+                                </form>
+                                @else
+                                    <!-- сделано так, бо button type="submit" тупо тварь сабмитит форму как ты его не делай disabled -->
+                                    <a href="#" class="btn btn-secondary disabled">Запрос выплаты</a>
+                                @endif
                             </div>
+
 
                             @if(!$payButtonEnabled)
                             <div class="d-flex justify-content-center">
-                                <p class="h5">Вы сможете запросить платеж, как только ваш доход составит не менее 200 грн. </p>
+                                <p class="h5">Вы сможете запросить платеж, как только ваш доход составит не менее {{ $min }} {{ $valuta }} </p>
                             </div>
                             @endif
 
