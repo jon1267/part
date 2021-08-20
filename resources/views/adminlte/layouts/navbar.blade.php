@@ -125,17 +125,31 @@
                 <i class="fas fa-th-large"></i>
             </a>
         </li>--}}
+        <!--<div class="input-group" id="donesite">
+            <li class="nav-item" id="helps">
+                <a class="nav-link tourSite" href="#" > Экскурсия по кабинету </a>
+            </li>
+        </div>-->
 
         @if(auth()->user()->domain != '')
-            <div class="input-group input-group-sm align-items-center">
-                <span class="mr-3 " >Ваш сайт</span>
-                <input class="form-control" style="text-align: center; font-size: 16px;" type="text" value="{{ auth()->user()->domain.'.pdparis.com' }}" readonly > <span class="m-2"></span>
+
+            <div class="row ">
+                <div class="col-md-5 col-sm-12">
+                    <div class="input-group input-group-sm align-items-center pb-1">
+                        <span class="mr-4">Ваш сайт</span>
+                        <input class="form-control" style="text-align: center; font-size: 16px; " type="text" value="{{ auth()->user()->domain.'.pdparis.com' }}" readonly > <span class="m-2"></span>
+                    </div>
+                </div>
+                <div class="col-md-7 col-sm-12">
+                    <div class="input-group input-group-sm align-items-center">
+                        <span class="mr-2">Украшения</span>
+                        <input class="form-control " style="font-size: 16px; " type="text" value="http://luxury-sets.com.ua/?p={{ auth()->user()->kod }}" readonly > <span class="m-2"></span>
+                    </div>
+                </div>
             </div>
 
-            <div class="input-group col-7 input-group-sm align-items-center">
-                <span class="mr-3 " >Украшения</span>
-                <input class="form-control " style="font-size: 16px;" type="text" value="http://luxury-sets.com.ua/?p={{ auth()->user()->kod }}" readonly > <span class="m-2"></span>
-            </div>
+
+
         @endif
 
 

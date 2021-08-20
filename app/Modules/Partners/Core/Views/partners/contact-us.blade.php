@@ -6,7 +6,7 @@
         <div class="row">
             <!-- /.col-md-6 -->
             <!-- class="col-10 mx-auto"  -->
-            <div class="col-8">
+            <div class="col-md-8 col-sm-12 mx-auto">
 
                 <!-- Default box -->
                 <div class="card">

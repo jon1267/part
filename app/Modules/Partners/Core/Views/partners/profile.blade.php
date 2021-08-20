@@ -6,7 +6,8 @@
 
             <div class="row">
 
-                <div class="col-8">
+                <!--<div class="col-8"> -->
+                <div class="col-md-8 col-sm-12 mx-auto">
                     <div class="card ">
                         <div class="card-header ">
                             <h5 class="m-0">Изменение контактной информации</h5>
@@ -72,7 +73,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="form-group mt-4 mb-3 col-6">
+                                <div class="form-group mt-4 mb-3">
                                     <div class="custom-control custom-checkbox">
                                         <input class="custom-control-input" name="notification" type="checkbox" id="notification"
                                                @isset($user->notification) @if($user->notification == 1) checked @endif @endisset >

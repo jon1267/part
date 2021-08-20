@@ -42,6 +42,7 @@ class PassivePartnerNotification extends Notification
     {
         return (new MailMessage)
             ->markdown('vendor.notifications.passive_partter_email')
+            ->subject('Начните зарабатывать с нашей партнерской программой.')
             ->greeting('Начните зарабатывать с нашей партнерской программой parfumdeparis!')
             ->line('Видим что вы так и не начали работать и зарабатывать с нашей партнерской программой parfumdeparis,'.
                 ' за это время многие партнеры уже заработали свои первые несколько тысяч гривен, без особых усилий, '.

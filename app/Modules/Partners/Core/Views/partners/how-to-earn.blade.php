@@ -5,6 +5,8 @@
         <div class="container-fluid">
             <div class="row">
 
+                <div class="card col-md-8 col-sm-12 mx-auto pt-2">
+
                 <div class="mb-2">
                     <img style="max-width: 100%;" src="{{ asset('/images/parfume2-1.jpg') }}" alt="pic">
                 </div>
@@ -35,6 +37,8 @@
 
                 <div class="mb-2">
                     <img style="max-width: 100%;" src="{{ asset('/images/parfume2-8.jpg') }}" alt="pic">
+                </div>
+
                 </div>
 
             </div>

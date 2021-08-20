@@ -7,7 +7,7 @@
             <div class="row">
                 <!-- /.col-md-6 -->
                 <!-- class="col-10 mx-auto"  -->
-                <div class="col-10">
+                <div class="col-md-8 col-sm-12 mx-auto">
 
                     <div class="card">
                         <div class="card-body">
@@ -20,19 +20,19 @@
                             <div class="my-3 d-flex justify-content-center">
                                 @if($payButtonEnabled)
                                 {{--<a href="{{ route('cabinet.request.payment') }}" id="request-payment-link" class="btn  btn-primary ">--}}
-                                <form action="{{ route('cabinet.request.payment') }}" method="POST">
+                                <form action="{{ route('cabinet.request.payment') }}" method="POST" onsubmit="submitButton.disabled = true; return true;">
                                     @csrf
                                     <input type="hidden" name="earnings" value="{{ $earnings }}">
                                     <input type="hidden" name="subearnings" value="{{ $subearnings }}">
                                     <input type="hidden" name="host" value="{{ auth()->user()->host }}">
 
-                                    <button type="submit" id="request-payment-link" class=" btn btn-primary">
+                                    <button type="submit" id="request-payment-link" name="submitButton" class=" btn btn-primary">
                                         Запрос выплаты
                                     </button>
                                 </form>
                                 @else
                                     <!-- сделано так, бо button type="submit" тупо тварь сабмитит форму как ты его не делай disabled -->
-                                    <a href="#" class="btn btn-secondary disabled">Запрос выплаты</a>
+                                    <a href="#" id="request-payment-link" class="btn btn-secondary disabled">Запрос выплаты</a>
                                 @endif
                             </div>
 

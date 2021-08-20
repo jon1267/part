@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <!--<div class="row mb-2">-->
         <div class="row ">
-            <div class="col-sm-8">
+            <div class="col-sm-8 mx-auto">
                 {{--<div>
                     <h1 class="m-0">{{ $title ?? 'Кабинет Партнера' }}</h1>
                 </div>--}}

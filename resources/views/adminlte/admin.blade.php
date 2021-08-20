@@ -23,6 +23,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('template/plugins/ekko-lightbox/ekko-lightbox.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('template/dist/css/adminlte.min.css') }}">
+    <!-- Anno style -->
+    <link rel="stylesheet" href="{{ asset('js/anno/anno.css') }}">
 </head>
 <!--<body class="hold-transition sidebar-mini">-->
 <body class="hold-transition">
@@ -76,6 +78,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{ asset('template/plugins/ekko-lightbox/ekko-lightbox.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('template/dist/js/adminlte.min.js') }}"></script>
+<!-- Anno js -->
+<script src="{{ asset('js/anno/anno.js') }}"></script>
 <script>
     $(function () {
         $(document).on('click', '[data-toggle="lightbox"]', function(event) {
@@ -89,6 +93,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 @include('adminlte.layouts.status-block')
 @include('adminlte.layouts.scripts')
+@include('adminlte.layouts.anno-show')
 
 </body>
 </html>

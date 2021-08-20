@@ -119,15 +119,26 @@ class PartnerCabinetController extends Controller
 
     public function subPartners()
     {
-        $subpartners = DB::table('dropshippers', 'dr')
+        /*$subpartners = DB::table('dropshippers', 'dr')
             ->select('dr.id','dr.name', 'dr.tel', 'dr.domain', 'dr.created',
                 DB::raw('COUNT(landing_orders.id) as total_orders'))
             ->leftJoin('landing_orders', 'dr.kod','=','landing_orders.kod')
             ->where('dr.kod_parent', auth()->user()->kod )
             ->orderBy('dr.id', 'desc')
             ->groupBy('dr.id')
+            ->paginate(10);*/
+
+        // пока не вычисляется total_orders ...
+        $subpartKods = Dropshipper::where('kod_parent', auth()->user()->kod)->pluck('kod')->toArray();//без toArray collection
+
+        $subpartners = DB::table('dropshippers')
+            ->select('dropshippers.id','dropshippers.name', 'dropshippers.tel', 'dropshippers.domain', 'dropshippers.created',
+                'dropshippers.orders as total_orders')
+            ->leftJoin('landing_orders', 'dropshippers.kod','=','landing_orders.kod')
+            ->whereIn('dropshippers.kod', $subpartKods )
+            ->orderBy('dropshippers.id', 'desc')
             ->paginate(10);
-        //dd($subpartners);
+        //dd($subpartKods, $subpartners);
 
         return view('partners.subpartners-table', [
             'title' => 'Заказы субпартнеров',

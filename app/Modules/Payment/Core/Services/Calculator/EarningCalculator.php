@@ -7,14 +7,36 @@ use Illuminate\Support\Facades\DB;
 class EarningCalculator
 {
     private $dropinfo;
+    private $earnings;
+    private $subearnings;
+    private $orders_info;
 
     public function __construct()
     {
         $this->dropinfo = DB::table('dropshippers')
             ->where('dropshippers.kod', auth()->user()->kod)->first();
+
+        $this->earnings = $this->calculateEarning();
+        $this->subearnings = $this->calculateSubEarning();
     }
 
-    public function getEarning()
+    public function getEarning() {
+        return $this->earnings;
+    }
+
+    public function getSubEarning() {
+        return $this->subearnings;
+    }
+
+    public function getOrdersInfo() {
+        return $this->orders_info;
+    }
+
+    public function getDropInfo() {
+        return $this->dropinfo;
+    }
+
+    private function calculateEarning()
     {
         $earnings = 0;
         $orders_info = '';
@@ -53,12 +75,15 @@ class EarningCalculator
             }
         }
 
+        $this->orders_info = $orders_info;
+
         return $earnings; //return ['earnings' => $earnings, 'orders_info' => $orders_info];
     }
 
-    public function getSubEarning()
+    private function calculateSubEarning()
     {
         $subearnings = 0;
+        $orders_info = '';
         $suborders = DB::table('landing_orders')
             ->leftJoin('dropshippers', 'landing_orders.kod', '=' ,'dropshippers.kod')
             ->select('landing_orders.id as id', 'landing_orders.sum as sum')

@@ -42,6 +42,7 @@ class ContactUsNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->subject('Письмо партнера из личного кабинета.')
                     ->greeting($this->data['subject'])
                     ->line($this->data['message']);
     }

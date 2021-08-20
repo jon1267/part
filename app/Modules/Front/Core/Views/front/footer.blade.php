@@ -97,7 +97,7 @@
                         </a>
                     </div>
                     <div >
-                        <a target="_blank" href="https://partner.pdparis.com/login"  class="btn-partners-program">
+                        <a target="_blank" href="/welcome"  class="btn-partners-program">
                             <i class="fas fa-dollar-sign fa-2x" style="margin-right: 7px;"></i>Партнерская программа
                         </a>
                     </div>

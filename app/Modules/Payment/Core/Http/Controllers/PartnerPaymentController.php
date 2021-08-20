@@ -26,8 +26,7 @@ class PartnerPaymentController extends controller
         $earnings = $calculator->getEarning();
         $subearnings = $calculator->getSubEarning();
 
-        $dropinfo = DB::table('dropshippers')
-            ->where('dropshippers.kod', auth()->user()->kod)->first();
+        $dropinfo = $calculator->getDropInfo();
 
         $host = $dropinfo->host;
         $valuta = ($host == 1) ? ' грн.': ' руб.';
@@ -45,7 +44,7 @@ class PartnerPaymentController extends controller
                 'bank'  => $dropinfo->bank,
                 'text'  => $dropinfo->text,
                 'date'  => date('Y-m-d H:i:s'),
-                'order' => '',//$orders_info, //?
+                'order' => $calculator->getOrdersInfo(),//$orders_info,
                 'total' => $earnings + $subearnings,
                 'active'=> 0,
             ];
