@@ -97,7 +97,7 @@
                     </a>
                 </li>
 
-                <li class="nav-item" id="donesite">
+                <li class="nav-item" id="helps">
                     <a href="#" class="nav-link tourSite">
                         <i class="nav-icon fas fa-video"></i>
                         <p>
@@ -107,11 +107,7 @@
                 </li>
 
 
-                {{--<div class="input-group" id="donesite">
-                    <li class="nav-item" id="helps">
-                        <a class="nav-link tourSite" href="#" > Экскурсия по кабинету </a>
-                    </li>
-                </div>--}}
+
 
                 <li class="nav-item">
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

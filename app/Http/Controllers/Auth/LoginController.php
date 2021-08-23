@@ -29,7 +29,7 @@ class LoginController extends Controller
      * @var string
      */
     // protected $redirectTo = RouteServiceProvider::HOME;
-    protected $redirectTo = '/cabinet';
+    protected $redirectTo = '/cabinet/profile';
 
     /**
      * Create a new controller instance.
@@ -54,19 +54,14 @@ class LoginController extends Controller
      */
     protected function attemptLogin(Request $request)
     {
-
         $user = \App\Models\Dropshipper::where([
             'email' => $request->email,
             'pass' => md5($request->password, false),
             'host' => config('app.host'),
         ])->first();
 
-        //dd($user, config('app.host'));
-
         if ($user) {
-
             $this->guard()->login($user, $request->has('remember'));
-
             return true;
         }
 
@@ -84,6 +79,7 @@ class LoginController extends Controller
     {
         $user->update([
             'last_login' => Carbon::now()->toDateTimeString(), //Carbon::now('Europe/Kiev')->toDateTimeString(),
+            'numlogins' => ++$user->numlogins,
             'ip' => $request->getClientIp(),
         ]);
     }

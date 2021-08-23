@@ -25,6 +25,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ asset('template/dist/css/adminlte.min.css') }}">
     <!-- Anno style -->
     <link rel="stylesheet" href="{{ asset('js/anno/anno.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 </head>
 <!--<body class="hold-transition sidebar-mini">-->
 <body class="hold-transition">

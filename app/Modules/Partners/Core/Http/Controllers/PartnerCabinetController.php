@@ -2,25 +2,16 @@
 
 namespace App\Modules\Partners\Core\Http\Controllers;
 
-use App\Console\Commands\PassivePartner;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Modules\Partners\Core\Http\Requests\PartnerProfileUpdateRequest as UpdateRequest;
 use App\Modules\Partners\Core\Http\Requests\PartnerCreateSiteRequest as CreateSite;
 use App\Models\Dropshipper;
-use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 use App\Services\Fpdf\Fpdf;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\ContactUsNotification;
 use App\Modules\Partners\Core\Http\Requests\ContactUsRequest;
 use App\Modules\Payment\Core\Services\Calculator\EarningCalculator;
-
-//use Carbon\Carbon;
-//use App\Notifications\EnjoyEarningNotification;
-//use App\Notifications\PassivePartnerNotification;
-
-
 
 class PartnerCabinetController extends Controller
 {
@@ -31,8 +22,9 @@ class PartnerCabinetController extends Controller
 
     public function cabinet()
     {
-        return view('adminlte.admin');
-        //return view('partners.cabinet');
+        return view('adminlte.admin', [
+            'user' => auth()->user(),
+        ]);
     }
 
     public function profile()
@@ -55,8 +47,6 @@ class PartnerCabinetController extends Controller
         } else {
             $data['pass'] = $user->pass;
         }
-
-        //dd($data, $user);
 
         if($user->update($data)) {
             return redirect()->route('cabinet')
@@ -85,14 +75,15 @@ class PartnerCabinetController extends Controller
     {
         $data = $request->except('_token');
         $user = auth()->user();
-        //dd($data, $user->host);
+        //dd(route('cabinet').'?d=1',  request()->get('d'));
+
         $hasSameNameHost = Dropshipper::where('host', $user->host)
             ->where('domain', $request->domain)
             ->first();
 
         if (!$hasSameNameHost) {
             $user->update($data);
-            return redirect()->route('cabinet')
+            return redirect()->to(route('cabinet').'?d=1')
                 ->with(['status' => 'Ваш сайт успешно создан.']);
         }
 
@@ -109,7 +100,6 @@ class PartnerCabinetController extends Controller
             ->where('orders.kod', auth()->user()->kod )
             ->orderBy('id', 'desc')
             ->paginate(10);
-        //dd($orders);
 
         return view('partners.orders-table', [
             'title' => 'Заказы',
@@ -119,29 +109,17 @@ class PartnerCabinetController extends Controller
 
     public function subPartners()
     {
-        /*$subpartners = DB::table('dropshippers', 'dr')
+        $subpartners = DB::table('dropshippers', 'dr')
             ->select('dr.id','dr.name', 'dr.tel', 'dr.domain', 'dr.created',
                 DB::raw('COUNT(landing_orders.id) as total_orders'))
             ->leftJoin('landing_orders', 'dr.kod','=','landing_orders.kod')
             ->where('dr.kod_parent', auth()->user()->kod )
             ->orderBy('dr.id', 'desc')
             ->groupBy('dr.id')
-            ->paginate(10);*/
-
-        // пока не вычисляется total_orders ...
-        $subpartKods = Dropshipper::where('kod_parent', auth()->user()->kod)->pluck('kod')->toArray();//без toArray collection
-
-        $subpartners = DB::table('dropshippers')
-            ->select('dropshippers.id','dropshippers.name', 'dropshippers.tel', 'dropshippers.domain', 'dropshippers.created',
-                'dropshippers.orders as total_orders')
-            ->leftJoin('landing_orders', 'dropshippers.kod','=','landing_orders.kod')
-            ->whereIn('dropshippers.kod', $subpartKods )
-            ->orderBy('dropshippers.id', 'desc')
             ->paginate(10);
-        //dd($subpartKods, $subpartners);
 
         return view('partners.subpartners-table', [
-            'title' => 'Заказы субпартнеров',
+            'title'       => 'Заказы субпартнеров',
             'subpartners' => $subpartners,
         ]);
     }
@@ -151,7 +129,6 @@ class PartnerCabinetController extends Controller
         $calculator = app(EarningCalculator::class);
         $earnings = $calculator->getEarning();
         $subearnings = $calculator->getSubEarning();
-        //dd($earnings, $subearnings);
 
         //таблица выплат (с пагинацией)
         $profits = DB::table('dropshipper_payments', 'payments')
@@ -159,7 +136,6 @@ class PartnerCabinetController extends Controller
             ->where('payments.kod', auth()->user()->kod )
             ->orderBy('payments.id', 'desc')
             ->paginate(5);
-        //dd($profits);
 
         $host = auth()->user()->host;
 
@@ -196,7 +172,6 @@ class PartnerCabinetController extends Controller
         $pdf->SetFont('Times','B',14);
         $pdf->Text(($x - $pdf->GetStringWidth($text)) / 2, 46, $text);
         $pdf->Output();
-
     }
 
     public function subPartnersOrders()
@@ -210,7 +185,6 @@ class PartnerCabinetController extends Controller
             ->where('dropshippers.kod_parent', auth()->user()->kod )
             ->orderBy('orders.id', 'desc')
             ->paginate(10);
-        //dd($orders);
 
         return view('subpartners.subpartners-orders-table', [
             'title' => 'Заказы',
@@ -223,14 +197,13 @@ class PartnerCabinetController extends Controller
         return view('partners.contact-us', [
             'title' => 'Написать нам',
         ]);
-
     }
 
     public function sendLetter(ContactUsRequest $request)
     {
         $data = $request->except('_token');
 
-        Notification::route('mail', env('MAIL_FROM_ADDRESS', 'pdparis@test.com'))
+        Notification::route('mail', env('MAIL_FROM_ADDRESS', 'info@pdparis.com'))
             ->notify(new ContactUsNotification($data));
 
         return redirect()->route('cabinet')

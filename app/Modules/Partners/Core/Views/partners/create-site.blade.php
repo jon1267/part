@@ -2,7 +2,7 @@
     <div class="card-header ">
         <p class="text-bold m-0">Ваши индивидуальные сайты:</p>
     </div>
-    <div class="card-body">
+    <div class="card-body" id="newsite">
         <p>Создайте название Вашего личного сайта</p>
         <div style="display: flex; flex-direction: column; align-items: center;">
             <form action="{{ route('cabinet.create.site') }}" method="POST"  >
@@ -21,8 +21,8 @@
         <div>
             @error('domain')
             <span class="invalid-feedback" style="display: inline-block">
-        <strong>{{ $message }}</strong>
-    </span>
+                <strong>{{ $message }}</strong>
+            </span>
             @enderror
         </div>
     </div>

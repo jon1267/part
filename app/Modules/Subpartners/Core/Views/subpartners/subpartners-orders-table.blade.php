@@ -59,7 +59,7 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="7"><p class="lead">Заказов субпартнеров пока нет.</p></td>
+                                        <td colspan="7"><p class="lead text-center">Заказов суб партнеров пока нет.</p></td>
                                     </tr>
                                 @endif
                             </table>

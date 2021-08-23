@@ -126,9 +126,9 @@ class HomeController extends Controller
             }
         }
 
-        //dd($productArt); //echo '<pre>'.print_r($productArt,1).'</pre>';  die();
-
-        if (!count($productArt)) abort(404);
+        if ( ! count($productArt)) {
+            abort(404);
+        }
 
         return view('front.product-info', ['product' => $productArt[0], 'art' => $art]);
     }
@@ -146,66 +146,6 @@ class HomeController extends Controller
 
         print json_encode($products);
     }
-
-    /* code from Code Igniter 4, need refactor
-    public function update()
-    {
-        $db       = \Config\Database::connect();
-        $up       = 0;
-        $new      = 0;
-        $products = json_decode(file_get_contents('https://parfumdeparis.biz/page/json'), true);
-
-        if ($products) {
-
-            $db->table('landing_good')
-                ->where('id > 0')
-                ->update(['active' => 0, 'active_ua' => 0]);
-
-            foreach($products as $product) {
-
-                if ($product['art100']) {
-                    $upd = [];
-                    $upd['bname']       = $product['bname'];
-                    $upd['name']        = str_replace('100ml.', '', $product['name']);
-                    $upd['analog']      = str_replace('100ml.', '', $product['name']);
-                    $upd['art100']      = $product['art100'] . '-25';
-                    $upd['art50']       = $product['art100'] . '-25';
-                    $upd['art']         = $product['art100'] . '-25';
-                    $upd['active']      = $product['active'];
-                    $upd['active_ua']   = $product['active_ua'];
-                    $upd['sort']        = $product['sort'];
-                    $upd['filter2']     = $product['filters'];
-                    $upd['man']         = $product['man'];
-                    $upd['woman']       = $product['woman'];
-
-                    $rows = $db
-                        ->table('landing_good')
-                        ->where('art100', $product['art100'] . '-25')
-                        ->get()
-                        ->getResultArray();
-
-                    if (count($rows) > 0) {
-                        $db
-                            ->table('landing_good')
-                            ->where('art100', $product['art100'] . '-25')
-                            ->update($upd);
-
-                        $up++;
-                    } else {
-                        $db
-                            ->table('landing_good')
-                            ->insert($upd);
-
-                        $new++;
-                    }
-                }
-            }
-        }
-
-        print ('Обновленно ' . $up . "\n\t");
-        print ('Добавленно ' . $new . "\n\t");
-    }
-    */
 
     public function cities(Request $request)
     {
@@ -406,44 +346,35 @@ class HomeController extends Controller
 
         foreach ($products as $product)
         {
+            if (($product['man'] === '1' || $product['woman'] === '1') AND ($product['active_ua'] === '1' AND $product['active'] === '1')) {
 
+                if ($product['man'] === '1') {
+                    $counts['man30']++;
+                    $category = 'man30';
+                }
 
-            if (($product['man'] ==='0' && $product['woman']==='0') || ($product['active'] === '0' || $product['active_ua'] === '0'))
-            {
-                continue;
+                if ($product['woman'] === '1') {
+                    $counts['woman30']++;
+                    $category = 'woman30';
+                }
+
+                $output[] = [
+                    'category' => $product['woman'] ? 1 : 2,
+                    'img' => '/files/plastic300/' . $product['art100'] . '.jpg',
+                    'name' => (strpos($product['name'], '100ml.') === false) ? $product['name'] . ' 30ml' : str_replace('100ml.', '30ml', $product['name']),
+                    'bname' => $product['bname'],
+                    'price' => 179,
+                    'art' => $product['art100'] . '-30',// add Jon it need card info
+                    'man' => $product['man'],
+                    'woman' => $product['woman'],
+                    'volume' => 30,
+                    'filter2' => $product['filters'],
+                    'show' => ($counts[$category] <= 12) ? 1 : 0,
+                    'slug' => preg_replace('/[^A-Za-z0-9-]+/', '-', trim(strtolower($product['bname'])) . '-' . trim(strtolower($product['name']))),
+                    'new' => $product['new'],
+                    'hit' => $product['hit'],
+                ];
             }
-
-            if ($product['man'] === '1')
-            {
-                $counts['man30']++;
-                $category='man30';
-
-            }
-
-            if ($product['woman'] === '1')
-            {
-                $counts['woman30']++;
-                $category='woman30';
-            }
-
-
-            $output[] = [
-                'category' => $product['woman'] ? 1 : 2,
-                'img'    => '/files/plastic300/'.$product['art100'].'.jpg',
-                'name'   => (strpos($product['name'], '100ml.') === false) ? $product['name']. ' 30ml' : str_replace('100ml.', '30ml', $product['name']),
-                'bname'  => $product['bname'],
-                'price'  => 179,
-                'art'    => $product['art100'] . '-30',// add Jon it need card info
-                'man'    => $product['man'],
-                'woman'  => $product['woman'],
-                'volume' => 30,
-                'filter2'=> $product['filters'],
-                'show'   => ($counts[$category] <= 12) ? 1 : 0,
-                'slug'   => preg_replace('/[^A-Za-z0-9-]+/', '-',  trim(strtolower($product['bname'])).'-'.trim(strtolower($product['name']))),
-                'new'    => $product['new'],
-                'hit'    => $product['hit'],
-            ];
-
         }
 
         return $output;
@@ -455,44 +386,38 @@ class HomeController extends Controller
         $counts = ['man50' => 0, 'woman50' => 0];
         $category = '';
 
-        foreach ($products as $product)
-        {
+        foreach ($products as $product) {
 
-            if (($product['man'] ==='0' && $product['woman']==='0') || ($product['active'] === '0' || $product['active_ua'] === '0'))
-            {
-                continue;
+            if (($product['man'] === '1' || $product['woman'] === '1') AND ($product['active_ua'] === '1' AND $product['active'] === '1')) {
+
+                if ($product['man'] === '1') {
+                    $counts['man50']++;
+                    $category = 'man50';
+
+                }
+
+                if ($product['woman'] === '1') {
+                    $counts['woman50']++;
+                    $category = 'woman50';
+                }
+
+                $output[] = [
+                    'category' => $product['woman'] ? 3 : 4,
+                    'img' => '/files/glass300/' . $product['art100'] . '.jpg',//'after'.$product['art100'].'.jpg',//$product['img'],
+                    'name' => (strpos($product['name'], '100ml.') === false) ? $product['name'] . ' 50ml' : str_replace('100ml.', '50ml', $product['name']),
+                    'bname' => $product['bname'],
+                    'price' => $product['price50'],
+                    'art' => $product['art100'] . '-50',// add Jon it need card info
+                    'man' => $product['man'],
+                    'woman' => $product['woman'],
+                    'volume' => 50,
+                    'filter2' => $product['filters'],
+                    'show' => ($counts[$category] <= 12) ? 1 : 0,
+                    'slug' => preg_replace('/[^A-Za-z0-9-]+/', '-', trim(strtolower($product['bname'])) . '-' . trim(strtolower($product['name']))),
+                    'new' => $product['new'],
+                    'hit' => $product['hit'],
+                ];
             }
-
-            if ($product['man']==='1')
-            {
-                $counts['man50']++;
-                $category='man50';
-
-            }
-
-            if ($product['woman']==='1')
-            {
-                $counts['woman50']++;
-                $category='woman50';
-            }
-
-            $output[] = [
-                'category' => $product['woman'] ? 3 : 4,
-                'img'    => '/files/glass300/'.$product['art100'].'.jpg',//'after'.$product['art100'].'.jpg',//$product['img'],
-                'name'   => (strpos($product['name'], '100ml.') === false) ? $product['name']. ' 50ml' : str_replace('100ml.', '50ml', $product['name']),
-                'bname'  => $product['bname'],
-                'price'  => $product['price50'],
-                'art'    => $product['art100'] . '-50',// add Jon it need card info
-                'man'    => $product['man'],
-                'woman'  => $product['woman'],
-                'volume' => 50,
-                'filter2'=> $product['filters'],
-                'show'   => ($counts[$category] <= 12) ? 1 : 0,
-                'slug'   => preg_replace('/[^A-Za-z0-9-]+/', '-',  trim(strtolower($product['bname'])).'-'.trim(strtolower($product['name']))),
-                'new'    => $product['new'],
-                'hit'    => $product['hit'],
-            ];
-
         }
 
         return $output;
@@ -506,42 +431,39 @@ class HomeController extends Controller
 
         foreach ($products as $product)
         {
-            if (($product['man'] ==='0' && $product['woman']==='0') || ($product['active'] === '0' || $product['active_ua'] === '0'))
-            {
-                continue;
+            if (($product['man'] ==='1' || $product['woman'] === '1') AND ($product['active_ua'] === '1' AND $product['active'] === '1') ) {
+
+                if ($product['man'] === '1') {
+                    $counts['man100']++;
+                    $category = 'man100';
+                }
+
+                if ($product['woman'] === '1') {
+                    $counts['woman100']++;
+                    $category = 'woman100';
+                }
+
+                $output[] = [
+                    'category' => $product['woman'] ? 5 : 6,
+                    'img' => '/files/glass300/' . $product['art100'] . '.jpg',//'after'.$product['art100'].'.jpg',// $product['img'],  // W065.png M006.png
+                    'name' => $product['name'],
+                    'bname' => $product['bname'],
+                    'price' => $product['price100'],
+
+                    'art' => $product['art100'] . '-100',
+
+                    'man' => $product['man'],
+                    'woman' => $product['woman'],
+                    'volume' => 100,
+
+                    'filter2' => $product['filters'],
+                    'show' => ($counts[$category] <= 12) ? 1 : 0,
+                    'slug' => preg_replace('/[^A-Za-z0-9-]+/', '-', trim(strtolower($product['bname'])) . '-' . trim(strtolower($product['name']))),
+                    'new' => $product['new'],
+                    'hit' => $product['hit'],
+                ];
+
             }
-
-            if ($product['man']==='1')
-            {
-                $counts['man100']++;
-                $category='man100';
-            }
-
-            if ($product['woman']==='1')
-            {
-                $counts['woman100']++;
-                $category='woman100';
-            }
-
-            $output[] = [
-                'category' => $product['woman'] ? 5 : 6,
-                'img'    => '/files/glass300/'.$product['art100'].'.jpg',//'after'.$product['art100'].'.jpg',// $product['img'],  // W065.png M006.png
-                'name'   => $product['name'],
-                'bname'  => $product['bname'],
-                'price'  => $product['price100'],
-
-                'art'    => $product['art100']. '-100',
-
-                'man'    => $product['man'],
-                'woman'  => $product['woman'],
-                'volume' => 100,
-
-                'filter2'=> $product['filters'],
-                'show'   => ($counts[$category] <= 12) ? 1 : 0,
-                'slug'   => preg_replace('/[^A-Za-z0-9-]+/', '-',  trim(strtolower($product['bname'])).'-'.trim(strtolower($product['name']))),
-                'new'    => $product['new'],
-                'hit'    => $product['hit'],
-            ];
 
         }
 
@@ -559,7 +481,7 @@ class HomeController extends Controller
 
         foreach ($products as $product) {
 
-            if ( ($product['man500'] ==='1' || $product['woman500'] === '1') AND ($product['active_ua'] === '1' || $product['active'] === '1') ) {
+            if (($product['man500'] ==='1' || $product['woman500'] === '1') AND ($product['active_ua'] === '1' AND $product['active'] === '1') ) {
 
                 if ($product['man500'] === '1') {
                     $counts['man500']++;
@@ -599,7 +521,7 @@ class HomeController extends Controller
 
         foreach ($products as $product)
         {
-            if ($product['antiseptics'] === '1' AND ($product['active_ua'] === '1' || $product['active'] === '1'))
+            if ($product['antiseptics'] === '1' AND ($product['active_ua'] === '1' AND $product['active'] === '1'))
             {
                 $index++;
 
@@ -630,7 +552,7 @@ class HomeController extends Controller
 
         foreach ($products as $product)
         {
-            if ($product['auto'] === '1' AND ($product['active_ua'] === '1' || $product['active'] === '1'))
+            if ($product['auto'] === '1' AND ($product['active_ua'] === '1' AND $product['active'] === '1'))
             {
                 $index++;
 
@@ -654,55 +576,6 @@ class HomeController extends Controller
         return $output;
     }
 
-    /* code from CI4, need remake
-    private function getProducts30Old()
-    {
-        $db = \Config\Database::connect();
-        $output = [];
-
-        $products = $db->table('landing_good')
-            ->where('active',1)
-            ->where('active_ua',1)
-            ->orderBy('sort','ASC')
-            ->get()
-            ->getResultArray()
-        ;
-
-        $counts = ['man' => 0, 'woman' => 0,];
-
-        foreach ($products as $product) {
-
-            if (($product['man'] ==='0' && $product['woman']==='0') || ($product['active'] === '0' || $product['active_ua'] === '0'))
-            {
-                continue;
-            }
-
-            $art = str_replace('-25', '-30', $product['art50']);
-            $pic = $art = strstr($art, '-', true); //from W021-30 extract W021
-
-            $product['man'] ? $counts['man']++ : $counts['woman']++;
-
-            $output[] = [
-                'category' => $product['woman'] ? 1 : 2,
-                'img'    => '/files/plastic300/'.$pic.'.jpg', //$product['img2'],
-                'name'   => $product['analog'],
-                'bname'  => $product['bname'],
-                'price'  => 179,
-                'art'    => $art. '-30',
-                'man'    => $product['man'],
-                'woman'  => $product['woman'],
-                'volume' => 30,
-                'filter2'=> $product['filter2'],
-                'show'   => ($counts[($product['man'] ? 'man' : 'woman')] <= 12) ? 1 : 0,
-                'slug'   => preg_replace('/[^A-Za-z0-9-]+/', '-',  trim(strtolower($product['bname'])).'-'.trim(strtolower($product['name'])))
-            ];
-
-        }
-        return $output;
-    }
-     */
-
-    //parfumes50 100 500 были в отдельном контроллере (Page.php)... пусть тут
     public function parfumes50()
     {
         return view('front.parfumes-50');
