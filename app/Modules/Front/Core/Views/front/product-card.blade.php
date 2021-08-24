@@ -62,7 +62,7 @@
                     <div class="product-card__price-col active">
                         <span>@{{ product.price }}.<sup>00</sup></span>
                     </div>
-                    <span class="product-card__price-text">&nbsp; &nbsp; грн.</span>
+                    <span class="product-card__price-text">&nbsp; &nbsp; {{ $valuta }}</span>
                 </div>
             </a>
 

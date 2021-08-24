@@ -20,7 +20,7 @@
 
                 <div style="margin-left: 30px;">
                     <div class="mob-center" style="font-size: 21px; font-weight: 500; margin-bottom: 25px;">
-                        {{ $product['price'] }} грн.
+                        {{ $product['price'] }}  {{ $valuta }}
                     </div>
 
                     <div class="mob-center" @click="extendProductCart('{{$product['art']}}', $event)">

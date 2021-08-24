@@ -146,7 +146,7 @@
             <!-- </div> -->
             <div style="font-size:14px; border:2px solid rgb(133, 84, 160); padding:10px; margin: 10px 30px; text-align:center;">
                 <!--<p><strong>Акция!</strong><br/>Добавьте 4 парфюма в корзину и 1 из них будет в <strong>подарок</strong></p>-->
-                <p><strong>Акция!</strong><br/>Парфюм 30 мл в подарок при заказе от 600 грн.</p>
+                <p><strong>Акция!</strong><br/>Парфюм 30 мл в подарок при заказе от 600 {{ $valuta }}</p>
             </div>
 
             <div class="modal-promocode-table">
@@ -185,13 +185,13 @@
                             <!--Дубль объема для мобильной версии-->
                             <div class="modal-promocode-table__mobile-volume">
                                 <span>@{{ product.volume }} </span> мл<br/>
-                                <span>@{{ product.sale }} грн.</span>
+                                <span>@{{ product.sale }} {{ $valuta }}</span>
                             </div>
                             <!--Дубль объема для мобильной версии конец-->
                             <div class="discount" v-if="product.discount">(@{{ product.discount }})</div>
                         </div>
                         <div class="modal-promocode-table__col-volume">
-                            <span>@{{ product.sale }}</span>  грн.
+                            <span>@{{ product.sale }}</span>  {{ $valuta }}
 
                         </div>
                         <div class="modal-promocode-table__col-volume">
@@ -205,7 +205,7 @@
                         </div>
 
                         <div class="modal-promocode-table__col-amount">
-                            <span>@{{ product.total }}</span> грн.
+                            <span>@{{ product.total }}</span> {{ $valuta }}
                         <!-- <div class="discount" v-if="product.discount">(@{{ product.discount }})</div> -->
                         </div>
                         <div class="modal-promocode-table__col-close">
@@ -235,7 +235,7 @@
                             Товаров на сумму:
                         </div>
                         <div class="modal-promocode-table__text-mobile">
-                            @{{ total }} грн.
+                            @{{ total }} {{ $valuta }}
                         </div>
                     </div>
                     <div class="modal-promocode-table__total-row-mobile">
@@ -256,9 +256,9 @@
                         <!--@{{ total }} грн.-->
                             <div class="discount" v-if="promoDiscount">@{{ promoDiscount }}</div>
 
-                            <div class="discount-line" v-if="totalFull > total">@{{ totalFull }} грн.</div>
+                            <div class="discount-line" v-if="totalFull > total">@{{ totalFull }} {{ $valuta }}</div>
 
-                            <div :class="[totalFull > total ? 'discount' : '' ]">@{{ total }} грн. </div>
+                            <div :class="[totalFull > total ? 'discount' : '' ]">@{{ total }}  {{ $valuta }} </div>
 
                         <!-- <div class="discount" v-if="order.procent">Промокод: @{{ order.promocode }}</div> -->
 
@@ -441,11 +441,9 @@
 
                         <input v-if="order.nocall || order.kindpay == 1" v-model="order.lastname" class="modal-order__input feedback__input" placeholder="Фамилия" name="lastname">
 
-                        <input v-if="order.pay == 'Курьером'" v-model="order.prelastname" class="modal-order__input feedback__input" placeholder="Отчество" name="prelastname">
-
+                        <input v-if="order.nocall || order.kindpay == 1" v-model="order.prelastname" class="modal-order__input feedback__input" placeholder="Отчество" name="prelastname">
 
                         <div v-if="!order.nocall && order.kindpay != 1" style="font-size:14px; line-height: 15px; margin-bottom:20px;"> <span style="color: red;">*</span> - обязательное поле только телефон</div>
-
 
                         <!--<div v-if="order.lastname">-->
                         <div v-if="order.nocall || order.kindpay == 1">

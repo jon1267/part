@@ -307,7 +307,7 @@ class HomeController extends Controller
                     'adv'       => 248,
                     'ip'        => $ip,
                     'useragent' => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
-                    'samples'   => 1,
+
                 ]
             );
             $crm_order_id = curl_exec($ch);
@@ -346,7 +346,7 @@ class HomeController extends Controller
 
         foreach ($products as $product)
         {
-            if (($product['man'] === '1' || $product['woman'] === '1') AND ($product['active_ua'] === '1' AND $product['active'] === '1')) {
+            if (($product['man'] === '1' || $product['woman'] === '1') AND ( $this->getActivePlatform($product) )) {
 
                 if ($product['man'] === '1') {
                     $counts['man30']++;
@@ -388,7 +388,7 @@ class HomeController extends Controller
 
         foreach ($products as $product) {
 
-            if (($product['man'] === '1' || $product['woman'] === '1') AND ($product['active_ua'] === '1' AND $product['active'] === '1')) {
+            if (($product['man'] === '1' || $product['woman'] === '1') AND ($this->getActivePlatform($product))) {
 
                 if ($product['man'] === '1') {
                     $counts['man50']++;
@@ -431,7 +431,7 @@ class HomeController extends Controller
 
         foreach ($products as $product)
         {
-            if (($product['man'] ==='1' || $product['woman'] === '1') AND ($product['active_ua'] === '1' AND $product['active'] === '1') ) {
+            if (($product['man'] ==='1' || $product['woman'] === '1') AND ($this->getActivePlatform($product)) ) {
 
                 if ($product['man'] === '1') {
                     $counts['man100']++;
@@ -481,7 +481,7 @@ class HomeController extends Controller
 
         foreach ($products as $product) {
 
-            if (($product['man500'] ==='1' || $product['woman500'] === '1') AND ($product['active_ua'] === '1' AND $product['active'] === '1') ) {
+            if (($product['man500'] ==='1' || $product['woman500'] === '1') AND ($this->getActivePlatform($product)) ) {
 
                 if ($product['man500'] === '1') {
                     $counts['man500']++;
@@ -521,7 +521,7 @@ class HomeController extends Controller
 
         foreach ($products as $product)
         {
-            if ($product['antiseptics'] === '1' AND ($product['active_ua'] === '1' AND $product['active'] === '1'))
+            if ( $product['antiseptics'] === '1' AND  ($product['active'] === '1') )
             {
                 $index++;
 
@@ -552,7 +552,7 @@ class HomeController extends Controller
 
         foreach ($products as $product)
         {
-            if ($product['auto'] === '1' AND ($product['active_ua'] === '1' AND $product['active'] === '1'))
+            if ( $product['auto'] === '1' AND ($product['active'] === '1') )
             {
                 $index++;
 
@@ -574,6 +574,14 @@ class HomeController extends Controller
         }
 
         return $output;
+    }
+
+    // в зависимости от host (1, 2) вернет фильтр 'active_ua' или 'active_ru' ну и 'active' для лаконичности кода
+    private function getActivePlatform($product)
+    {
+        return (config('app.host') === '1') ?
+            ($product['active_ua'] === '1' AND $product['active'] === '1') :
+            ($product['active_ru'] === '1' AND $product['active'] === '1') ;
     }
 
     public function parfumes50()

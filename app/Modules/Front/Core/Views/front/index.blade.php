@@ -36,7 +36,7 @@
                             <a href="#" style="display: block; vertical-align: middle; margin-bottom:10px;">
                                 <span style="vertical-align: middle;">30 мл в подарок</span>
                                 <img src="/images/gift.png" style="vertical-align: middle; width:32px; height:32px;"/>
-                                <span style="vertical-align: middle;">при заказе от 600 грн.</span>
+                                <span style="vertical-align: middle;">при заказе от 600 {{ $valuta }}</span>
                             </a>
 
 
