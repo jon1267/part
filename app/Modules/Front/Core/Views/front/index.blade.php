@@ -174,8 +174,12 @@
         </section>
         <!-- man parfumes end -->
 
-        @include('front.antiseptics')
-        @include('front.auto')
+        <div v-if="countSeptics > 0">
+            @include('front.antiseptics')
+        </div>
+        <div v-if="countAuto > 0">
+            @include('front.auto')
+        </div>
 
         @include('front.advantages')
         @include('front.eu-directive')

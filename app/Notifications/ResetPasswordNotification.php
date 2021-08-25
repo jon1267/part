@@ -7,19 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ContactUsNotification extends Notification
+class ResetPasswordNotification extends Notification
 {
     use Queueable;
-    public $data;
+
+    public $token;
 
     /**
      * Create a new notification instance.
-     * @param $data
+     * @param $token
      * @return void
      */
-    public function __construct($data)
+    public function __construct($token)
     {
-        $this->data = $data;
+        $this->token = $token;
     }
 
     /**
@@ -42,9 +43,12 @@ class ContactUsNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Письмо партнера из личного кабинета')
-                    ->greeting($this->data['subject'])
-                    ->line($this->data['message']);
+                    ->subject('Сброс пароля для вашего аккаунта')
+                    ->greeting('Уважаемый партнер.')
+                    ->line('Вы получили это сообщение потому, что запросили сброс пароля, для вашего аккаунта .')
+                    ->action('Сбросить пароль', url('password/reset', [$this->token, $notifiable->email]))
+                    ->line('Эта ссылка на сброс пароля будет действовать 60 минут.')
+                    ->line('Если вы не запрашивали сброс пароля, то можете ничего не предпринимать, и просто удалить это письмо.');
     }
 
     /**

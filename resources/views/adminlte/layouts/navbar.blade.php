@@ -6,20 +6,18 @@
         </li>
     </ul>
 
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-        <!-- Navbar Search -->
+    <ul class="navbar-nav mx-auto">
 
         @if(auth()->user()->domain != '')
 
-            <div class="row ">
-                <div id="donesite" class="col-md-5 col-sm-12">
+            <div class="row">
+                <div id="donesite" class="col-md-6 col-sm-10">
                     <div class="input-group input-group-sm align-items-center pb-1">
                         <span class="mr-4">Ваш сайт</span>
                         <input class="form-control" style="text-align: center; font-size: 16px; " type="text" value="{{ auth()->user()->domain.'.pdparis.com' }}" readonly > <span class="m-2"></span>
                     </div>
                 </div>
-                <div class="col-md-7 col-sm-12">
+                <div class="col-md-6 col-sm-10">
                     <div class="input-group input-group-sm align-items-center">
                         <span class="mr-2">Украшения</span>
                         <input class="form-control " style="font-size: 16px; " type="text" value="http://luxury-sets.com.ua/?p={{ auth()->user()->kod }}" readonly > <span class="m-2"></span>
@@ -28,8 +26,11 @@
             </div>
         @endif
 
+    </ul>
 
-
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ">
+        <!-- Navbar Search -->
 
         <li class="nav-item">
             <!--<a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button"><i

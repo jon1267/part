@@ -75,7 +75,6 @@ class PartnerCabinetController extends Controller
     {
         $data = $request->except('_token');
         $user = auth()->user();
-        //dd(route('cabinet').'?d=1',  request()->get('d'));
 
         $hasSameNameHost = Dropshipper::where('host', $user->host)
             ->where('domain', $request->domain)
@@ -145,7 +144,7 @@ class PartnerCabinetController extends Controller
             'earnings' => $earnings,
             'subearnings' => $subearnings,
             'min' => ($host == 1) ? 200 : 500 ,
-            'valuta' => ($host == 1) ? ' грн.': ' руб.',
+            //'valuta' => ($host == 1) ? ' грн.': ' руб.',
             'payButtonEnabled' =>  ($host==1 && (($earnings + $subearnings) >= 200)) || ($host==2 && (($earnings + $subearnings) >= 500)),
         ]);
 

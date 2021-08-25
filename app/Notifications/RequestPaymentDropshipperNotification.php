@@ -44,7 +44,7 @@ class RequestPaymentDropshipperNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Запрос платежа от дропшиппера.')
+            ->subject('Запрос платежа от дропшиппера')
             ->greeting('Запрос платежа от дропшиппера!')
             ->line('Код партнера: '. $this->payment['kod'])
             ->line('ФИО: '. $this->payment['name'])

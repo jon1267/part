@@ -67,7 +67,7 @@
                                             <td>{{$profit->id}}</td>
                                             <td>{{$profit->date}}</td>
                                             <td>{!!  $profit->order !!}</td>
-                                            <td>{{$profit->total}} {{ ($profit->host == 1) ? ' грн.' : ' руб.'}}</td>
+                                            <td>{{$profit->total}} {{ $valuta }}</td>
                                             {{-- <td>{{($profit->active == 1) ? 'Выплачено' : 'Не выплачено'}}</td> --}}
                                             <td><span class="badge badge-pill {{($profit->active == 1) ? ' badge-success' : ' badge-secondary' }}" style="font-size: 14px;" >{{($profit->active == 1) ? 'Выплачено' : 'Не выплачено'}}</span></td>
                                         </tr>

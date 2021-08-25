@@ -35,7 +35,7 @@
                                             <td>{{$order->adv}}</td>
                                             <td>{{$order->datebuy}}</td>
                                             <td>{{$order->product}}</td>
-                                            <td>{{$order->sum}}</td>
+                                            <td>{{$order->sum}}{{$valuta}}</td>
                                             <td> </td>
                                             <td><span class="badge badge-pill text-white" style="background: {{ App\Models\StatusColor::getColorBy($order->status_id) }};" >{{ $order->status }}</span></td>
                                             {{--<td>

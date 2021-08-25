@@ -28,8 +28,8 @@
         <li><a href="/#woman">Женская парфюмерия</a></li>
         <li><a href="/#man">Мужская парфюмерия</a></li>
         <!--<li><a href="#">Унисекс парфюмерия</a></li>-->
-        <li><a href="/#auto">Автопарфюмы</a></li>
-        <li><a href="/#septics">Антисептики</a></li>
+        <li v-if="countAuto > 0"><a href="/#auto">Автопарфюмы</a></li>
+        <li v-if="countSeptics > 0"><a href="/#septics">Антисептики</a></li>
 
     </ul>
 

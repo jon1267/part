@@ -45,7 +45,7 @@ class EnjoyEarningNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Вы можете выводить заработок.')
+                    ->subject('Вы можете выводить заработок')
                     ->greeting('Уже можно выводить заработок!')
                     ->line('Вам доступно к выводу '. $this->partner->earning . $this->valuta )
                     ->line('Сделать это можно в личном кабинете, раздел "Мой доход".')

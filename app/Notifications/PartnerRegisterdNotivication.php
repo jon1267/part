@@ -41,7 +41,7 @@ class PartnerRegisterdNotivication extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Вы успешно зарегистрированы как партнер.')
+                    ->subject('Вы успешно зарегистрированы как партнер')
                     ->greeting('Вы успешно зарегистрированы как партнер!')
                     ->line('Вы зарегистрировались в уникальной партнерской программе Parfumdeparis, которой нет аналогов.')
                     ->line('Вы получаете:')

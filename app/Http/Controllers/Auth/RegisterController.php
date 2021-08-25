@@ -62,14 +62,6 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        // this was in lara default
-        //return Validator::make($data, [
-        //    'name' => ['required', 'string', 'max:255'],
-        //    'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        //    'password' => ['required', 'string', 'min:8', 'confirmed'],
-        //]);
-
-        // this our for table dropshippers (partners)
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'tel' => ['required', 'string', 'max:15'],
@@ -88,22 +80,19 @@ class RegisterController extends Controller
     {
         $kodParent = 0;
         $subDomain = '';
-        // $parseUrl['schema'] = 'https://'; $parseUrl['host'] = 'test1.pdp-partner.loc'; ...
         $parseUrl = parse_url(url()->current());
         if (isset($parseUrl['host'])) {
-
             if(substr_count($parseUrl['host'],'.') >= 2) {
                 $subDomain = strstr($parseUrl['host'], '.', true);
             }
         }
 
-        //dd($subDomain);
         if (($subDomain != '') && ($subDomain != 'partner')) {
             $partner = Dropshipper::where('domain', $subDomain)
                 ->where('host', config('app.host'))
                 ->first();
 
-            if ($partner ) {
+            if ($partner) {
                 $kodParent = $partner->kod;
             }
         }
@@ -147,7 +136,7 @@ class RegisterController extends Controller
             'action_banner' => 0,
             'host' => config('app.host'),
             'manager' => 0,
-            'ip' => $_SERVER['REMOTE_ADDR'] ?? null,
+            'ip' => request()->ip()
         ]);
 
         event(new PartnerRegisterd($partner));

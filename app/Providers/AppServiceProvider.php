@@ -28,7 +28,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
 
-        View::composer(['front.product-card', 'front.product-info', 'front.footer', 'front.index'],
-            CurrencyComposer::class);
+        View::composer([
+            'front.product-card', 'front.product-info', 'front.footer', 'front.index',
+            'payment.profit-table', 'partners.orders-table',  'subpartners.subpartners-orders-table',
+        ],CurrencyComposer::class);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Modules\Front\Core\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Dropshipper;
 use Illuminate\Http\Request;
 use App\Modules\Front\Core\Tools\CreatePayment;
 use App\Modules\Front\Core\Tools\ResponsePayment;
@@ -163,75 +164,57 @@ class HomeController extends Controller
         print $rows;
     }
 
-    public function status()
+
+    public function thanks(Request $request)
     {
-        $response = new ResponsePayment("pdparis_shop_com", "05dbeaef5590374b351a7d7942740e1c53d6dcc3");
+        if ($request->get('order') AND $request->get('sum')) {
+            $ch = curl_init('http://kleopatra0707.com/api/invoice');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS,
+                [
+                    'amount'    => $request->get('sum'),
+                    'order_id'  => $request->get('order')
+                ]
+            );
 
-        if ($response->getOrderReference()) {
+            $result = curl_exec($ch);
+            curl_close($ch);
 
-            if ($response->getTransactionStatus() == 'Approved') {
-                $ch = curl_init('http://kleopatra0707.com/ajax/paid');
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($ch, CURLOPT_POST, 1);
-                curl_setopt($ch, CURLOPT_POSTFIELDS,
-                    array(
-                        'order_id' => (int) $response->getOrderReference(),
-                        'paid'     => 1,
-                        'adv'      => 248,
-                    )
-                );
-                curl_exec($ch);
-                curl_close($ch);
+            if ($result) {
+                return redirect()->to($result);
             }
-
-            print $response->generateAnswer();
         }
-    }
 
-    public function thanks()
-    {
         $button = '';
-
-        if (isset($_GET['order'])) {
-            $id = $_GET['order'];
-            $total = $_GET['sum'];
-
-            if ($_SERVER['REMOTE_ADDR'] == '89.76.229.206') {
-                $total = 1;
-            }
-
-            $payment = new CreatePayment("pdparis_shop_com", "05dbeaef5590374b351a7d7942740e1c53d6dcc3");
-
-            $payment
-                ->addProduct('Оплата заказа #' . $id, $total, 1)
-                ->setMerchantDomainName('pdparis-shop.com')
-                ->setOrderReference($id)
-                ->setAmount($total)
-                ->setCurrency('UAH')
-                ->setServiceUrl('https://pdparis-shop.com/api/status')
-                ->setReturnUrl('https://pdparis-shop.com/thanks.html?success=true')
-            ;
-
-            $button = $payment->getButtonPayment('Отправить', array('class' => 'paymentOrder', 'id' => 'btnPayment')) .
-                '<script>setTimeout(function(){ document.getElementById("btnPayment").submit(); }, 500) </script>';
-
-            print $button;
-            die();
-        }
 
         return view('front.thanks', ['button' => $button,] );
     }
 
     public function store(Request $request)
     {
-        $ip = isset($_SERVER['HTTP_X_REAL_IP']) ? $_SERVER['HTTP_X_REAL_IP'] : (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '');
-
         $message = '';
+        $pay     = $request->pay;
+        $kindpay = $request->kindpay;
 
-        //$pay     = $this->request->getPost('pay'); // так было в Code Igniter 4
-        //$kindpay = $this->request->getPost('kindpay'); // CI4
-        $pay = $request->pay; // так переделываю для лары
-        $kindpay = $request->kindpay; // laravel
+        $kod = 0;
+        $subDomain = '';
+        $parseUrl = parse_url(url()->current());
+        if (isset($parseUrl['host'])) {
+            if(substr_count($parseUrl['host'],'.') >= 2) {
+                $subDomain = strstr($parseUrl['host'], '.', true);
+            }
+        }
+
+        if ($subDomain != '' && $subDomain != 'partner') {
+            $partner = Dropshipper::where('domain', $subDomain)
+                ->where('host', config('app.host'))
+                ->first();
+
+            if ($partner) {
+                $kod = $partner->kod;
+            }
+        }
 
         $baskets = [];
         if ($request->basket) {
@@ -279,9 +262,24 @@ class HomeController extends Controller
 
         $sum = 0;
         $products = '';
+        $currency = config('app.host') == 1 ? 'грн' : 'руб';
         foreach($baskets as $item) {
             $sum += $item['sale'];
-            $products .= $item['art'] . ' ' . $item['bname'] . ' (' . $item['name'] . ')' . ', ' . $item['sale'] . ' грн ' . $item['qty'].' ед / ';
+            $products .= $item['art'] . ' ' . $item['bname'] . ' (' . $item['name'] . ')' . ', ' . $item['sale'] . ' '.$currency.' ' . $item['qty'].' ед / ';
+        }
+
+        $adv = 170;
+        if (config('app.host') == 1) {
+            if ($kod) {
+                $adv = 173;
+            }
+        }
+
+        if (config('app.host') == 2) {
+            $adv = 203;
+            if ($kod) {
+                $adv = 205;
+            }
         }
 
         try {
@@ -290,23 +288,24 @@ class HomeController extends Controller
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS,
                 [
-                    'product'   => $products,
-                    'status'    => $status,
+                    'product'       => $products,
+                    'status'        => $status,
                     'statuscallid'  => $statuscallid,
                     'statuspackage' => $statuspackage,
-                    'name'      => $name,
-                    'mess'      => $message,
-                    'city'      => $request->city,
-                    'adres'     => $request->office,
-                    'street'    => $request->street,
-                    'house'     => $request->house,
-                    'flat'      => $request->flat,
-                    'phone'     => $request->tel,
-                    'sum'       => $sum,
-                    'host'      => $_SERVER['HTTP_HOST'],
-                    'adv'       => 248,
-                    'ip'        => $ip,
-                    'useragent' => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
+                    'name'          => $name,
+                    'mess'          => $message,
+                    'city'          => $request->city,
+                    'adres'         => $request->office,
+                    'street'        => $request->street,
+                    'house'         => $request->house,
+                    'flat'          => $request->flat,
+                    'phone'         => $request->tel,
+                    'sum'           => $sum,
+                    'host'          => $_SERVER['HTTP_HOST'],
+                    'adv'           => $adv,
+                    'ip'            => request()->ip(),
+                    'useragent'     => request()->userAgent(),
+                    'kod'           => $kod,
 
                 ]
             );
@@ -314,7 +313,6 @@ class HomeController extends Controller
             curl_close($ch);
 
         } catch (\Exception $e) {
-            //mail('korobka.dima@gmail.com','ORDDER NOT SENT ID', $e->getMessage());
             echo 'ORDDER NOT SENT ID' . $e->getMessage();
         }
 
@@ -346,7 +344,7 @@ class HomeController extends Controller
 
         foreach ($products as $product)
         {
-            if (($product['man'] === '1' || $product['woman'] === '1') AND ( $this->getActivePlatform($product) )) {
+            if (($product['man'] === '1' || $product['woman'] === '1') AND $this->getActivePlatform($product)) {
 
                 if ($product['man'] === '1') {
                     $counts['man30']++;
@@ -358,12 +356,14 @@ class HomeController extends Controller
                     $category = 'woman30';
                 }
 
+                $price = config('app.host') == 1 ? 179 : 490;
+
                 $output[] = [
                     'category' => $product['woman'] ? 1 : 2,
                     'img' => '/files/plastic300/' . $product['art100'] . '.jpg',
                     'name' => (strpos($product['name'], '100ml.') === false) ? $product['name'] . ' 30ml' : str_replace('100ml.', '30ml', $product['name']),
                     'bname' => $product['bname'],
-                    'price' => 179,
+                    'price' => $price,
                     'art' => $product['art100'] . '-30',// add Jon it need card info
                     'man' => $product['man'],
                     'woman' => $product['woman'],
@@ -388,12 +388,11 @@ class HomeController extends Controller
 
         foreach ($products as $product) {
 
-            if (($product['man'] === '1' || $product['woman'] === '1') AND ($this->getActivePlatform($product))) {
+            if (($product['man'] === '1' || $product['woman'] === '1') AND $this->getActivePlatform($product)) {
 
                 if ($product['man'] === '1') {
                     $counts['man50']++;
                     $category = 'man50';
-
                 }
 
                 if ($product['woman'] === '1') {
@@ -401,12 +400,14 @@ class HomeController extends Controller
                     $category = 'woman50';
                 }
 
+                $price = config('app.host') == 1 ? $product['price50'] : 1090;
+
                 $output[] = [
                     'category' => $product['woman'] ? 3 : 4,
                     'img' => '/files/glass300/' . $product['art100'] . '.jpg',//'after'.$product['art100'].'.jpg',//$product['img'],
                     'name' => (strpos($product['name'], '100ml.') === false) ? $product['name'] . ' 50ml' : str_replace('100ml.', '50ml', $product['name']),
                     'bname' => $product['bname'],
-                    'price' => $product['price50'],
+                    'price' => $price,
                     'art' => $product['art100'] . '-50',// add Jon it need card info
                     'man' => $product['man'],
                     'woman' => $product['woman'],
@@ -431,7 +432,7 @@ class HomeController extends Controller
 
         foreach ($products as $product)
         {
-            if (($product['man'] ==='1' || $product['woman'] === '1') AND ($this->getActivePlatform($product)) ) {
+            if (($product['man'] ==='1' || $product['woman'] === '1') AND $this->getActivePlatform($product)) {
 
                 if ($product['man'] === '1') {
                     $counts['man100']++;
@@ -443,12 +444,14 @@ class HomeController extends Controller
                     $category = 'woman100';
                 }
 
+                $price = config('app.host') == 1 ? $product['price100'] : 1590;
+
                 $output[] = [
                     'category' => $product['woman'] ? 5 : 6,
                     'img' => '/files/glass300/' . $product['art100'] . '.jpg',//'after'.$product['art100'].'.jpg',// $product['img'],  // W065.png M006.png
                     'name' => $product['name'],
                     'bname' => $product['bname'],
-                    'price' => $product['price100'],
+                    'price' => $price,
 
                     'art' => $product['art100'] . '-100',
 
@@ -462,9 +465,7 @@ class HomeController extends Controller
                     'new' => $product['new'],
                     'hit' => $product['hit'],
                 ];
-
             }
-
         }
 
         return $output;
@@ -476,12 +477,11 @@ class HomeController extends Controller
 
         $counts = ['woman500' => 0, 'man500' => 0];
         $category = '';
-        $price = 1390;
         $volume = 500;
 
         foreach ($products as $product) {
 
-            if (($product['man500'] ==='1' || $product['woman500'] === '1') AND ($this->getActivePlatform($product)) ) {
+            if (($product['man500'] ==='1' || $product['woman500'] === '1') AND $this->getActivePlatform($product)) {
 
                 if ($product['man500'] === '1') {
                     $counts['man500']++;
@@ -493,12 +493,14 @@ class HomeController extends Controller
                     $category = 'woman500';
                 }
 
+                $price = config('app.host') == 1 ? $product['price100'] : 4490;
+
                 $output[] = [
                     'category' => $product['woman500'] ? 7 : 8,
                     'img'    => '/files/'.$product['art100'].'.png',
                     'name'   => $product['name'],
                     'bname'  => $product['bname'],
-                    'price'  => $product['price100'] ?? $price,
+                    'price'  => $price,
                     'volume' => $volume,
                     'art'    => $product['art100'],
                     'man'    => $product['man500'],
@@ -521,7 +523,7 @@ class HomeController extends Controller
 
         foreach ($products as $product)
         {
-            if ( $product['antiseptics'] === '1' AND  ($product['active'] === '1') )
+            if ($product['antiseptics'] === '1' AND  $this->getActivePlatform($product))
             {
                 $index++;
 
@@ -552,7 +554,7 @@ class HomeController extends Controller
 
         foreach ($products as $product)
         {
-            if ( $product['auto'] === '1' AND ($product['active'] === '1') )
+            if ($product['auto'] === '1' AND $this->getActivePlatform($product))
             {
                 $index++;
 
@@ -576,7 +578,6 @@ class HomeController extends Controller
         return $output;
     }
 
-    // в зависимости от host (1, 2) вернет фильтр 'active_ua' или 'active_ru' ну и 'active' для лаконичности кода
     private function getActivePlatform($product)
     {
         return (config('app.host') === '1') ?
