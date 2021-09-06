@@ -101,7 +101,7 @@
                 <div class="wrapper">
                     <div class="product-list">
                         <div v-cloak v-for="group in productsGroupped" v-if="group.woman == 1 && group.show" class="product-list__col">
-                            <div v-for="product in group.products" v-show="product.show">
+                            <div v-for="product in group.products" v-if="product.show">
                                 @include('front.product-card')
                             </div>
                         </div>
@@ -152,7 +152,7 @@
                     <div class="product-list">
 
                         <div v-cloak v-for="group in productsGroupped" v-if="group.man == 1 && group.show" class="product-list__col">
-                            <div v-for="product in group.products" v-show="product.show">
+                            <div v-for="product in group.products" v-if="product.show">
                                 @include('front.product-card')
                             </div>
                         </div>
@@ -192,5 +192,9 @@
 @endsection
 
 @section('footer')
-    @include('front.footer')
+    @if(config('app.host') === '1')
+        @include('front.footer')
+    @elseif(config('app.host') === '2')
+        @include('front.footer_ru')
+    @endif
 @endsection

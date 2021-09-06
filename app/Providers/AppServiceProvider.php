@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
 
         View::composer([
-            'front.product-card', 'front.product-info', 'front.footer', 'front.index',
+            'front.product-card', 'front.product-info', 'front.footer', 'front.footer_ru', 'front.index',
             'payment.profit-table', 'partners.orders-table',  'subpartners.subpartners-orders-table',
         ],CurrencyComposer::class);
     }

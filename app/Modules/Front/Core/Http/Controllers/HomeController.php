@@ -5,6 +5,8 @@ namespace App\Modules\Front\Core\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Dropshipper;
 use Illuminate\Http\Request;
+use App\Services\Sdek\Sdek;
+use App\Services\Sdek\CurlSender;
 use App\Modules\Front\Core\Tools\CreatePayment;
 use App\Modules\Front\Core\Tools\ResponsePayment;
 
@@ -164,6 +166,32 @@ class HomeController extends Controller
         print $rows;
     }
 
+    public function officesRu(Request $request)
+    {
+        $sdek = new Sdek();
+
+        $zip = trim($request->zip);
+        $keyword = trim($request->keyword);
+        $offices = $sdek->getPostOffices($zip);
+        $rows = [];
+
+        foreach ($offices as $office) {
+
+            $pos = '';
+            $name = $name = iconv('UTF-8', 'windows-1251//IGNORE', $office['name']); //$office['name']; //
+            if (strpos($name, 'Постамат') !== false) {
+                $pos = ' (Постамат)';
+            }
+
+            if (($keyword and strpos(mb_strtolower($office['address_full'], 'UTF-8'), mb_strtolower($keyword, 'UTF-8')) !== false) or !$keyword) {
+                //print $office['code'] . ' - ' . iconv('UTF-8', 'windows-1251//IGNORE', str_replace(array('\'', '"'), '', $office['address_full'])) . ' (' . iconv('UTF-8', 'windows-1251//IGNORE', $office['postal_code']) . ')' . $pos . "\n";
+                $rows[] =  $office['code'] . ' - ' . str_replace(array('\'', '"'), '', $office['address_full']) . ' (' . $office['postal_code'] . ')' . $pos;
+            }
+
+        }
+
+        print json_encode($rows);
+    }
 
     public function thanks(Request $request)
     {

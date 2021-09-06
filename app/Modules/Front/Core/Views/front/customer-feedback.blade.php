@@ -25,21 +25,20 @@
             </div>-->
 
             <div class="instagram-box__slider">
-                <?php
-                $slides = [];
-                for ($i=1; $i<=352; $i++) {
-                    $slides[] = $i.'.png?5';
-                }
-                shuffle($slides);
-                array_slice($slides, 0, 15);
-                foreach ($slides as $slide) {
-                ?>
+                @php
+                    $slides = [];
+                    for ($i=1; $i<=352; $i++) {
+                        $slides[] = $i.'.png?5';
+                    }
+                    shuffle($slides);
+                    $slides = array_slice($slides, 0, 10);
+                @endphp
 
-                <div style="width: 450px;height: 550px;margin: 0 10px;overflow: hidden; border: 1px solid #cccccc;">
-                    <img style="padding: 0" src="/images/comments/<?=$slide ?>" alt="">
-                </div>
-
-                <?php } ?>
+                @foreach($slides as $index => $slide)
+                    <div style="width: 450px;height: 550px;margin: 0 10px;overflow: hidden; border: 1px solid #cccccc;">
+                        <img style="padding: 0" src="/images/comments/{{ $slide }}" alt="фото отзыв {{ $index }}">
+                    </div>
+                @endforeach
             </div>
 
 
