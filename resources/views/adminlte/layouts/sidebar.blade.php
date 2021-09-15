@@ -122,13 +122,14 @@
                     </a>
                 </li>
 
+                <!--
                 <li class="ml-4 mt-4 " style="color: lightgrey" id="contacts">
                     <p>Для связи:</p>
                     <a href="viber://add?number=+380980874208">Viber</a>
                     <span class="m-1"> / </span>
                     <a href="https://t.me/partner_parfum_de_paris">Telegram</a>
-
                 </li>
+                -->
 
             </ul>
         </nav>

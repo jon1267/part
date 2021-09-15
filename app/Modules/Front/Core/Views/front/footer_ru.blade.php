@@ -253,14 +253,12 @@
                             ИТОГО:
                         </div>
                         <div class="modal-promocode-table__total-text-big">
-                        <!--@{{ total }} грн.-->
+
                             <div class="discount" v-if="promoDiscount">@{{ promoDiscount }}</div>
 
                             <div class="discount-line" v-if="totalFull > total">@{{ totalFull }} {{ $valuta }}</div>
 
-                            <div :class="[totalFull > total ? 'discount' : '' ]">@{{ total }}  {{ $valuta }} </div>
-
-                        <!-- <div class="discount" v-if="order.procent">Промокод: @{{ order.promocode }}</div> -->
+                            <div :class="[totalFull > total ? 'discount' : '' ]">@{{ total }} {{ $valuta }} </div>
 
                         </div>
                     </div>
@@ -277,7 +275,8 @@
 
                     </div>
                     <div class="modal-promocode-table__footer-col-btn">
-                    <!-- <button v-if="basket.length < 3" @click="closeBasket()"  class="modal-promocode-table__btn">
+
+                        <!-- <button v-if="basket.length < 3" @click="closeBasket()"  class="modal-promocode-table__btn">
 								@{{ 'Добавьте еще ' + (3 - basket.length) }}
                         </button> -->
 
@@ -332,10 +331,7 @@
                                         <div style="font-size:9px; text-transform:uppercase; border:1px solid #5676d5; padding:3px 5px; padding-bottom:1px; border-radius:10px; display:inline-block; color:#5676d5; font-weight:bold;">Выбор клиентов</div>
                                         <br/>
 
-
-                                        <!--<div v-if="!order.kindpay">Выберите этот способ оплаты, и сэкономьте <span style="color:green; font-weight:bold;">40 грн.</span> <span style="font-weight:bold;">на каждом</span> флаконе. Ваша цена <span style="color:green; font-weight:bold;">139 грн</span> за флакон.</div>-->
                                         <div v-if="!order.kindpay">Выберите этот способ оплаты, и получите <span style="color:green; font-weight:bold;">10% скидку </span> на весь заказ <span style="font-weight:bold;">дополнительно.</span> </div>
-
                                     </div>
                                 </label>
 
@@ -373,25 +369,27 @@
 
                                     <div style="font-size:14px; line-height: 18px; margin-bottom:10px;"><span style="margin-right: 7px;">Шаг 2 :</span> Выберите способ доставки</div>
 
-                                    <label v-if="order.pay != 'Курьером'" class="modal-order__radiobutton">
+                                    <label v-if="order.pay != 'Другое'" class="modal-order__radiobutton">
                                         <input @click="clearIssue(); setStep(2)" v-model="order.pay" class="modal-order__radiobutton-input" type="radio" name="modal-order-payment" value="Отделение" selected>
                                         <div class="modal-order__box"></div>
                                         <div class="modal-order__text">
-                                            <b>На отделение </b><br/>
+                                            <b>SDEK: На отделение </b><br/>
                                             Доставка на отделение СДЕК в Вашем населенном пункте.
-                                            <div v-if="order.kindpay == 1"><strong>Стоимость доставки: 40 {{$valuta}}</strong></div>
-                                            <div v-if="order.kindpay == 2"><strong>Стоимость доставки: 60 {{$valuta}}</strong></div>
+{{--                                            <div v-if="order.kindpay == 1"><strong>Стоимость доставки: 40 {{$valuta}}</strong></div>--}}
+{{--                                            <div v-if="order.kindpay == 2"><strong>Стоимость доставки: 60 {{$valuta}}</strong></div>--}}
                                         </div>
                                     </label>
 
                                     <label v-if="order.pay != 'Отделение'" class="modal-order__radiobutton">
-                                        <input @click="clearIssue(); setStep(2)" v-model="order.pay" class="modal-order__radiobutton-input" type="radio" name="modal-order-payment" value="Курьером">
+                                        <input @click="clearIssue(); setStep(2)" v-model="order.pay" class="modal-order__radiobutton-input" type="radio" name="modal-order-payment" value="Другое">
                                         <div class="modal-order__box"></div>
                                         <div class="modal-order__text">
-                                            <b>Курьером</b><br/>
-                                            Адресная доставка курьером СДЕК
-                                            <div v-if="order.kindpay == 1"><strong>Стоимость доставки: 60 {{$valuta}}</strong></div>
-                                            <div v-if="order.kindpay == 2"><strong>Стоимость доставки: 80 {{$valuta}}</strong></div>
+                                            <b>Другой способ</b><br/>
+                                            Доставка на отделение почты
+
+{{--                                            Адресная доставка курьером СДЕК--}}
+{{--                                            <div v-if="order.kindpay == 1"><strong>Стоимость доставки: 60 {{$valuta}}</strong></div>--}}
+{{--                                            <div v-if="order.kindpay == 2"><strong>Стоимость доставки: 80 {{$valuta}}</strong></div>--}}
                                         </div>
                                     </label>
 
@@ -428,44 +426,38 @@
 
                         <div style="font-size:14px; line-height: 18px; margin-bottom:10px;">Введите ваши контактные данные: </div>
 
-                        <div v-if="order.kindpay != 1" style="display: flex; margin-bottom: 20px;">
+                        <div style="display: flex; margin-bottom: 20px;">
                             <input type="checkbox" v-model="order.nocall" id="nocall" name="nocall" style="height: 23px; width: 23px;">
                             <div class="modal-order__text">Мне не звонить</div>
                         </div>
 
-                        <input type="tel" v-mask="'+38 (###) ###-##-##'" v-model="order.phone" class="modal-order__input feedback__input" placeholder="Ваш телефон" name="modal-order-phone">
+                        <input v-model="order.phone" type="tel" class="modal-order__input feedback__input" placeholder="Ваш телефон" name="modal-order-phone">
 
-                        <input  v-model="order.email" class="modal-order__input feedback__input" placeholder="Email" name="email">
+                        <input v-model="order.email" class="modal-order__input feedback__input" placeholder="Email: (для индивидуальных акций и предложений)" name="email">
 
-                        <input  v-model="order.name" class="modal-order__input feedback__input" placeholder="Имя" name="name">
+                        <input v-model="order.name" class="modal-order__input feedback__input" placeholder="Имя" name="name">
 
-                        <input v-if="order.nocall || order.kindpay == 1" v-model="order.lastname" class="modal-order__input feedback__input" placeholder="Фамилия" name="lastname">
+                        <input v-if="order.nocall" v-model="order.lastname" class="modal-order__input feedback__input" placeholder="Фамилия" name="lastname">
 
-                        <input v-if="order.nocall || order.kindpay == 1" v-model="order.prelastname" class="modal-order__input feedback__input" placeholder="Отчество" name="prelastname">
+                        <input v-if="order.nocall" v-model="order.prelastname" class="modal-order__input feedback__input" placeholder="Отчество" name="prelastname">
 
                         <div v-if="!order.nocall && order.kindpay != 1" style="font-size:14px; line-height: 15px; margin-bottom:20px;"> <span style="color: red;">*</span> - обязательное поле только телефон</div>
 
-                        <!--<div v-if="order.lastname">-->
-                        <div v-if="order.nocall || order.kindpay == 1">
+                        <div v-if="order.nocall">
 
-                            <!--<input type="tel" v-mask="'+38 (###) ###-##-##'" v-model="order.phone" class="modal-order__input feedback__input" placeholder="Ваш телефон" name="modal-order-phone">-->
-
-                            <!-- ru Sdek post index ??? -->
                             <div class="vue-suggestion">
                                 <input
-                                    v-if="order.pay == 'Оплата онлайн' || order.pay == 'Отделение' || order.pay == 'Курьером'"
+                                    v-if="order.pay == 'Отделение'"
                                     v-model="order.zip"
                                     placeholder="Почтовый индекс"
                                     name="zip"
                                     @input='evt => searchOfficesSdek(order.zip=evt.target.value)'
                                 >
-
-
                             </div>
 
                             <div class="vue-suggestion">
                                 <input
-                                    v-if="(order.pay == 'Отделение' || order.pay == 'Курьером') && order.zip"
+                                    v-if="order.pay == 'Отделение' && order.zip"
                                     v-model="order.sdek_to"
                                     placeholder="Отделение 'Службы доставки СДЕК'"
                                     name="office"
@@ -474,90 +466,40 @@
                                     @focus="showOffices = true"
                                 >
 
-                                <!-- @click="setOffice(row)" -->
                                 <div v-if="showOffices && officesFiltered.length > 0" class="vs__list">
                                     <div  @click="setOfficeSdek(row)" v-for="row in officesFiltered" class="vs__list-item">@{{ row }}</div>
                                 </div>
-                                {{--<div v-if="showOffices && officesFiltered.length > 0" class="vs__list">
-                                    <div @click="setOffice(row)" v-for="row in officesFiltered" class="vs__list-item">@{{ row.name_ua }}</div>
-                                </div>--}}
 
                                 <div v-if="offices.length == 0 && order.zip && order.pay == 'Отделение'" class="vs__list">
                                     <div class="vs__list-item">Нет отделений СДЕК</div>
                                 </div>
                             </div>
 
-                            <!-- ru Sdek post index ??? -->
-
                             <div class="vue-suggestion">
                                 <input
-                                    v-if="order.pay == 'Оплата онлайн' || order.pay == 'Отделение' || order.pay == 'Курьером'"
+                                    v-if="order.pay == 'Другое'"
                                     v-model="order.city"
                                     placeholder="Город или населенный пункт"
                                     name="city"
                                     class="city"
-                                    @input='evt => searchCities(order.city=evt.target.value)'
-                                    @focus="showCities = true"
                                 >
-                                <div v-if="order.city && showCities && citiesFiltered.length > 0" class="vs__list">
-                                    <div @click="setCity(row)" v-for="row in citiesFiltered" class="vs__list-item">@{{ row.name }}</div>
-                                </div>
+                            </div>
+
+                            <div class="vue-suggestion">
+                                <input
+                                    v-if="order.pay == 'Другое' && order.city"
+                                    v-model="order.office"
+                                    placeholder="Отделение почты"
+                                    name="office"
+                                    class="office"
+                                >
                             </div>
 
                             <div style="color:red;" class="city-issue"></div>
 
-                            {{--<div class="vue-suggestion">
-                                <input
-                                    v-if="order.pay == 'Отделение' && order.cityId"
-                                    v-model="order.office"
-                                    placeholder="Отделение 'Новая Почта'"
-                                    name="office"
-                                    class="office"
-                                    @input='evt => searchOffices(order.office=evt.target.value)'
-                                    @focus="showOffices = true"
-                                >
-                                <div v-if="showOffices && officesFiltered.length > 0" class="vs__list">
-                                    <div @click="setOffice(row)" v-for="row in officesFiltered" class="vs__list-item">@{{ row.name_ua }}</div>
-                                </div>
-
-                                <div v-if="offices.length == 0 && order.cityId && order.pay == 'Отделение'" class="vs__list">
-                                    <div class="vs__list-item">Нет отделений</div>
-                                </div>
-                            </div>--}}
-
-                            <input v-if="order.pay == 'Оплата онлайн'" v-model="order.office" class="modal-order__input feedback__input" placeholder="Отделение 'Новой Почты'" name="office">
-
-
-                            <div class="vue-suggestion">
-                                <input
-                                    v-if="order.pay == 'Курьером' && order.cityId"
-                                    v-model="order.street"
-                                    placeholder="Улица"
-                                    name="street"
-                                    class="street"
-                                    @focus="showStreets = true"
-                                >
-                            </div>
-
-                            <div class="vue-suggestion">
-                                <input
-                                    v-if="order.pay == 'Курьером' && order.street"
-                                    v-model="order.house"
-                                    placeholder="Номер дома"
-                                    name="house"
-                                    class="house"
-                                    @focus="showHouses = true"
-                                >
-                            </div>
-
                             <div style="color:red;" class="postindex-issue"></div>
 
-
-                            <input v-if="order.pay == 'Курьером' && order.street" v-model="order.flat" class="modal-order__input feedback__input" placeholder="Квартира" name="flat">
-
                         </div>
-
-                        <!-- <textarea v-if="order.pay == 'Наложенный платеж'" v-model="order.comment" class="modal-order__textarea feedback__textarea" placeholder="Комментарии к заказу" name="modal-order-message"></textarea> -->
 
                         <br/>
 

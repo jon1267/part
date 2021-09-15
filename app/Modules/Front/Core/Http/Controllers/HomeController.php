@@ -52,7 +52,7 @@ class HomeController extends Controller
                     // auto parfumes vol 8 ml
                     if ($value === $art.'-8' && (strpos($art,'A') !== false)) {
                         $productArt[] = [
-                            'img' => '/files/'.$product['img'],//$art.'.png', //
+                            'img' => '/files/'.$product['img'],//$art.'.jpg', //
                             'name' => str_replace('100ml','',$product['name']),
                             'bname' => $product['bname'],
                             'text' => $product['text'],
@@ -65,7 +65,7 @@ class HomeController extends Controller
                     // Antiseptics & Parfumes Antiseptics
                     elseif ($value === $art && (strpos($art,'AS') !== false)) {
                         $productArt[] = [
-                            'img' => '/files/'.$product['img'],//$art.'.png', //
+                            'img' => '/files/'.$product['img'],//$art.'.jpg', //
                             'name' => str_replace('100ml','',$product['name']),
                             'bname' => $product['bname'],
                             'text' => $product['text'],
@@ -76,7 +76,7 @@ class HomeController extends Controller
                         ];
                     } elseif ($value === $art && $volume === '30') {
                         $productArt[] = [
-                            'img' => '/files/plastic/'.$art.'.png',//$art.'.png',//$product['img'],
+                            'img' => '/files/plastic/'.$art.'.jpg',//$art.'.jpg',//$product['img'],
                             'name' => str_replace('100ml.','30ml',$product['name']),
                             'bname' => $product['bname'],
                             'text' => nl2br($product['text1']),//$product['text'],
@@ -89,7 +89,7 @@ class HomeController extends Controller
                         ];
                     } elseif ($value === $art && $volume === '50') {
                         $productArt[] = [
-                            'img' => '/files/glass/'.$art.'.png',//'after'.$art.'.jpg',//$product['img'],
+                            'img' => '/files/glass/'.$art.'.jpg',//'after'.$art.'.jpg',//$product['img'],
                             'name' => str_replace('100ml.','50ml',$product['name']),
                             'bname' => $product['bname'],
                             'text' => nl2br($product['text1']),//$product['text'],
@@ -101,7 +101,7 @@ class HomeController extends Controller
                         ];
                     } elseif ($value === $art && $volume === '100' && (strpos($art,'AS') !== true)) {
                         $productArt[] = [
-                            'img' => '/files/glass/'.$art.'.png',//'after'.$art.'.jpg',//$product['img'],
+                            'img' => '/files/glass/'.$art.'.jpg',//'after'.$art.'.jpg',//$product['img'],
                             'name' => $product['name'],
                             'bname' => $product['bname'],
                             'text' => nl2br($product['text1']),//$product['text'],
@@ -113,7 +113,7 @@ class HomeController extends Controller
                         ];
                     } elseif ($value === $art && $volume === '500') {
                         $productArt[] = [
-                            'img' =>  '/files/'.$art.'-500.png',//$product['img'],
+                            'img' =>  '/files/glass500/'.$art.'-500.png',//$product['img'],
                             'name' => str_replace('100ml.','500ml',$product['name']),
                             'bname' => $product['bname'],
                             'text' => nl2br($product['text1']),//$product['text'],
@@ -168,29 +168,12 @@ class HomeController extends Controller
 
     public function officesRu(Request $request)
     {
-        $sdek = new Sdek();
-
         $zip = trim($request->zip);
         $keyword = trim($request->keyword);
-        $offices = $sdek->getPostOffices($zip);
-        $rows = [];
 
-        foreach ($offices as $office) {
+        $rows = file_get_contents('http://crm.kleopatra0707.com/api/sdek/offices?zip=' . $zip .'&keyword=' . $keyword);
 
-            $pos = '';
-            $name = $name = iconv('UTF-8', 'windows-1251//IGNORE', $office['name']); //$office['name']; //
-            if (strpos($name, 'Постамат') !== false) {
-                $pos = ' (Постамат)';
-            }
-
-            if (($keyword and strpos(mb_strtolower($office['address_full'], 'UTF-8'), mb_strtolower($keyword, 'UTF-8')) !== false) or !$keyword) {
-                //print $office['code'] . ' - ' . iconv('UTF-8', 'windows-1251//IGNORE', str_replace(array('\'', '"'), '', $office['address_full'])) . ' (' . iconv('UTF-8', 'windows-1251//IGNORE', $office['postal_code']) . ')' . $pos . "\n";
-                $rows[] =  $office['code'] . ' - ' . str_replace(array('\'', '"'), '', $office['address_full']) . ' (' . $office['postal_code'] . ')' . $pos;
-            }
-
-        }
-
-        print json_encode($rows);
+        print $rows;
     }
 
     public function thanks(Request $request)
@@ -224,6 +207,7 @@ class HomeController extends Controller
         $message = '';
         $pay     = $request->pay;
         $kindpay = $request->kindpay;
+        $noCall  = $request->nocall;
 
         $kod = 0;
         $subDomain = '';
@@ -268,16 +252,22 @@ class HomeController extends Controller
         }
 
         if ($pay == 'Отделение' AND $kindpay == 2) {
-            $statuspackage = 1;
+            if ($noCall) {
+                $statuspackage = 1;
+                $status = 1;
+            }
+
             $statuscallid = 7;
-            $status = 1;
             $message .= 'Доставка Новая Почта. Оплата при получении.';
         }
 
         if ($pay == 'Курьером' AND $kindpay == 2) {
-            $statuspackage = 1;
+            if ($noCall) {
+                $statuspackage = 1;
+                $status = 1;
+            }
+
             $statuscallid = 9;
-            $status = 1;
             $message .= 'Адресная доставка курьером. Оплата при получении.';
         }
 
@@ -293,7 +283,7 @@ class HomeController extends Controller
         $currency = config('app.host') == 1 ? 'грн' : 'руб';
         foreach($baskets as $item) {
             $sum += $item['sale'];
-            $products .= $item['art'] . ' ' . $item['bname'] . ' (' . $item['name'] . ')' . ', ' . $item['sale'] . ' '.$currency.' ' . $item['qty'].' ед / ';
+            $products .= $item['art'] . ' ' . $item['bname'] . ' (' . $item['name'] . ')' . ', ' . $item['sale'] . ' ' . $currency . ' ' . $item['qty'].' ед / ';
         }
 
         $adv = 170;
@@ -476,7 +466,7 @@ class HomeController extends Controller
 
                 $output[] = [
                     'category' => $product['woman'] ? 5 : 6,
-                    'img' => '/files/glass300/' . $product['art100'] . '.jpg',//'after'.$product['art100'].'.jpg',// $product['img'],  // W065.png M006.png
+                    'img' => '/files/glass300/' . $product['art100'] . '.jpg',//'after'.$product['art100'].'.jpg',// $product['img'],  // W065.jpg M006.jpg
                     'name' => $product['name'],
                     'bname' => $product['bname'],
                     'price' => $price,
@@ -525,7 +515,7 @@ class HomeController extends Controller
 
                 $output[] = [
                     'category' => $product['woman500'] ? 7 : 8,
-                    'img'    => '/files/'.$product['art100'].'.png',
+                    'img'    => '/files/'.$product['art100'].'.jpg',
                     'name'   => $product['name'],
                     'bname'  => $product['bname'],
                     'price'  => $price,

@@ -439,20 +439,20 @@
 
                         <input  v-model="order.name" class="modal-order__input feedback__input" placeholder="Имя" name="name">
 
-                        <input v-if="order.nocall || order.kindpay == 1" v-model="order.lastname" class="modal-order__input feedback__input" placeholder="Фамилия" name="lastname">
+                        <input v-if="order.nocall" v-model="order.lastname" class="modal-order__input feedback__input" placeholder="Фамилия" name="lastname">
 
-                        <input v-if="order.nocall || order.kindpay == 1" v-model="order.prelastname" class="modal-order__input feedback__input" placeholder="Отчество" name="prelastname">
+                        <input v-if="order.nocall" v-model="order.prelastname" class="modal-order__input feedback__input" placeholder="Отчество" name="prelastname">
 
-                        <div v-if="!order.nocall && order.kindpay != 1" style="font-size:14px; line-height: 15px; margin-bottom:20px;"> <span style="color: red;">*</span> - обязательное поле только телефон</div>
+                        <div v-if="!order.nocall" style="font-size:14px; line-height: 15px; margin-bottom:20px;"> <span style="color: red;">*</span> - обязательное поле только телефон</div>
 
                         <!--<div v-if="order.lastname">-->
-                        <div v-if="order.nocall || order.kindpay == 1">
+                        <div v-if="order.nocall">
 
                             <!--<input type="tel" v-mask="'+38 (###) ###-##-##'" v-model="order.phone" class="modal-order__input feedback__input" placeholder="Ваш телефон" name="modal-order-phone">-->
 
                             <div class="vue-suggestion">
                                 <input
-                                    v-if="order.pay == 'Оплата онлайн' || order.pay == 'Отделение' || order.pay == 'Курьером'"
+                                    v-if="order.pay == 'Отделение' || order.pay == 'Курьером'"
                                     v-model="order.city"
                                     placeholder="Город или населенный пункт"
                                     name="city"
@@ -486,9 +486,6 @@
                                 </div>
                             </div>
 
-                            <input v-if="order.pay == 'Оплата онлайн'" v-model="order.office" class="modal-order__input feedback__input" placeholder="Отделение 'Новой Почты'" name="office">
-
-
                             <div class="vue-suggestion">
                                 <input
                                     v-if="order.pay == 'Курьером' && order.cityId"
@@ -513,14 +510,9 @@
 
                             <div style="color:red;" class="postindex-issue"></div>
 
-
                             <input v-if="order.pay == 'Курьером' && order.street" v-model="order.flat" class="modal-order__input feedback__input" placeholder="Квартира" name="flat">
 
                         </div>
-
-                        <!-- <textarea v-if="order.pay == 'Наложенный платеж'" v-model="order.comment" class="modal-order__textarea feedback__textarea" placeholder="Комментарии к заказу" name="modal-order-message"></textarea> -->
-
-                        <br/>
 
                         <div class="modal-order__confirm-box">
                             <!-- <div class="modal-order__text-small">

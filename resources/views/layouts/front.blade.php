@@ -21,6 +21,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="host" content="{{ env('APP_HOST') }}">
 
     <!-- Scripts... этот кусок (Scripts,Fonts, Styles) ставит лара, конфликтует с jquery-3.3.1 -->
     {{--<script src="{{ asset('js/app.js') }}" defer></script>--}}
@@ -69,14 +70,16 @@
             items: 1,
             loop: true,
             autoplay: true,
-            autoplayTimeout: 5000,
+            autoplayTimeout: 8000,
             smartSpeed: 1500,
+            dots: false,
             nav: true,
             navText: [
-                '<i class="fas fa-angle-left"></i>',
-                '<i class="fas fa-angle-right"></i>'
+                '<img src="/images/angle-left.png">',
+                '<img src="/images/angle-right.png">',
+                //'<i class="fas fa-angle-left fa-3x"></i>', '<i class="fas fa-angle-right fa-3x"></i>'
             ],
-            navContainer: '.owl-carousel .custom-nav',
+            navContainer: '.owl-carousel',
         });
     });
 </script>
