@@ -25,16 +25,16 @@
                             Доставка и оплата
                         </a>
                     </li> -->
-                    <li class="footer-menu__item">
+                    {{--<li class="footer-menu__item">
                         <a href="{{ route('front.policy') }}" class="footer-menu__link">
-                            Конфиденциальность
+                            {{ __('Конфиденциальность') }}
                         </a>
                     </li>
                     <li class="footer-menu__item">
                         <a href="{{ route('front.terms') }}" class="footer-menu__link">
-                            Условия использования
+                            {{ __('Условия использования') }}
                         </a>
-                    </li>
+                    </li>--}}
 
                 </ul>
             </div>
@@ -82,14 +82,14 @@
 
                 <div class="footer-socials">
                     <div class="footer-socials__col">
-                        <!-- <a target="_blank" href="https://www.facebook.com/PD-Paris-%D0%A3%D0%BA%D1%80%D0%B0%D0%B8%D0%BD%D0%B0-104450154563865/" class="footer-socials__icon footer-socials__icon--facebook">
+                        <a target="_blank" href="https://www.facebook.com/PD-Paris-%D0%A3%D0%BA%D1%80%D0%B0%D0%B8%D0%BD%D0%B0-104450154563865/" class="footer-socials__icon footer-socials__icon--facebook">
                             <img src="/images/svg/sprite.svg#facebook" alt="facebook">
-                        </a> -->
+                        </a>
                     </div>
                     <div class="footer-socials__col">
-                        <!-- <a target="_blank" href="https://twitter.com" class="footer-socials__icon footer-socials__icon--twitter">
+                        <a target="_blank" href="https://twitter.com" class="footer-socials__icon footer-socials__icon--twitter">
                             <img src="/images/svg/sprite.svg#twitter" alt="twitter">
-                        </a> -->
+                        </a>
                     </div>
                     <div target="_blank" class="footer-socials__col">
                         <a target="_blank" href="https://www.instagram.com/pd_paris/" class="footer-socials__icon footer-socials__icon--instagram">
@@ -98,21 +98,47 @@
                     </div>
                     <div >
                         <a target="_blank" href="/welcome"  class="btn-partners-program">
-                            <i class="fas fa-dollar-sign fa-2x" style="margin-right: 7px;"></i>Партнерская программа
+                            <i class="fas fa-dollar-sign fa-2x" style="margin-right: 7px;"></i>{{ __('Партнерская программа') }}
                         </a>
                     </div>
                     <div target="_blank" class="footer-socials__col">
-                        <!-- <a target="_blank" href="https://youtube.com" class="footer-socials__icon footer-socials__icon--youtube">
+                        <a target="_blank" href="https://www.youtube.com/watch?v=2BvWLy9ijtI&ab_channel=PdParis" class="footer-socials__icon footer-socials__icon--youtube">
                             <img src="/images/svg/sprite.svg#youtube" alt="youtube">
-                        </a> -->
+                        </a>
                     </div>
                     <div target="_blank" class="footer-socials__col">
-                        <!-- <a target="_blank" href="https://vk.com" class="footer-socials__icon footer-socials__icon--vk">
-                            <img src="/images/svg/sprite.svg#vk" alt="vk">
-                        </a> -->
+                        <a target="_blank" href="https://twitter.com" class="footer-socials__icon footer-socials__icon--twitter">
+                            <img src="/images/svg/sprite.svg#twitter" alt="twitter">
+                        </a>
                     </div>
                 </div>
             </div>
+
+            <div style="padding-bottom: 40px;">
+                <ul class="footer-menu__list">
+                    <!-- <li class="footer-menu__item">
+                        <a href="/contact.html" class="footer-menu__link">
+                            Контакты
+                        </a>
+                    </li> -->
+                    <!-- <li class="footer-menu__item">
+                        <a href="/delivery.html" class="footer-menu__link">
+                            Доставка и оплата
+                        </a>
+                    </li> -->
+                    <li class="footer-menu__item">
+                        <a href="{{ route('front.policy') }}" class="footer-menu__link" style="color: white">
+                            {{ __('Конфиденциальность') }}
+                        </a>
+                    </li>
+                    <li class="footer-menu__item">
+                        <a href="{{ route('front.terms') }}" class="footer-menu__link" style="color: white">
+                            {{ __('Условия использования') }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
         </div>
     </div>
 </section>
@@ -127,13 +153,13 @@
 
         <div class="modal-promocode__header">
             <div class="modal-promocode__title">
-                Ваша корзина
+                {{ __('Ваша корзина') }}
             </div>
         </div>
 
         <div v-if="basket.length === 0">
             <div class="modal-promocode__title">
-                Ваша корзина пуста
+                {{ __('Ваша корзина пуста') }}
             </div>
             <br/>
             <br/>
@@ -146,7 +172,8 @@
             <!-- </div> -->
             <div style="font-size:14px; border:2px solid rgb(133, 84, 160); padding:10px; margin: 10px 30px; text-align:center;">
                 <!--<p><strong>Акция!</strong><br/>Добавьте 4 парфюма в корзину и 1 из них будет в <strong>подарок</strong></p>-->
-                <p><strong>Акция!</strong><br/>Парфюм 30 мл в подарок при заказе от 600 {{ $valuta }}</p>
+                <p v-if="host === 1"><strong>{{ __('Акция!') }}</strong><br/>{{ __('Парфюм в подарок при заказе от') }} @{{ totalAction }} {{ $valuta }}</p>
+                <p v-if="host === 2"><strong>{{ __('Акция!') }}</strong><br/>{{ __('Парфюм в подарок при заказе от') }} @{{ totalActionRu }} {{ $valuta }}</p>
             </div>
 
             <div class="modal-promocode-table">
@@ -171,9 +198,7 @@
                 </div>
                 <div class="modal-promocode-table__content" style="max-height: 350px; overflow-y: scroll;">
 
-
                     <div v-cloak v-for="(product, index) in basketVisible" class="modal-promocode-table__row">
-
 
                         <!-- <div v-cloak v-for="(product, index) in basket" class="modal-promocode-table__row"> -->
                         <div class="modal-promocode-table__col-img">
@@ -184,7 +209,14 @@
                         <!-- <div class="modal-promocode-table__text-small">@{{ product.art }}</div> -->
                             <!--Дубль объема для мобильной версии-->
                             <div class="modal-promocode-table__mobile-volume">
-                                <span>@{{ product.volume }} </span> мл<br/>
+
+                                <select v-if="product.category < 7" style="padding:4px; font-size:13px; border:1px solid silver; background:#fff;" @change="changeBasketVolume(product)" v-model=product.volume>
+                                    <option value="30">30 мл</option>
+                                    <option value="50">50 мл</option>
+                                    <option value="100">100 мл</option>
+                                </select>
+
+                                <span v-if="product.category > 6">@{{ product.volume }} </span> мл<br/>
                                 <span>@{{ product.sale }} {{ $valuta }}</span>
                             </div>
                             <!--Дубль объема для мобильной версии конец-->
@@ -195,7 +227,14 @@
 
                         </div>
                         <div class="modal-promocode-table__col-volume">
-                            <span>@{{ product.volume }}</span> мл
+
+                            <select v-if="product.category < 7" style="padding:5px; font-size:18px; border:1px solid silver; background:#fff;" @change="changeBasketVolume(product)" v-model=product.volume>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+
+                            <span v-if="product.category > 6">@{{ product.volume }}</span> мл
                         </div>
 
                         <div class="modal-promocode-table__col-product">

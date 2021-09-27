@@ -24,14 +24,14 @@
                         <p style="text-align:center">
                             <!--МЫ ОЧЕНЬ ХОТИМ ПОЗНАКОМИТЬ ВАС С НАШЕЙ ПАРФЮМЕРИЕЙ, УВЕРЕНЫ – ВЫ В НЕЕ ВЛЮБИТЕСЬ, ПОЭТОМУ ДАЕМ ТАКУЮ СИМВОЛИЧЕСКУЮ ЦЕНУ!-->
                             <!--Вы получите максимально проработанные и усиленные версии самых популярных брендовых ароматов, всего по 179 грн за флакон! Созданы лучшими парфюмерами Франции.-->
-                            Познакомьтесь очень легко с мировыми парфюмерными шедеврами. Единая цена на все!
+                            {{ __('Познакомьтесь очень легко с мировыми парфюмерными шедеврами. Единая цена на все!') }}
                             <br/>
                             <!--Выберите <strong style="color:#fb200d;">3 любых</strong> пробника по&nbsp;2,5 мл -->
                             <!-- Мы используем <strong>только оригинальные</strong> компоненты для создания красивых, безопасных и гипоаллергенных ароматов. Наши аналоги - это уникальные формулы, которые максимально приближены к своим брендовым форматам, но незначительно отличается от них своеобразной изюминкой в аромате. -->
                         </p>
                         <div style="border:2px solid rgb(133, 84, 160); margin: 0 auto; max-width:580px; width:100%; text-align:center;">
-                            <div style="font-size:28px; font-weight:bold;">Акция</div>
-                            <p style="padding:0;">Добавьте 4 парфюма в корзину и 1 из них будет в <strong>подарок</strong></p>
+                            <div style="font-size:28px; font-weight:bold;">{{ __('Акция') }}</div>
+                            <p style="padding:0;">{{ __('Добавьте 4 парфюма в корзину и 1 из них будет в') }} <strong>{{ __('подарок') }}</strong></p>
                         </div>
                     </div>
 
@@ -44,14 +44,14 @@
             <div class="product__header" id="woman500">
                 <div class="wrapper sample-title">
                     <h2>
-                        Женские 500 мл&nbsp; &nbsp;
+                        {{ __('Женские 500 мл') }}&nbsp; &nbsp;
 
                         <a href="#man500" class="product-card__button sex_button">
-                            перейти к мужским
+                            {{ __('перейти к мужским') }}
                         </a>
                     </h2>
                     <br/>
-                    <div>Выберите <div class="basket-circle" style="position:relative; right:20px; margin: 0; right:0; top:7px; "><div class="horizontal-plus"></div><div class="vertical-plus"></div></div> свои парфюмы</div>
+                    <div>{{ __('Выберите') }} <div class="basket-circle" style="position:relative; right:20px; margin: 0; right:0; top:7px; "><div class="horizontal-plus"></div><div class="vertical-plus"></div></div> {{ __('свои парфюмы') }}</div>
                 </div>
             </div>
 
@@ -70,7 +70,7 @@
                         <div class="wrapper sample-title">
                             <h2>
                                 <a @click="showMore(7)" class="product-card__button">
-                                    <i class="fas fa-sync" style="margin-right: 10px;"></i> больше парфюмов
+                                    <i class="fas fa-sync" style="margin-right: 10px;"></i> {{ __('показать еще') }}
                                 </a>
                             </h2>
                         </div>
@@ -87,14 +87,14 @@
             <div class="product__header" id="man500">
                 <div class="wrapper sample-title">
                     <h2>
-                        Мужские 500мл&nbsp; &nbsp;
+                        {{ __('Мужские 500мл') }}&nbsp; &nbsp;
 
                         <a href="#woman500" class="product-card__button sex_button">
-                            перейти к женским 500мл
+                            {{ __('перейти к женским 500мл') }}
                         </a>
                     </h2>
                     <br/>
-                    <div>Выберите <div class="basket-circle" style="position:relative; right:20px; margin: 0; right:0; top:7px; "><div class="horizontal-plus"></div><div class="vertical-plus"></div></div> свои парфюмы</div>
+                    <div>{{ __('Выберите') }} <div class="basket-circle" style="position:relative; right:20px; margin: 0; right:0; top:7px; "><div class="horizontal-plus"></div><div class="vertical-plus"></div></div> {{ __('свои парфюмы') }}</div>
                 </div>
             </div>
 
@@ -113,7 +113,7 @@
                         <div class="wrapper sample-title">
                             <h2>
                                 <a @click="showMore(8)" class="product-card__button">
-                                    <i class="fas fa-sync" style="margin-right: 10px;"></i> больше парфюмов
+                                    <i class="fas fa-sync" style="margin-right: 10px;"></i> {{ __('показать еще') }}
                                 </a>
                             </h2>
                         </div>

@@ -4,14 +4,14 @@
     <div class="product__header" id="septics">
         <div class="wrapper sample-title">
             <h2 class="font-weight-400">
-                Антисептики&nbsp; &nbsp;
+                {{ __('Антисептики') }}&nbsp; &nbsp;
 
                 <a href="#auto" class="product-card__button sex_button">
-                    перейти к автопарфюмам
+                    {{ __('перейти к автопарфюмам') }}
                 </a>
             </h2>
             <br/>
-            <div>Выберите <div class="basket-circle" style="position:relative; right:20px; margin: 0; right:0; top:7px; "><div class="horizontal-plus"></div><div class="vertical-plus"></div></div> свои парфюмы</div>
+            <div>{{ __('Выберите') }} <div class="basket-circle" style="position:relative; right:20px; margin: 0; right:0; top:7px; "><div class="horizontal-plus"></div><div class="vertical-plus"></div></div> {{ __('свои парфюмы') }}</div>
         </div>
     </div>
 
@@ -32,7 +32,7 @@
                 <div class="wrapper sample-title">
                     <h2>
                         <a @click="showMore(9)" class="product-card__button our_green">
-                            <i class="fas fa-sync" style="margin-right: 10px;"></i> больше антисептиков
+                            <i class="fas fa-sync" style="margin-right: 10px;"></i> {{ __('показать еще') }}
                         </a>
                     </h2>
                 </div>

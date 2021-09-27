@@ -2,14 +2,20 @@
     <div class="wrapper">
         <div class="instagram-box__inner">
             <div class="instagram-box__header">
-                <div class="instagram-box__icon"></div>
+
                 <div class="instagram-box__title">
                     #PDPARIS
                 </div>
                 <div class="instagram-box__text">
                     <!--Следите за новинками в нашем Instagram-->
-                    Впечатления наших клиентов
+                    {{ __('Переходите в наш Instagram. Там отзывы наших клиентов, и много всего интересного!') }}
                 </div>
+                <div style="margin-top: 25px;">
+                    <a target="_blank"  href="https://www.instagram.com/pd_paris/" >
+                        <div class="instagram-box__icon"></div>
+                    </a>
+                </div>
+
             </div>
 
 
@@ -24,7 +30,7 @@
                 <img style="width:285px;" src="/images/instagram-9.jpg" alt="">
             </div>-->
 
-            <div class="instagram-box__slider">
+            {{--<div class="instagram-box__slider">
                 @php
                     $slides = [];
                     for ($i=1; $i<=352; $i++) {
@@ -39,7 +45,7 @@
                         <img style="padding: 0" src="/images/comments/{{ $slide }}" alt="фото отзыв {{ $index }}">
                     </div>
                 @endforeach
-            </div>
+            </div>--}}
 
 
             <!--<a target="_blank" href="https://www.instagram.com/pd_paris/" class="instagram-box__btn">

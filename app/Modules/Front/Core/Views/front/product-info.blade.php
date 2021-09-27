@@ -24,7 +24,7 @@
                     </div>
 
                     <div class="mob-center" @click="extendProductCart('{{$product['art']}}', $event)">
-                        <a href="#" class="product-card__button" style="text-decoration: none;padding: 8px 30px;">Добавить в корзину</a>
+                        <a href="#" class="product-card__button" style="text-decoration: none;padding: 8px 30px;">{{ __('Добавить в корзину') }}</a>
                     </div>
 
                     {{--<p class="mob-center" style="font-weight: bold;  margin-top: 25px;">
@@ -39,7 +39,7 @@
             </div>
 
             <div style="font-size: 20px; text-align: center; margin-top: 20px;">
-                <a href="{{ $product['link'] }}" >Вернуться в каталог</a>
+                <a href="{{ $product['link'] }}" >{{ __('Вернуться в каталог') }}</a>
             </div>
 
 

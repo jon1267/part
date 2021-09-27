@@ -70,7 +70,7 @@
             <a :href="['/product/'+product.slug+'_'+product.art+'.html']" >
 
                 <div class="product-card__description">
-                    Основные аккорды: <b>@{{ product.filter2 }}</b>
+                    {{ __('Основные аккорды:') }} <b>@{{ product.filter2 }}</b>
                 </div>
 
             </a>
@@ -87,7 +87,7 @@
             <!--<a class="card-link" href="/product/shanel_w068.html">Карточка товара</a>-->
             <a class="card-link"
                :href="['/product/'+product.slug+'_'+product.art+'.html']">
-                Карточка товара
+                {{ __('Карточка товара') }}
             </a>
         </div>
 
@@ -105,8 +105,8 @@
                 <div class="checkmark-kick"></div>
             </div>
 
-            <div v-if="hasInBasket(product.art)" class="added">Добавлено</div>
-            <div v-if=" ! hasInBasket(product.art)" class="add">Добавить</div>
+            <div v-if="hasInBasket(product.art)" class="added">{{ __('Добавлено') }}</div>
+            <div v-if=" ! hasInBasket(product.art)" class="add">{{ __('Добавить') }}</div>
         </div>
 
 

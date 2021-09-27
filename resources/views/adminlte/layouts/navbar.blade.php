@@ -11,18 +11,19 @@
         @if(auth()->user()->domain != '')
 
             <div class="row">
-                <div id="donesite" class="col-md-6 col-sm-10">
+                <!--<div id="donesite" class="col-md-6 col-sm-10">-->
+                <div id="donesite" class="col-sm-12">
                     <div class="input-group input-group-sm align-items-center pb-1">
                         <span class="mr-4">Ваш сайт</span>
                         <input class="form-control" style="text-align: center; font-size: 16px; " type="text" value="{{ auth()->user()->domain.'.pdparis.com' }}" readonly > <span class="m-2"></span>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-10">
+                {{--<div class="col-md-6 col-sm-10">
                     <div class="input-group input-group-sm align-items-center">
                         <span class="mr-2">Украшения</span>
                         <input class="form-control " style="font-size: 16px; " type="text" value="http://luxury-sets.com.ua/?p={{ auth()->user()->kod }}" readonly > <span class="m-2"></span>
                     </div>
-                </div>
+                </div>--}}
             </div>
         @endif
 

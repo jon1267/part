@@ -12,8 +12,13 @@
 <div class="navigation">
 
     <div>
-        <p>ГОРЯЧАЯ ЛИНИЯ</p>
-        <p>0 800 33 48 69</p>
+        <p>{{ __('ГОРЯЧАЯ ЛИНИЯ') }}</p>
+        @if(config('app.host') === '1')
+            <p><a href="tel:0800334869">0 800 33 48 69</a></p>
+        @elseif(config('app.host') === '2')
+            <p><a href="tel:74993411849">7 499 341 18 49</a></p>
+        @endif
+
     </div>
 
     <div style="position:absolute; right:10px; top:10px; cursor:pointer;">
@@ -25,27 +30,32 @@
     <ul style="margin-top: 15px;">
 
 
-        <li><a href="/#woman">Женская парфюмерия</a></li>
-        <li><a href="/#man">Мужская парфюмерия</a></li>
+        <li><a href="/#woman">{{ __('Женская парфюмерия') }}</a></li>
+        <li><a href="/#man">{{ __('Мужская парфюмерия') }}</a></li>
         <!--<li><a href="#">Унисекс парфюмерия</a></li>-->
-        <li v-if="countAuto > 0"><a href="/#auto">Автопарфюмы</a></li>
-        <li v-if="countSeptics > 0"><a href="/#septics">Антисептики</a></li>
+        <li v-if="countAuto > 0"><a href="/#auto">{{ __('Автопарфюмы') }}</a></li>
+        <li v-if="countSeptics > 0"><a href="/#septics">{{ __('Антисептики') }}</a></li>
 
     </ul>
 
     <ul style="margin-top: 15px;">
-        <li><a href="javascript:void(0)" @click="toggleFilter()">Фильтр по брендам</a></li>
-        <li v-if="showFilter"><a href="javascript:void(0)" @click="toggleFilter()">скрыть список</a></li>
+        <li>
+            <a href="javascript:void(0)" @click="toggleFilter()">{{ __('Фильтр по брендам') }}
+                <i v-if="showFilter" class="far fa-minus-square" style="color: #7e7e7e; margin-left: 7px;"></i>
+                <i v-else class="far fa-plus-square" style="color: #7e7e7e;  margin-left: 7px;"></i>
+            </a>
+        </li>
+        {{--<li v-if="showFilter"><a href="javascript:void(0)" @click="toggleFilter()">{{ __('скрыть список') }}</a></li>--}}
     </ul>
 
     <div v-if="showFilter">
 
         <div style="border-bottom: solid 1px #cccccc; margin-top: 20px; margin-bottom: 20px;"></div>
 
-        <p v-if="brandsSelected.length > 0"><strong>Выбрано @{{ brandsSelected.length }} бренд(ов)</strong></p>
+        <p v-if="brandsSelected.length > 0"><strong>{{ __('Выбрано') }} @{{ brandsSelected.length }} бренд(ов)</strong></p>
 
         <button v-if="brandsSelected.length > 0" @click="clearBrands()" class="product-card__button sex_button " style="font-size: 12px; padding: 8px 30px; margin-bottom: 10px;">
-            Сбросить фильтр
+            {{ __('Сбросить фильтр') }}
         </button>
 
         <div class="toggle-top-div-brands">
@@ -58,7 +68,7 @@
         </div>
 
         <button v-show="brandsPreSelected.length > 0" @click="filterBrands()" href="#" class="product-card__button sex_button" id="filter-brands-button" style="font-size: 12px; padding: 8px; position: absolute; width:100px; z-index:100; opacity:0.85;">
-            Фильтровать
+            {{ __('Фильтровать') }}
         </button>
 
     </div>
@@ -71,7 +81,7 @@
 
 
     <div class="left-panel" style="">
-        В корзине: @{{ basket.length }}
+        {{ __('В корзине:') }} @{{ basket.length }}
 
     </div>
 
@@ -81,7 +91,7 @@
     </div>
 
     <div v-if="basket.length > 0" @click="openBasket()" class="right-panel">
-        Продолжить
+        {{ __('Продолжить') }}
     </div>
 
 

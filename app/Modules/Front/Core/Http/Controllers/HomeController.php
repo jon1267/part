@@ -379,7 +379,8 @@ class HomeController extends Controller
                 $output[] = [
                     'category' => $product['woman'] ? 1 : 2,
                     'img' => '/files/plastic300/' . $product['art100'] . '.jpg',
-                    'name' => (strpos($product['name'], '100ml.') === false) ? $product['name'] . ' 30ml' : str_replace('100ml.', '30ml', $product['name']),
+                    //'name' => (strpos($product['name'], '100ml.') === false) ? $product['name'] . ' 30ml' : str_replace('100ml.', '30ml', $product['name']),
+                    'name' => (strpos($product['name'], '100ml.') === false) ? $product['name'] : str_replace('100ml.', '', $product['name']),
                     'bname' => $product['bname'],
                     'price' => $price,
                     'art' => $product['art100'] . '-30',// add Jon it need card info
@@ -423,7 +424,8 @@ class HomeController extends Controller
                 $output[] = [
                     'category' => $product['woman'] ? 3 : 4,
                     'img' => '/files/glass300/' . $product['art100'] . '.jpg',//'after'.$product['art100'].'.jpg',//$product['img'],
-                    'name' => (strpos($product['name'], '100ml.') === false) ? $product['name'] . ' 50ml' : str_replace('100ml.', '50ml', $product['name']),
+                    //'name' => (strpos($product['name'], '100ml.') === false) ? $product['name'] . ' 50ml' : str_replace('100ml.', '50ml', $product['name']),
+                    'name' => (strpos($product['name'], '100ml.') === false) ? $product['name'] : str_replace('100ml.', '', $product['name']),
                     'bname' => $product['bname'],
                     'price' => $price,
                     'art' => $product['art100'] . '-50',// add Jon it need card info
@@ -466,12 +468,13 @@ class HomeController extends Controller
 
                 $output[] = [
                     'category' => $product['woman'] ? 5 : 6,
-                    'img' => '/files/glass300/' . $product['art100'] . '.jpg',//'after'.$product['art100'].'.jpg',// $product['img'],  // W065.jpg M006.jpg
-                    'name' => $product['name'],
+                    'img' => '/files/glass300/' . $product['art100'] . '.jpg',
+                    //'name' => $product['name'],
+                    'name' => (strpos($product['name'], '100ml.') === false) ? $product['name'] : str_replace('100ml.', '', $product['name']),
                     'bname' => $product['bname'],
                     'price' => $price,
 
-                    'art' => $product['art100'] . '-100',
+                    'art' => $product['art100'],
 
                     'man' => $product['man'],
                     'woman' => $product['woman'],
