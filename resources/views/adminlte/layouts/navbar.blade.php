@@ -14,8 +14,8 @@
                 <!--<div id="donesite" class="col-md-6 col-sm-10">-->
                 <div id="donesite" class="col-sm-12">
                     <div class="input-group input-group-sm align-items-center pb-1">
-                        <span class="mr-4">Ваш сайт</span>
-                        <input class="form-control" style="text-align: center; font-size: 16px; " type="text" value="{{ auth()->user()->domain.'.pdparis.com' }}" readonly > <span class="m-2"></span>
+                        <span class="mr-3">Ваш сайт</span>
+                        <input id="done-site-input" class="form-control" style="text-align: center; font-size: 16px; " type="text" onclick="copyToClipboard()" value="{{ auth()->user()->domain.'.pdparis.com' }}" readonly >
                     </div>
                 </div>
                 {{--<div class="col-md-6 col-sm-10">
@@ -48,3 +48,14 @@
         </li>
     </ul>
 </nav>
+<script>
+    function copyToClipboard() {
+        let copyText = document.getElementById("done-site-input"); /* Get the text field */
+
+        copyText.select(); /* select the text field */
+        copyText.setSelectionRange(0, 99999); /* for mobile devices */
+
+        /* Copy the text inside the text field */
+        navigator.clipboard.writeText(copyText.value);
+    }
+</script>

@@ -61,7 +61,7 @@
         <div class="toggle-top-div-brands">
 
             <div v-for="(brand, index) in brands" class="dis-flex-align" style="margin-bottom:5px;">
-                <input @click="setPosition(index)" v-model="brandsPreSelected" class="toggle-top-check-box" type="checkbox" :id="['brand-'+index]" :value="brand">
+                <input @click="setPosition(index, brand)" v-model="brandsPreSelected" class="toggle-top-check-box" type="checkbox" :id="['brand-'+index]" :value="brand">
                 <label :for="['brand-'+index]">@{{ brand }}</label>
             </div>
 

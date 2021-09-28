@@ -478,14 +478,14 @@
 
                         <input  v-model="order.name" class="modal-order__input feedback__input" placeholder="Имя" name="name">
 
-                        <input v-if="order.nocall" v-model="order.lastname" class="modal-order__input feedback__input" placeholder="Фамилия" name="lastname">
+                        <input v-if="order.nocall || (order.kindpay == 1)" v-model="order.lastname" class="modal-order__input feedback__input" placeholder="Фамилия" name="lastname">
 
-                        <input v-if="order.nocall" v-model="order.prelastname" class="modal-order__input feedback__input" placeholder="Отчество" name="prelastname">
+                        <input v-if="order.nocall || (order.kindpay == 1)" v-model="order.prelastname" class="modal-order__input feedback__input" placeholder="Отчество" name="prelastname">
 
-                        <div v-if="!order.nocall" style="font-size:14px; line-height: 15px; margin-bottom:20px;"> <span style="color: red;">*</span> - обязательное поле только телефон</div>
+                        <div v-if="(!order.nocall) && (order.kindpay != 1)" style="font-size:14px; line-height: 15px; margin-bottom:20px;"> <span style="color: red;">*</span> - обязательное поле только телефон</div>
 
                         <!--<div v-if="order.lastname">-->
-                        <div v-if="order.nocall">
+                        <div v-if="order.nocall || (order.kindpay == 1)">
 
                             <!--<input type="tel" v-mask="'+38 (###) ###-##-##'" v-model="order.phone" class="modal-order__input feedback__input" placeholder="Ваш телефон" name="modal-order-phone">-->
 
