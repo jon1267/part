@@ -27,22 +27,29 @@
 
     <div style="border-bottom: solid 1px #cccccc; margin-top: 20px;"></div>
 
+    <div style="margin-top:20px; display: flex; align-items: center">
+        <span style="margin-right: 3px; white-space: nowrap;">{{__('Выберите язык:')}}</span>
+        <a href="{{ route('language.update', ['ru']) }}"><img style="height:20px; border:1px solid silver; padding:1px;" src="/images/ru_icon.png"></a> &nbsp;
+        <a href="{{ route('language.update', ['ua']) }}"><img style="height:20px; border:1px solid silver; padding:1px;" src="/images/ua_icon.png"></a>
+    </div>
+
+    <div style="border-bottom: solid 1px #cccccc; margin-top: 20px;"></div>
+
     <ul style="margin-top: 15px;">
-
-
-        <li><a href="/#woman">{{ __('Женская парфюмерия') }}</a></li>
-        <li><a href="/#man">{{ __('Мужская парфюмерия') }}</a></li>
+        <li><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}/#woman">{{ __('Женская парфюмерия') }}</a></li>
+        <li><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}/#man">{{ __('Мужская парфюмерия') }}</a></li>
         <!--<li><a href="#">Унисекс парфюмерия</a></li>-->
-        <li v-if="countAuto > 0"><a href="/#auto">{{ __('Автопарфюмы') }}</a></li>
-        <li v-if="countSeptics > 0"><a href="/#septics">{{ __('Антисептики') }}</a></li>
-
+        <li v-if="countAuto > 0"><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}/#auto">{{ __('Автопарфюмы') }}</a></li>
+        <li v-if="countSeptics > 0"><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}/#septics">{{ __('Антисептики') }}</a></li>
     </ul>
 
     <ul style="margin-top: 15px;">
         <li>
             <a href="javascript:void(0)" @click="toggleFilter()">{{ __('Фильтр по брендам') }}
-                <i v-if="showFilter" class="far fa-minus-square" style="color: #7e7e7e; margin-left: 7px;"></i>
-                <i v-else class="far fa-plus-square" style="color: #7e7e7e;  margin-left: 7px;"></i>
+                {{--<i v-if="showFilter" class="fas fa-minus" style="color: #7e7e7e; margin-left: 10px;"></i>
+                <i v-else class="fas fa-plus" style="color: #7e7e7e;  margin-left: 10px;"></i>--}}
+                <span v-if="showFilter" style="color: #7e7e7e; margin-left: 10px; font-size: 18px;">-</span>
+                <span v-else  style="color: #7e7e7e;  margin-left: 10px; font-size: 18px;">+</span>
             </a>
         </li>
         {{--<li v-if="showFilter"><a href="javascript:void(0)" @click="toggleFilter()">{{ __('скрыть список') }}</a></li>--}}
@@ -58,41 +65,36 @@
             {{ __('Сбросить фильтр') }}
         </button>
 
+        <!--<button v-if="brandsPreSelected.length > 0 && brandsSelected.length === 0" @click="filterBrands()" class="product-card__button sex_button " style="font-size: 12px; padding: 8px 30px; margin-bottom: 10px;">
+            {{ __('Фильтровать') }}
+        </button>-->
+
         <div class="toggle-top-div-brands">
 
-            <div v-for="(brand, index) in brands" class="dis-flex-align" style="margin-bottom:5px;">
+            <div v-for="(brand, index) in brands" class="dis-flex-align" :id="['wrap-brand-'+index]" style="margin-bottom:5px;">
                 <input @click="setPosition(index, brand)" v-model="brandsPreSelected" class="toggle-top-check-box" type="checkbox" :id="['brand-'+index]" :value="brand">
                 <label :for="['brand-'+index]">@{{ brand }}</label>
             </div>
 
         </div>
 
-        <button v-show="brandsPreSelected.length > 0" @click="filterBrands()" href="#" class="product-card__button sex_button" id="filter-brands-button" style="font-size: 12px; padding: 8px; position: absolute; width:100px; z-index:100; opacity:0.85;">
-            {{ __('Фильтровать') }}
-        </button>
-
     </div>
 
 </div>
 
+<button @click="filterBrands()" class="hide-button" id="filter-brands-button"></button>
 <div class="overlay-black"></div>
 
 <header @click="openBasket()" v-cloak v-if="basket.length > 0" class="header">
-
-
-    <div class="left-panel" style="">
+    <div v-cloak class="left-panel">
         {{ __('В корзине:') }} @{{ basket.length }}
-
     </div>
 
-
-    <div v-if="basket.length === 0" class="right-panel">
+    <div v-cloak v-if="basket.length === 0" class="right-panel">
         &nbsp;
     </div>
 
-    <div v-if="basket.length > 0" @click="openBasket()" class="right-panel">
+    <div v-cloak v-if="basket.length > 0" @click="openBasket()" class="right-panel">
         {{ __('Продолжить') }}
     </div>
-
-
 </header>

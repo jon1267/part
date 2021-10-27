@@ -86,11 +86,14 @@
                         </a>
                     </h2>
 
-                    <p v-cloak v-if="brandsSelected.length > 0"><br/>{{__('Выбранные бренды:')}} @{{ brandsSelected.join(', ') }}<br/></p>
+                    <p v-cloak v-if="brandsSelected.length > 0"><br/>{{__('Выбранные бренды:')}}
+                        <span v-for="brand in brandsSelected">@{{ brand }}
+                            <span @click="removeBrand(brand)" class="remove-brand">x</span>
+                        </span>
+                    </p>
 
-                    <a v-cloak v-if="brandsSelected.length > 0" @click="clearBrands()" class="product-card__button sex_button" style="width:200px; display:inline-block; line-height: 30px; font-size:12px;">
-                        {{__('показать все бренды')}}
-                    </a>
+                    <h2><a v-cloak v-if="brandsSelected.length > 0" @click="clearBrands()" class="product-card__button sex_button" style="margin-top:20px;">
+                        {{__('показать все бренды')}}</a></h2>
 
                     <br/>
 
@@ -109,26 +112,22 @@
                     </div>
 
 
-                    <div id="show-more-woman" class="product__header" style="padding: 15px 0 15px;">
-                        <div class="wrapper sample-title">
-                            <h2>
-                                <a @click="showMoreGroup('woman')" class="product-card__button our_green show-more-all" >
-                                    <i class="fas fa-sync" style="margin-right: 10px;"></i> {{__('показать еще')}}
-                                </a>
-
-                                {{--
-                                 <div style="height: 150px; background-image: linear-gradient(to top, rgba(230,230,230,1), rgba(230,230,230,0))"></div>
-                                 background-image: url({{ asset('/images/more-background.png') }})
-                                 linear-gradient(transparent, gray);
-                                 --}}
-
-                            </h2>
+                    <div v-if="brandsSelected.length === 0">
+                        <div id="show-more-woman" class="product__header" style="padding: 15px 0 15px;">
+                            <div class="wrapper sample-title">
+                                <h2>
+                                    <a @click="showMoreGroup('woman')" class="product-card__button our_green show-more-all" >
+                                        <i class="fas fa-sync" style="margin-right: 10px;"></i> {{__('показать еще')}}
+                                    </a>
+                                </h2>
+                            </div>
                         </div>
-                    </div>
 
-                    <div id="more-background-woman" style="height: 140px; overflow: hidden; position: relative; ">
-                        @include('front.more-background')
-                        <div style="z-index: 1300; position: absolute; top: 10px; left: 0; height: 130px; width: 100%; background: linear-gradient(transparent, white);"></div>
+                        <div id="more-background-woman" style="height: 140px; overflow: hidden; position: relative; ">
+                            @include('front.more-background')
+                            <div style="z-index: 1300; position: absolute; top: 10px; left: 0; height: 130px; width: 100%; background: linear-gradient(rgba(255,255,255,0), white);"></div>
+                            <!--<div style="z-index: 1300; position: absolute; top: 10px; left: 0;  height: 130px; width: 100%; background: url({{ asset('/images/gradient.png') }}) repeat-x;"> </div>-->
+                        </div>
                     </div>
 
                 </div>
@@ -147,11 +146,14 @@
                         </a>
                     </h2>
 
-                    <p v-cloak v-if="brandsSelected.length > 0"><br/>{{__('Выбранные бренды:')}} @{{ brandsSelected.join(', ') }}<br/></p>
+                    <p v-cloak v-if="brandsSelected.length > 0"><br/>{{__('Выбранные бренды:')}}
+                        <span v-for="brand in brandsSelected">@{{ brand }}
+                            <span @click="removeBrand(brand)" class="remove-brand">x</span>
+                        </span>
+                    </p>
 
-                    <a v-cloak v-if="brandsSelected.length > 0" @click="clearBrands()" class="product-card__button sex_button" style="width:200px; display:inline-block; line-height: 30px; font-size:12px;">
-                        {{__('показать все бренды')}}
-                    </a>
+                    <h2><a v-cloak v-if="brandsSelected.length > 0" @click="clearBrands()" class="product-card__button sex_button" style="margin-top:20px;">
+                            {{__('показать все бренды')}}</a></h2>
 
                     <br/>
 
@@ -170,19 +172,21 @@
                         </div>
                     </div>
 
-                    <div id="show-more-man" class="product__header" style="padding: 15px 0 15px;">
-                        <div class="wrapper sample-title">
-                            <h2>
-                                <a @click="showMoreGroup('man')" class="product-card__button our_green show-more-all" >
-                                    <i class="fas fa-sync" style="margin-right: 10px;"></i> {{__('показать еще')}}
-                                </a>
-
-                            </h2>
+                    <div v-if="brandsSelected.length === 0">
+                        <div id="show-more-man" class="product__header" style="padding: 15px 0 15px;">
+                            <div class="wrapper sample-title">
+                                <h2>
+                                    <a @click="showMoreGroup('man')" class="product-card__button our_green show-more-all" >
+                                        <i class="fas fa-sync" style="margin-right: 10px;"></i> {{__('показать еще')}}
+                                    </a>
+                                </h2>
+                            </div>
                         </div>
-                    </div>
-                    <div id="more-background-man" style="height: 140px; overflow: hidden; position: relative; ">
-                        @include('front.more-background')
-                        <div style="z-index: 1300; position: absolute; top: 10px; left: 0; height: 130px; width: 100%; background: linear-gradient(transparent, white);"></div>
+                        <div id="more-background-man" style="height: 140px; overflow: hidden; position: relative; ">
+                            @include('front.more-background')
+                            <div style="z-index: 1300; position: absolute; top: 10px; left: 0; height: 130px; width: 100%; background: linear-gradient(rgba(255,255,255,0), white);"></div>
+                            <!--<div style="z-index: 1300; position: absolute; top: 10px; left: 0;  height: 130px; width: 100%; background: url({{ asset('/images/gradient.png') }}) repeat-x;"> </div>-->
+                        </div>
                     </div>
 
 

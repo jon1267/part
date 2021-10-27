@@ -1,15 +1,3 @@
-<? if (strpos($_SERVER['REQUEST_URI'], 'compare.html') OR strpos($_SERVER['REQUEST_URI'], 'about.html')) { ?>
-<section class="comments">
-    <div class="wrapper">
-        <div class="comments__inner">
-            <div class="comments__content">
-                <div class="fb-comments" data-href="https://www.facebook.com/PD-Paris-%D0%A3%D0%BA%D1%80%D0%B0%D0%B8%D0%BD%D0%B0-104450154563865/" data-width="100%" data-numposts="5" data-order-by="reverse_time"></div>
-            </div>
-        </div>
-    </div>
-</section>
-<? } ?>
-
 <section id="footer" class="footer">
     <div class="footer-menu">
         <div class="wrapper">
@@ -43,37 +31,9 @@
     <div class="footer-info">
         <div class="wrapper">
             <div class="footer-info__inner">
-                <!--<div class="footer-info__button">
-                        горячая линия
-                    </div>
-                    <a href="tel:0800334869" class="footer-info__phone">
-                        0 800 33 48 69
-                    </a> -->
-                <div class="footer-info__time">
-                    <!--c <b>9:00</b> до <b>21:00</b> <span>• БЕСПЛАТНО ПО УКРАИНЕ</span>
-                        <br/>
-                        <br/> -->
-                    <?php
-                    // <div class="text-center">
-                    // 	<p><a href="mailto:support@pdparis-shop.com">support@pdparis-shop.com</a></p>
-                    // 	<p>ФОП "Успешный Игорь Олегович", ЕГРПОУ 3119020313</p>
-                    // 	<p>669006 г. Запорожье, ул. Добролюбова 12/29</p>
-                    // </div>
-                    ?>
-                </div>
+
+                <div class="footer-info__time"></div>
                 <div class="footer-description">
-                    <!-- <div class="footer-description__text">
-                        ПОДПИСКА НА СПЕЦИАЛЬНОЕ ПРЕДЛОЖЕНИЕ <b>PDPARIS</b>
-                    </div>
-                    <form class="footer-description__wrapper">
-                        <input v-model="email" name="subscribe" class="footer-description__input" placeholder="Введите Ваш е-мейл">
-                        <button @click="subscribe($event)" type="submit" class="footer-description__button"></button>
-                    </form> -->
-
-                    <br/>
-                    <br/>
-
-                    <!--<div class="footer-description__text" style="text-align:center;">ООО "ИЗИМАРКЕТ" ИНН 42026686<br/>ул Криворожская 24-А,кв142</div>-->
                     <div class="footer-description__text" style="text-align:center;">PdParis</div>
                 </div>
 
@@ -82,14 +42,10 @@
 
                 <div class="footer-socials">
                     <div class="footer-socials__col">
-                        <!-- <a target="_blank" href="https://www.facebook.com/PD-Paris-%D0%A3%D0%BA%D1%80%D0%B0%D0%B8%D0%BD%D0%B0-104450154563865/" class="footer-socials__icon footer-socials__icon--facebook">
-                            <img src="/images/svg/sprite.svg#facebook" alt="facebook">
-                        </a> -->
+
                     </div>
                     <div class="footer-socials__col">
-                        <!-- <a target="_blank" href="https://twitter.com" class="footer-socials__icon footer-socials__icon--twitter">
-                            <img src="/images/svg/sprite.svg#twitter" alt="twitter">
-                        </a> -->
+
                     </div>
                     <div target="_blank" class="footer-socials__col">
                         <a target="_blank" href="https://www.instagram.com/pd_paris/" class="footer-socials__icon footer-socials__icon--instagram">
@@ -102,14 +58,8 @@
                         </a>
                     </div>
                     <div target="_blank" class="footer-socials__col">
-                        <!-- <a target="_blank" href="https://youtube.com" class="footer-socials__icon footer-socials__icon--youtube">
-                            <img src="/images/svg/sprite.svg#youtube" alt="youtube">
-                        </a> -->
                     </div>
                     <div target="_blank" class="footer-socials__col">
-                        <!-- <a target="_blank" href="https://vk.com" class="footer-socials__icon footer-socials__icon--vk">
-                            <img src="/images/svg/sprite.svg#vk" alt="vk">
-                        </a> -->
                     </div>
                 </div>
             </div>
@@ -426,7 +376,7 @@
 
                         <div style="font-size:14px; line-height: 18px; margin-bottom:10px;">Введите ваши контактные данные: </div>
 
-                        <div style="display: flex; margin-bottom: 20px;">
+                        <div v-if="order.kindpay != 1" style="display: flex; margin-bottom: 20px;">
                             <input type="checkbox" v-model="order.nocall" id="nocall" name="nocall" style="height: 23px; width: 23px;">
                             <div class="modal-order__text">Мне не звонить</div>
                         </div>
@@ -437,13 +387,13 @@
 
                         <input v-model="order.name" class="modal-order__input feedback__input" placeholder="Имя" name="name">
 
-                        <input v-if="order.nocall" v-model="order.lastname" class="modal-order__input feedback__input" placeholder="Фамилия" name="lastname">
+                        <input v-if="order.nocall || (order.kindpay == 1)" v-model="order.lastname" class="modal-order__input feedback__input" placeholder="Фамилия" name="lastname">
 
-                        <input v-if="order.nocall" v-model="order.prelastname" class="modal-order__input feedback__input" placeholder="Отчество" name="prelastname">
+                        <input v-if="order.nocall || (order.kindpay == 1)" v-model="order.prelastname" class="modal-order__input feedback__input" placeholder="Отчество" name="prelastname">
 
                         <div v-if="!order.nocall && order.kindpay != 1" style="font-size:14px; line-height: 15px; margin-bottom:20px;"> <span style="color: red;">*</span> - обязательное поле только телефон</div>
 
-                        <div v-if="order.nocall">
+                        <div v-if="order.nocall || (order.kindpay == 1)">
 
                             <div class="vue-suggestion">
                                 <input

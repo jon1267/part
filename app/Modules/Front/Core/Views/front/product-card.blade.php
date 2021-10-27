@@ -1,40 +1,11 @@
 <div class="product-card">
-
-    <!--<div v-if="product.new == 1" class="product-card__label-new">
-        <span>
-            new
-        </span>
-    </div>
-    <div v-if="product.best == 1" class="product-card__label-bestseller">
-        BESTSELLER
-    </div>
-    <div v-if="product.hit == 1" class="product-card__label-niche">
-        niche
-    </div>-->
-
     <div class="product-card__volume" style="margin: 15px 0 0 20px;">@{{ product.volume }} мл</div>
-
-
     <div class="product-card__img">
-
         <div style="display: flex;">
-
-            <!--<div style="margin-top: 100px;">-->
-            <div v-if="product.arrow">
-                <button @click="prevProductInGroup(group)" class="product-card-arrow arrow-right"><i class="fas fa-chevron-left" style="color: #c2c2c2; z-index:100;"></i></button>
-            </div>
-
-            <a :href="['/product/'+product.slug+'_'+product.art+'.html']" >
+            <a :href="['{{ (app()->getLocale() === 'ua' ? '/ua' : '') }}/product/'+product.slug+'_'+product.art+'.html']" >
                 <img v-if="product.img" :src="[ product.img + '?2']" :alt="product.analog">
             </a>
-
-            <!--<div style="margin-top: 100px;">-->
-            <div v-if="product.arrow">
-                <button @click="nextProductInGroup(group)" class="product-card-arrow arrow-left"><i class="fas fa-chevron-right" style="color: #c2c2c2; z-index:100;"></i></button>
-            </div>
-
         </div>
-
     </div>
 
 
@@ -42,10 +13,10 @@
         <div class="product-card__info">
 
             <a :href="['/product/'+product.slug+'_'+product.art+'.html']" >
-
-                <strong>@{{ product.bname }}</strong><br/>
-                @{{ product.name }}
-
+                <div class="product-name">
+                    <strong>@{{ product.bname }}</strong><br/>
+                    @{{ product.name }}
+                </div>
             </a>
 
             <div class="product-card__number">
@@ -57,7 +28,7 @@
             </div>
 
 
-            <a :href="['/product/'+product.slug+'_'+product.art+'.html']" >
+            <a :href="['{{ (app()->getLocale() === 'ua' ? '/ua' : '') }}/product/'+product.slug+'_'+product.art+'.html']" >
                 <div class="product-card__price">
                     <div class="product-card__price-col active">
                         <span>@{{ product.price }}.<sup>00</sup></span>
@@ -66,13 +37,16 @@
                 </div>
             </a>
 
+            <div v-if="product.arrow">
+                <a @click="setVolumeCard(group, 30)"  class="vol-button" :class="[product.volume == 30 ? 'vol-active' : '']"> 30 мл </a>
+                <a @click="setVolumeCard(group, 50)"  class="vol-button" :class="[product.volume == 50 ? 'vol-active' : '']"> 50 мл </a>
+                <a @click="setVolumeCard(group, 100)" class="vol-button" :class="[product.volume == 100 ? 'vol-active' : '']"> 100 мл </a>
+            </div>
 
             <a :href="['/product/'+product.slug+'_'+product.art+'.html']" >
-
                 <div class="product-card__description">
                     {{ __('Основные аккорды:') }} <b>@{{ product.filter2 }}</b>
                 </div>
-
             </a>
 
         </div>
@@ -86,7 +60,7 @@
         <div class="card-button" style="margin-bottom: 10px;">
             <!--<a class="card-link" href="/product/shanel_w068.html">Карточка товара</a>-->
             <a class="card-link"
-               :href="['/product/'+product.slug+'_'+product.art+'.html']">
+               :href="['{{ (app()->getLocale() === 'ua' ? '/ua' : '') }}/product/'+product.slug+'_'+product.art+'.html']">
                 {{ __('Карточка товара') }}
             </a>
         </div>

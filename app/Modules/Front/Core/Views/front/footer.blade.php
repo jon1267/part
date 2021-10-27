@@ -1,41 +1,8 @@
-<? if (strpos($_SERVER['REQUEST_URI'], 'compare.html') OR strpos($_SERVER['REQUEST_URI'], 'about.html')) { ?>
-<section class="comments">
-    <div class="wrapper">
-        <div class="comments__inner">
-            <div class="comments__content">
-                <div class="fb-comments" data-href="https://www.facebook.com/PD-Paris-%D0%A3%D0%BA%D1%80%D0%B0%D0%B8%D0%BD%D0%B0-104450154563865/" data-width="100%" data-numposts="5" data-order-by="reverse_time"></div>
-            </div>
-        </div>
-    </div>
-</section>
-<? } ?>
-
 <section id="footer" class="footer">
     <div class="footer-menu">
         <div class="wrapper">
             <div class="footer-menu__inner">
                 <ul class="footer-menu__list">
-                    <!-- <li class="footer-menu__item">
-                        <a href="/contact.html" class="footer-menu__link">
-                            Контакты
-                        </a>
-                    </li> -->
-                    <!-- <li class="footer-menu__item">
-                        <a href="/delivery.html" class="footer-menu__link">
-                            Доставка и оплата
-                        </a>
-                    </li> -->
-                    {{--<li class="footer-menu__item">
-                        <a href="{{ route('front.policy') }}" class="footer-menu__link">
-                            {{ __('Конфиденциальность') }}
-                        </a>
-                    </li>
-                    <li class="footer-menu__item">
-                        <a href="{{ route('front.terms') }}" class="footer-menu__link">
-                            {{ __('Условия использования') }}
-                        </a>
-                    </li>--}}
-
                 </ul>
             </div>
         </div>
@@ -43,23 +10,23 @@
     <div class="footer-info">
         <div class="wrapper">
             <div class="footer-info__inner">
-                <!--<div class="footer-info__button">
-                        горячая линия
-                    </div>
-                    <a href="tel:0800334869" class="footer-info__phone">
-                        0 800 33 48 69
-                    </a> -->
+                <div class="footer-info__button">
+                    {{__('ГОРЯЧАЯ ЛИНИЯ')}}
+                </div>
+                <a href="tel:0800334869" class="footer-info__phone">
+                    0 800 33 48 69
+                </a>
                 <div class="footer-info__time">
+                    <img style="width:150px;" src="/images/pdparis-white-logo.png">
                     <!--c <b>9:00</b> до <b>21:00</b> <span>• БЕСПЛАТНО ПО УКРАИНЕ</span>
                         <br/>
                         <br/> -->
-                    <?php
-                    // <div class="text-center">
-                    // 	<p><a href="mailto:support@pdparis-shop.com">support@pdparis-shop.com</a></p>
-                    // 	<p>ФОП "Успешный Игорь Олегович", ЕГРПОУ 3119020313</p>
-                    // 	<p>669006 г. Запорожье, ул. Добролюбова 12/29</p>
-                    // </div>
-                    ?>
+                    <div class="text-center" style="margin-top: 15px;">
+                        <p><a href="mailto:info@pdparis.com">info@pdparis.com</a></p>
+                    <!--<p><a href="mailto:support@pdparis-shop.com">support@pdparis-shop.com</a></p>
+                     	<p>ФОП "Успешный Игорь Олегович", ЕГРПОУ 3119020313</p>
+                     	<p>669006 г. Запорожье, ул. Добролюбова 12/29</p>-->
+                    </div>
                 </div>
                 <div class="footer-description">
                     <!-- <div class="footer-description__text">
@@ -70,27 +37,13 @@
                         <button @click="subscribe($event)" type="submit" class="footer-description__button"></button>
                     </form> -->
 
-                    <br/>
-                    <br/>
+                    <!--<br/>-->
 
                     <!--<div class="footer-description__text" style="text-align:center;">ООО "ИЗИМАРКЕТ" ИНН 42026686<br/>ул Криворожская 24-А,кв142</div>-->
-                    <div class="footer-description__text" style="text-align:center;">PdParis</div>
+                    <!--<div class="footer-description__text" style="text-align:center;">PdParis</div>-->
                 </div>
 
-
-
-
                 <div class="footer-socials">
-                    <div class="footer-socials__col">
-                        <a target="_blank" href="https://www.facebook.com/PD-Paris-%D0%A3%D0%BA%D1%80%D0%B0%D0%B8%D0%BD%D0%B0-104450154563865/" class="footer-socials__icon footer-socials__icon--facebook">
-                            <img src="/images/svg/sprite.svg#facebook" alt="facebook">
-                        </a>
-                    </div>
-                    <div class="footer-socials__col">
-                        <a target="_blank" href="https://twitter.com" class="footer-socials__icon footer-socials__icon--twitter">
-                            <img src="/images/svg/sprite.svg#twitter" alt="twitter">
-                        </a>
-                    </div>
                     <div target="_blank" class="footer-socials__col">
                         <a target="_blank" href="https://www.instagram.com/pd_paris/" class="footer-socials__icon footer-socials__icon--instagram">
                             <img src="/images/svg/sprite.svg#instagram-white" alt="instagram">
@@ -98,7 +51,7 @@
                     </div>
                     <div >
                         <a target="_blank" href="/welcome"  class="btn-partners-program">
-                            <i class="fas fa-dollar-sign fa-2x" style="margin-right: 7px;"></i>{{ __('Партнерская программа') }}
+                            <i class="fas fa-dollar-sign fa-2x" style="margin: 0 12px 0 7px;"></i>{{ __('Партнерская программа') }}
                         </a>
                     </div>
                     <div target="_blank" class="footer-socials__col">
@@ -106,33 +59,18 @@
                             <img src="/images/svg/sprite.svg#youtube" alt="youtube">
                         </a>
                     </div>
-                    <div target="_blank" class="footer-socials__col">
-                        <a target="_blank" href="https://twitter.com" class="footer-socials__icon footer-socials__icon--twitter">
-                            <img src="/images/svg/sprite.svg#twitter" alt="twitter">
-                        </a>
-                    </div>
                 </div>
             </div>
 
             <div style="padding-bottom: 40px;">
                 <ul class="footer-menu__list">
-                    <!-- <li class="footer-menu__item">
-                        <a href="/contact.html" class="footer-menu__link">
-                            Контакты
-                        </a>
-                    </li> -->
-                    <!-- <li class="footer-menu__item">
-                        <a href="/delivery.html" class="footer-menu__link">
-                            Доставка и оплата
-                        </a>
-                    </li> -->
                     <li class="footer-menu__item">
-                        <a href="{{ route('front.policy') }}" class="footer-menu__link" style="color: white">
+                        <a href="{{ app()->getLocale() === 'ua' ? route('ua.front.policy') : route('front.policy') }}" class="footer-menu__link" style="color: white">
                             {{ __('Конфиденциальность') }}
                         </a>
                     </li>
                     <li class="footer-menu__item">
-                        <a href="{{ route('front.terms') }}" class="footer-menu__link" style="color: white">
+                        <a href="{{ app()->getLocale() === 'ua' ? route('ua.front.terms') : route('front.terms') }}" class="footer-menu__link" style="color: white">
                             {{ __('Условия использования') }}
                         </a>
                     </li>
@@ -165,13 +103,7 @@
             <br/>
         </div>
         <div v-else>
-            <!-- <div class="modal-promocode__stock"> -->
-            <!-- <div class="modal-promocode__stock-title">
-                Минимальный заказ 3 пробника
-            </div> -->
-            <!-- </div> -->
             <div style="font-size:14px; border:2px solid rgb(133, 84, 160); padding:10px; margin: 10px 30px; text-align:center;">
-                <!--<p><strong>Акция!</strong><br/>Добавьте 4 парфюма в корзину и 1 из них будет в <strong>подарок</strong></p>-->
                 <p v-if="host === 1"><strong>{{ __('Акция!') }}</strong><br/>{{ __('Парфюм в подарок при заказе от') }} @{{ totalAction }} {{ $valuta }}</p>
                 <p v-if="host === 2"><strong>{{ __('Акция!') }}</strong><br/>{{ __('Парфюм в подарок при заказе от') }} @{{ totalActionRu }} {{ $valuta }}</p>
             </div>
@@ -183,16 +115,16 @@
                         товар
                     </div>
                     <div class="modal-promocode-table__col-price">
-                        цена
+                        {{__('цена')}}
                     </div>
                     <div class="modal-promocode-table__col-volume">
-                        объем
+                        {{__('объем')}}
                     </div>
                     <div class="modal-promocode-table__col-volume">
-                        кол-во
+                        {{__('кол-во')}}
                     </div>
                     <div class="modal-promocode-table__col-amount">
-                        сумма
+                        {{__('сумма')}}
                     </div>
                     <div class="modal-promocode-table__col-close"></div>
                 </div>
@@ -271,7 +203,7 @@
                     <!--Строки для мобильной версии-->
                     <div class="modal-promocode-table__total-row-mobile">
                         <div class="modal-promocode-table__text-mobile">
-                            Товаров на сумму:
+                            {{__('Товаров на сумму:')}}
                         </div>
                         <div class="modal-promocode-table__text-mobile">
                             @{{ total }} {{ $valuta }}
@@ -289,7 +221,7 @@
 
                     <div class="modal-promocode-table__total-row">
                         <div class="modal-promocode-table__total-text">
-                            ИТОГО:
+                            {{__('ИТОГО:')}}
                         </div>
                         <div class="modal-promocode-table__total-text-big">
                         <!--@{{ total }} грн.-->
@@ -308,7 +240,7 @@
                 <div class="modal-promocode-table__footer">
                     <div class="modal-promocode-table__footer-col-link">
                         <a @click="closeBasket()" href="javascript:void(0)" class="modal-promocode-table__footer-link">
-                            Вернуться к выбору
+                            {{__('Вернуться к выбору')}}
                         </a>
                     </div>
 
@@ -321,7 +253,7 @@
                         </button> -->
 
                         <button @click="checkout()"  class="modal-promocode-table__btn">
-                            Перейти к оформлению
+                            {{__('Перейти к оформлению')}}
                         </button>
                     </div>
                 </div>
@@ -338,7 +270,7 @@
         <div class="modal-order__inner">
             <div class="modal-order__header">
                 <h1>
-                    Оформление заказа
+                    {{ __('Оформление заказа') }}
                 </h1>
             </div>
 
@@ -360,20 +292,20 @@
                                     <br/>
                                 </center>
 
-                                <div style="font-size:14px; line-height: 18px; margin-bottom:10px;"><span style="margin-right: 7px;">Шаг 1 :</span> Выберите способ оплаты</div>
+                                <div style="font-size:14px; line-height: 18px; margin-bottom:10px;"><span style="margin-right: 7px;">{{__('Шаг 1')}} :</span> {{__('Выберите способ оплаты')}}</div>
 
                                 <label v-if="order.kindpay != 2" class="modal-order__radiobutton">
                                     <input @click="clearIssue()" v-model="order.kindpay" class="modal-order__radiobutton-input" type="radio" name="kindpay" value="1" selected>
                                     <div class="modal-order__box"></div>
                                     <div class="modal-order__text">
-                                        <b>Оплата онлайн</b> &nbsp;
+                                        <b>{{__('Оплата онлайн')}}</b> &nbsp;
 
-                                        <div style="font-size:9px; text-transform:uppercase; border:1px solid #5676d5; padding:3px 5px; padding-bottom:1px; border-radius:10px; display:inline-block; color:#5676d5; font-weight:bold;">Выбор клиентов</div>
+                                        <div style="font-size:9px; text-transform:uppercase; border:1px solid #5676d5; padding:3px 5px; padding-bottom:1px; border-radius:10px; display:inline-block; color:#5676d5; font-weight:bold;">{{__('Выбор клиентов')}}</div>
                                         <br/>
 
 
                                         <!--<div v-if="!order.kindpay">Выберите этот способ оплаты, и сэкономьте <span style="color:green; font-weight:bold;">40 грн.</span> <span style="font-weight:bold;">на каждом</span> флаконе. Ваша цена <span style="color:green; font-weight:bold;">139 грн</span> за флакон.</div>-->
-                                        <div v-if="!order.kindpay">Выберите этот способ оплаты, и получите <span style="color:green; font-weight:bold;">10% скидку </span> на весь заказ <span style="font-weight:bold;">дополнительно.</span> </div>
+                                        <div v-if="!order.kindpay">{{__('Выберите этот способ оплаты, и получите')}} <span style="color:green; font-weight:bold;">10% {{__('скидку')}} </span> {{__('на весь заказ')}} <span style="font-weight:bold;">{{__('дополнительно.')}}</span> </div>
 
                                     </div>
                                 </label>
@@ -382,8 +314,8 @@
                                     <input @click="clearIssue()" v-model="order.kindpay" class="modal-order__radiobutton-input" type="radio" name="kindpay" value="2">
                                     <div class="modal-order__box"></div>
                                     <div class="modal-order__text">
-                                        <b>Оплата при получении</b><br/>
-                                        <div>При выборе этого способа доставки, Вы получаете стандартную цену.</div>
+                                        <b>{{__('Оплата при получении')}}</b><br/>
+                                        <div>{{__('При выборе этого способа доставки, Вы получаете стандартную цену.')}}</div>
                                     </div>
                                 </label>
 
@@ -392,7 +324,7 @@
                                     @click="clearKindPay();"
                                     href="javascript:void(0)"
                                     style="font-size:13px; text-decoration: underline; color:#333; padding:0px 35px;">
-                                    Изменить выбор
+                                    {{__('Изменить выбор')}}
                                 </a>
 
                                 <!--<div
@@ -405,21 +337,21 @@
                                 <div v-if="order.kindpay">
 
                                     <div v-if="order.kindpay == 1" style="font-size:14px; line-height: 18px; border: 2px solid rgb(133 84 160); margin-bottom:20px; margin-top:40px; padding: 10px; color:black;">
-                                        Выбрана онлайн оплата. Ваша экономия = <span style="color:green; font-weight:bold;">@{{ totalEconomy }} грн.</span>
+                                        {{__('Выбрана онлайн оплата. Ваша экономия')}} = <span style="color:green; font-weight:bold;">@{{ totalEconomy }} грн.</span>
                                     </div>
 
                                     <div style="border-bottom: solid 1px #e6e6e6; width: 100%; margin-bottom: 20px; margin-top:20px;"></div>
 
-                                    <div style="font-size:14px; line-height: 18px; margin-bottom:10px;"><span style="margin-right: 7px;">Шаг 2 :</span> Выберите способ доставки</div>
+                                    <div style="font-size:14px; line-height: 18px; margin-bottom:10px;"><span style="margin-right: 7px;">{{__('Шаг 2')}} :</span> {{__('Выберите способ доставки')}}</div>
 
                                     <label v-if="order.pay != 'Курьером'" class="modal-order__radiobutton">
                                         <input @click="clearIssue(); setStep(2)" v-model="order.pay" class="modal-order__radiobutton-input" type="radio" name="modal-order-payment" value="Отделение" selected>
                                         <div class="modal-order__box"></div>
                                         <div class="modal-order__text">
-                                            <b>На отделение </b><br/>
-                                            Доставка на отделение Новая Почта в Вашем населенном пункте.
-                                            <div v-if="order.kindpay == 1"><strong>Стоимость доставки: 40 грн</strong></div>
-                                            <div v-if="order.kindpay == 2"><strong>Стоимость доставки: 60 грн</strong></div>
+                                            <b>{{__('На отделение')}} </b><br/>
+                                            {{__('Доставка на отделение Новая Почта в Вашем населенном пункте.')}}
+                                            <div v-if="order.kindpay == 1"><strong>{{__('Стоимость доставки:')}} 40 грн</strong></div>
+                                            <div v-if="order.kindpay == 2"><strong>{{__('Стоимость доставки:')}} 60 грн</strong></div>
                                         </div>
                                     </label>
 
@@ -427,15 +359,15 @@
                                         <input @click="clearIssue(); setStep(2)" v-model="order.pay" class="modal-order__radiobutton-input" type="radio" name="modal-order-payment" value="Курьером">
                                         <div class="modal-order__box"></div>
                                         <div class="modal-order__text">
-                                            <b>Курьером</b><br/>
-                                            Адресная доставка курьером Новая Почта
-                                            <div v-if="order.kindpay == 1"><strong>Стоимость доставки: 60 грн</strong></div>
-                                            <div v-if="order.kindpay == 2"><strong>Стоимость доставки: 80 грн</strong></div>
+                                            <b>{{__('Курьером')}}</b><br/>
+                                            {{__('Адресная доставка курьером Новая Почта')}}
+                                            <div v-if="order.kindpay == 1"><strong>{{__('Стоимость доставки:')}} 60 грн</strong></div>
+                                            <div v-if="order.kindpay == 2"><strong>{{__('Стоимость доставки:')}} 80 грн</strong></div>
                                         </div>
                                     </label>
 
                                     <a v-if="order.pay" @click="clearPay();" href="javascript:void(0)"  style="font-size:13px; text-decoration: underline; color:#333; padding:0px 35px; ">
-                                        Изменить выбор
+                                        {{__('Изменить выбор')}}
                                     </a>
 
                                 </div>
@@ -445,7 +377,7 @@
 
                                 <div class="modal-order__confirm-box">
                                     <button v-if="order.pay && order.kindpay && step == 1" @click="step = 2" type="submit" class="modal-order__btn feedback__btn">
-                                        Далее
+                                        {{__('Далее')}}
                                     </button>
                                 </div>
 
@@ -460,16 +392,16 @@
                         <br/>
 
                         <a @click="step = 1" href="javascript:void(0)"  style="font-size:15px; text-decoration: underline; color:#333;">
-                            <center>Изменить способ доставки</center>
+                            <center>{{__('Изменить способ доставки')}}</center>
                         </a>
 
                         <br/>
 
-                        <div style="font-size:14px; line-height: 18px; margin-bottom:10px;">Введите ваши контактные данные: </div>
+                        <div style="font-size:14px; line-height: 18px; margin-bottom:10px;">{{__('Введите ваши контактные данные:')}} </div>
 
                         <div v-if="order.kindpay != 1" style="display: flex; margin-bottom: 20px;">
                             <input type="checkbox" v-model="order.nocall" id="nocall" name="nocall" style="height: 23px; width: 23px;">
-                            <div class="modal-order__text">Мне не звонить</div>
+                            <div class="modal-order__text">{{__('Мне не звонить')}}</div>
                         </div>
 
                         <input type="tel" v-mask="'+38 (###) ###-##-##'" v-model="order.phone" class="modal-order__input feedback__input" placeholder="Ваш телефон" name="modal-order-phone">
@@ -521,7 +453,7 @@
                                 </div>
 
                                 <div v-if="offices.length == 0 && order.cityId && order.pay == 'Отделение'" class="vs__list">
-                                    <div class="vs__list-item">Нет отделений</div>
+                                    <div class="vs__list-item">{{__('Нет отделений')}}</div>
                                 </div>
                             </div>
 

@@ -26,24 +26,28 @@ class HomeController extends Controller
 
     public function policy()
     {
-        return view('front.policy');
+        $policy = app()->getLocale() === "ua" ? 'front.policy_ua' : 'front.policy';
+        return view($policy);
     }
 
     public function terms()
     {
-        return view('front.terms');
+        $terms = app()->getLocale() === "ua" ? 'front.terms_ua' : 'front.terms';
+        return view($terms);
     }
 
     public function productArt($art)
     {
-        $art = str_replace(['.html', '.htm'], ['',''], ucfirst($art)); // отрезали .html или .htm
-        $art = str_replace('_','', strstr($art, '_')); // получили стр.типа W052-100, M017-500, AW015-8, PAS003-50
-        $art_vol = explode('-', $art); // получаем $art && $volume
+        $art = str_replace(['.html', '.htm'], ['',''], ucfirst($art));
+        $art = str_replace('_','', strstr($art, '_'));
+        $art_vol = explode('-', $art);
         $art = $art_vol[0];
-        $volume = $art_vol[1];
+        $volume = $art_vol[1] ?? '100';
 
-        $productArt=[];
-        $products = json_decode(file_get_contents('https://parfumdeparis.biz/page/json_tap'), true);
+        $productArt = [];
+        $products = json_decode(file_get_contents('https://parfumdeparis.biz/page/json_tap_text'), true);
+        $ua = app()->getLocale() === 'ua';
+        $uaPrefix = app()->getLocale() === 'ua' ? '/ua' : '/';
 
         if (count($products)) {
             foreach ($products as $product) {
@@ -52,14 +56,14 @@ class HomeController extends Controller
                     // auto parfumes vol 8 ml
                     if ($value === $art.'-8' && (strpos($art,'A') !== false)) {
                         $productArt[] = [
-                            'img' => '/files/'.$product['img'],//$art.'.jpg', //
+                            'img' => '/files/'.$product['img'],
                             'name' => str_replace('100ml','',$product['name']),
                             'bname' => $product['bname'],
-                            'text' => $product['text'],
+                            'text' => $ua ? $product['text_ua'] : $product['text'],
                             'price' => $product['price100'] ?? 390,
                             'id' => $product['id'],
                             'art' => $art.'-'.$volume,
-                            'link' => '/#auto',
+                            'link' => $uaPrefix . '#auto',
                         ];
                     }
                     // Antiseptics & Parfumes Antiseptics
@@ -68,60 +72,60 @@ class HomeController extends Controller
                             'img' => '/files/'.$product['img'],//$art.'.jpg', //
                             'name' => str_replace('100ml','',$product['name']),
                             'bname' => $product['bname'],
-                            'text' => $product['text'],
+                            'text' => $ua ? $product['text_ua'] : $product['text'],
                             'price' => $product['price100'] ?? 390,
                             'id' => $product['id'],
                             'art' => $art.'-'.$volume,
-                            'link' => '/#septics',
+                            'link' => $uaPrefix . '#septics',
                         ];
                     } elseif ($value === $art && $volume === '30') {
                         $productArt[] = [
                             'img' => '/files/plastic/'.$art.'.jpg',//$art.'.jpg',//$product['img'],
                             'name' => str_replace('100ml.','30ml',$product['name']),
                             'bname' => $product['bname'],
-                            'text' => nl2br($product['text1']),//$product['text'],
+                            'text' => $ua ? nl2br($product['text1_ua']) : nl2br($product['text1']),
                             'price' => 179,//$product['price25'] ??
                             'id' => $product['id'],
                             'volume' => $volume,
                             'art' => $art.'-'.$volume,
-                            'link' => substr($art, 0, 1) === 'W' ? '/#woman' : '/#man',
+                            'link' => $uaPrefix . (substr($art, 0, 1) === 'W' ? '#woman' : '#man'),
 
                         ];
                     } elseif ($value === $art && $volume === '50') {
                         $productArt[] = [
-                            'img' => '/files/glass/'.$art.'.jpg',//'after'.$art.'.jpg',//$product['img'],
+                            'img' => config('app.host') == 1 ? '/files/glass-50-1000/'.$art.'.jpg' : '/files/glass/'.$art.'.jpg',
                             'name' => str_replace('100ml.','50ml',$product['name']),
                             'bname' => $product['bname'],
-                            'text' => nl2br($product['text1']),//$product['text'],
+                            'text' => $ua ? nl2br($product['text1_ua']) : nl2br($product['text1']),
                             'price' => $product['price50'] ?? 290,
                             'id' => $product['id'],
                             'volume' => $volume,
                             'art' => $art.'-'.$volume,
-                            'link' => substr($art, 0, 1) === 'W' ? '/#woman50' : '/#man50',
+                            'link' => $uaPrefix . (substr($art, 0, 1) === 'W' ? '#woman50' : '#man50'),
                         ];
                     } elseif ($value === $art && $volume === '100' && (strpos($art,'AS') !== true)) {
                         $productArt[] = [
-                            'img' => '/files/glass/'.$art.'.jpg',//'after'.$art.'.jpg',//$product['img'],
+                            'img' => config('app.host') == 1 ? '/files/glass-100-1000/'.$art.'.jpg' : '/files/glass/'.$art.'.jpg',
                             'name' => $product['name'],
                             'bname' => $product['bname'],
-                            'text' => nl2br($product['text1']),//$product['text'],
+                            'text' => $ua ? nl2br($product['text1_ua']) : nl2br($product['text1']),
                             'price' => $product['price100'] ?? 390,
                             'id' => $product['id'],
                             'volume' => $volume,
-                            'art' => $art.'-'.$volume,
-                            'link' => substr($art, 0, 1) === 'W' ? '/#woman100' : '/#man100',
+                            'art' => $art,
+                            'link' => $uaPrefix . (substr($art, 0, 1) === 'W' ? '#woman100' : '#man100'),
                         ];
                     } elseif ($value === $art && $volume === '500') {
                         $productArt[] = [
-                            'img' =>  '/files/glass500/'.$art.'-500.png',//$product['img'],
+                            'img' =>  '/files/glass500/'.$art.'-500.png',
                             'name' => str_replace('100ml.','500ml',$product['name']),
                             'bname' => $product['bname'],
-                            'text' => nl2br($product['text1']),//$product['text'],
-                            'price' => 1390, // $product['price100'],
+                            'text' => $ua ? nl2br($product['text1_ua']) : nl2br($product['text1']),
+                            'price' => 1390,
                             'id' => $product['id'],
                             'volume' => $volume,
                             'art' => $art.'-'.$volume,
-                            'link' => substr($art, 0, 1) === 'W' ? '/#woman500' : '/#man500',
+                            'link' => $uaPrefix . (substr($art, 0, 1) === 'W' ? '#woman500' : '#man500'),
                         ];
                     }
 
@@ -423,20 +427,19 @@ class HomeController extends Controller
 
                 $output[] = [
                     'category' => $product['woman'] ? 3 : 4,
-                    'img' => '/files/glass300/' . $product['art100'] . '.jpg',//'after'.$product['art100'].'.jpg',//$product['img'],
-                    //'name' => (strpos($product['name'], '100ml.') === false) ? $product['name'] . ' 50ml' : str_replace('100ml.', '50ml', $product['name']),
-                    'name' => (strpos($product['name'], '100ml.') === false) ? $product['name'] : str_replace('100ml.', '', $product['name']),
-                    'bname' => $product['bname'],
-                    'price' => $price,
-                    'art' => $product['art100'] . '-50',// add Jon it need card info
-                    'man' => $product['man'],
-                    'woman' => $product['woman'],
-                    'volume' => 50,
-                    'filter2' => $product['filters'],
-                    'show' => ($counts[$category] <= 12) ? 1 : 0,
-                    'slug' => preg_replace('/[^A-Za-z0-9-]+/', '-', trim(strtolower($product['bname'])) . '-' . trim(strtolower($product['name']))),
-                    'new' => $product['new'],
-                    'hit' => $product['hit'],
+                    'img'      => config('app.host') == 1 ? '/files/glass-50-350/' . $product['art100'] . '.jpg' : '/files/glass300/' . $product['art100'] . '.jpg',
+                    'name'     => (strpos($product['name'], '100ml.') === false) ? $product['name'] : str_replace('100ml.', '', $product['name']),
+                    'bname'    => $product['bname'],
+                    'price'    => $price,
+                    'art'      => $product['art100'] . '-50',// add Jon it need card info
+                    'man'      => $product['man'],
+                    'woman'    => $product['woman'],
+                    'volume'   => 50,
+                    'filter2'  => $product['filters'],
+                    'show'     => ($counts[$category] <= 12) ? 1 : 0,
+                    'slug'     => preg_replace('/[^A-Za-z0-9-]+/', '-', trim(strtolower($product['bname'])) . '-' . trim(strtolower($product['name']))),
+                    'new'      => $product['new'],
+                    'hit'      => $product['hit'],
                 ];
             }
         }
@@ -468,23 +471,19 @@ class HomeController extends Controller
 
                 $output[] = [
                     'category' => $product['woman'] ? 5 : 6,
-                    'img' => '/files/glass300/' . $product['art100'] . '.jpg',
-                    //'name' => $product['name'],
-                    'name' => (strpos($product['name'], '100ml.') === false) ? $product['name'] : str_replace('100ml.', '', $product['name']),
-                    'bname' => $product['bname'],
-                    'price' => $price,
-
-                    'art' => $product['art100'],
-
-                    'man' => $product['man'],
-                    'woman' => $product['woman'],
-                    'volume' => 100,
-
-                    'filter2' => $product['filters'],
-                    'show' => ($counts[$category] <= 12) ? 1 : 0,
-                    'slug' => preg_replace('/[^A-Za-z0-9-]+/', '-', trim(strtolower($product['bname'])) . '-' . trim(strtolower($product['name']))),
-                    'new' => $product['new'],
-                    'hit' => $product['hit'],
+                    'img'      => config('app.host') == 1 ? '/files/glass-100-350/' . $product['art100'] . '.jpg' : '/files/glass300/' . $product['art100'] . '.jpg',
+                    'name'     => (strpos($product['name'], '100ml.') === false) ? $product['name'] : str_replace('100ml.', '', $product['name']),
+                    'bname'    => $product['bname'],
+                    'price'    => $price,
+                    'art'      => $product['art100'], // .'-100' add Jon it need card info
+                    'man'      => $product['man'],
+                    'woman'    => $product['woman'],
+                    'volume'   => 100,
+                    'filter2'  => $product['filters'],
+                    'show'     => ($counts[$category] <= 12) ? 1 : 0,
+                    'slug'     => preg_replace('/[^A-Za-z0-9-]+/', '-', trim(strtolower($product['bname'])) . '-' . trim(strtolower($product['name']))),
+                    'new'      => $product['new'],
+                    'hit'      => $product['hit'],
                 ];
             }
         }

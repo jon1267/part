@@ -127,7 +127,7 @@ class PartnerCabinetController extends Controller
     {
         $calculator = app(EarningCalculator::class);
         $earnings = $calculator->getEarning();
-        $subearnings = $calculator->getSubEarning();
+        $subearnings = 0;//$calculator->getSubEarning();
 
         //таблица выплат (с пагинацией)
         $profits = DB::table('dropshipper_payments', 'payments')

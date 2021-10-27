@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\LanguageRu;
+use App\Http\Middleware\LanguageUa;
 use App\Http\Middleware\SubDomain;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -64,5 +66,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'language.ua' => LanguageUa::class,
+        'language.ru' => LanguageRu::class,
     ];
 }

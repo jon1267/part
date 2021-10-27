@@ -52,23 +52,23 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
+                {{--<li class="nav-item">
                     <a href="{{ route('cabinet.subpartners') }}" class="nav-link {{\Illuminate\Support\Facades\Route::currentRouteName() == 'cabinet.subpartners' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-user-friends"></i>
                         <p>
                             Субпартнеры
                         </p>
                     </a>
-                </li>
+                </li>--}}
 
-                <li class="nav-item">
+                {{--<li class="nav-item">
                     <a href="{{ route('cabinet.subpartners.orders') }}" class="nav-link {{\Illuminate\Support\Facades\Route::currentRouteName() == 'cabinet.subpartners.orders' ? 'active' : ''}}">
                         <i class="nav-icon fas fa-gifts"></i>
                         <p>
                             Заказы субпартнеров
                         </p>
                     </a>
-                </li>
+                </li>--}}
 
                 <li class="nav-item" id="payments">
                     <a href="{{ route('cabinet.profit') }}" class="nav-link {{\Illuminate\Support\Facades\Route::currentRouteName() == 'cabinet.profit' ? 'active' : ''}}">

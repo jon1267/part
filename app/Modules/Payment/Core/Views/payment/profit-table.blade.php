@@ -13,7 +13,9 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-around">
                                 <p class="h5">Ваш доход: <span class="text-green text-bold">{{ $earnings }} {{ $valuta }}</span></p>
-                                <p class="h5">Доход от субпартнеров: <span class="text-green text-bold">{{ $subearnings }} {{ $valuta}}</span></p>
+                                <!-- Доход от субпартнеров: врем отключен. чтоб включить подсчет - раскомментировать тут,
+                                и в контроллере Partners\...\PartnerCabinetController метод profit(), $subearnings  -->
+                                {{--<p class="h5">Доход от субпартнеров: <span class="text-green text-bold">{{ $subearnings }} {{ $valuta}}</span></p>--}}
                             </div>
 
 

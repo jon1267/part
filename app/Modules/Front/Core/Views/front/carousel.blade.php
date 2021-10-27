@@ -4,46 +4,55 @@
 
     <div>
         <div class="desktop" style="width:100%;">
-            <a href="#woman"><img src="/images/header-banner.jpg" style="width: 100%; border: 0;"></a>
+            <a href="#woman"><img src="{{ app()->getLocale()==='ru' ? '/images/main_des_ru.jpg' : '/images/main_des_ua.jpg' }}" style="width: 100%; border: 0;"></a>
         </div>
         <div class="mobile" style="width:100%;">
-            <a href="#woman"><img src="/images/header_mob.jpg" style="width: 100%; border: 0;"></a>
+            <a href="#woman"><img src="{{ app()->getLocale()==='ru' ? '/images/main_mob_ru.jpg' : '/images/main_mob_ua.jpg' }}" style="width: 100%; border: 0;"></a>
         </div>
     </div>
 
     <div>
         <div class="desktop" style="width:100%;">
-            <a href="#woman"><img src="/images/slider-header.jpg" style="width: 100%; border: 0;"></a>
+            <a href="#woman"><img src="{{ app()->getLocale()==='ru' ? '/images/woman_des_ru.jpg' : '/images/woman_des_ua.jpg' }}" style="width: 100%; border: 0;"></a>
         </div>
         <div class="mobile" style="width:100%;">
-            <a href="#woman"><img src="/images/slider-mob.jpg" style="width: 100%; border: 0;"></a>
+            <a href="#woman"><img src="{{ app()->getLocale()==='ru' ? '/images/woman_mob_ru.jpg' : '/images/woman_mob_ua.jpg' }}" style="width: 100%; border: 0;"></a>
         </div>
     </div>
 
     <div>
         <div class="desktop" style="width:100%;">
-            <a href="#man"><img src="/images/slider-header2.jpg" style="width: 100%; border: 0;"></a>
+            <a href="#man"><img src="{{ app()->getLocale()==='ru' ? '/images/man_des_ru.jpg' : '/images/man_des_ua.jpg' }}" style="width: 100%; border: 0;"></a>
         </div>
         <div class="mobile" style="width:100%;">
-            <a href="#man"><img src="/images/slider-mob2.jpg" style="width: 100%; border: 0;"></a>
+            <a href="#man"><img src="{{ app()->getLocale()==='ru' ? '/images/man_mob_ru.jpg' : '/images/man_mob_ua.jpg' }}" style="width: 100%; border: 0;"></a>
         </div>
     </div>
 
     <div>
         <div class="desktop" style="width:100%;">
-            <a href="#auto"><img src="/images/slider-header3.jpg" style="width: 100%; border: 0;"></a>
+            <a href="#auto"><img src="{{ app()->getLocale()==='ru' ? '/images/auto_des_ru.jpg' : '/images/auto_des_ua.jpg' }}" style="width: 100%; border: 0;"></a>
         </div>
         <div class="mobile" style="width:100%;">
-            <a href="#auto"><img src="/images/slider-mob3.jpg" style="width: 100%; border: 0;"></a>
+            <a href="#auto"><img src="{{ app()->getLocale()==='ru' ? '/images/auto_mob_ru.jpg' : '/images/auto_mob_ua.jpg' }}" style="width: 100%; border: 0;"></a>
         </div>
     </div>
 
     <div>
         <div class="desktop" style="width:100%;">
-            <a href="#septics"><img src="/images/slider-header4.jpg" style="width: 100%; border: 0;"></a>
+            <a href="#septics"><img src="{{ app()->getLocale()==='ru' ? '/images/anti_des_ru.jpg' : '/images/anti_des_ua.jpg' }}" style="width: 100%; border: 0;"></a>
         </div>
         <div class="mobile" style="width:100%;">
-            <a href="#septics"><img src="/images/slider-mob4.jpg" style="width: 100%; border: 0;"></a>
+            <a href="#septics"><img src="{{ app()->getLocale()==='ru' ? '/images/anti_mob_ru.jpg' : '/images/anti_mob_ua.jpg' }}" style="width: 100%; border: 0;"></a>
+        </div>
+    </div>
+
+    <div>
+        <div class="desktop" style="width:100%;">
+            <a href="#gel"><img src="{{ app()->getLocale()==='ru' ? '/images/gel_des_ru.jpg' : '/images/gel_des_ua.jpg' }}" style="width: 100%; border: 0;"></a>
+        </div>
+        <div class="mobile" style="width:100%;">
+            <a href="#gel"><img src="{{ app()->getLocale()==='ru' ? '/images/gel_mob_ru.jpg' : '/images/gel_mob_ua.jpg' }}" style="width: 100%; border: 0;"></a>
         </div>
     </div>
 
