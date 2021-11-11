@@ -36,11 +36,11 @@
     <div style="border-bottom: solid 1px #cccccc; margin-top: 20px;"></div>
 
     <ul style="margin-top: 15px;">
-        <li><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}/#woman">{{ __('Женская парфюмерия') }}</a></li>
-        <li><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}/#man">{{ __('Мужская парфюмерия') }}</a></li>
+        <li><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#woman">{{ __('Женская парфюмерия') }}</a></li>
+        <li><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#man">{{ __('Мужская парфюмерия') }}</a></li>
         <!--<li><a href="#">Унисекс парфюмерия</a></li>-->
-        <li v-if="countAuto > 0"><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}/#auto">{{ __('Автопарфюмы') }}</a></li>
-        <li v-if="countSeptics > 0"><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}/#septics">{{ __('Антисептики') }}</a></li>
+        <li v-if="countAuto > 0"><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#auto">{{ __('Автопарфюмы') }}</a></li>
+        <li v-if="countSeptics > 0"><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#septics">{{ __('Антисептики') }}</a></li>
     </ul>
 
     <ul style="margin-top: 15px;">

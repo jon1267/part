@@ -20,7 +20,7 @@ Route::group(['middleware' => 'language.ru'], function () {
 Route::group(['middleware' => 'language.ua'], function () {
     Route::get('/ua', [HomeController::class, 'index'])->name('ua.front.index');
     Route::get('/ua/thanks.html',  [HomeController::class, 'thanks'])->name('ua.thanks');
-    Route::get('/ua/product/{art}', [HomeController::class, 'productArt'])->name('ua.product');
+    Route::get('/ua/product/{art}', [HomeController::class, 'productArt'])->name('ua.front.product');
     Route::get('/ua/policy',  [HomeController::class, 'policy'])->name('ua.front.policy');
     Route::get('/ua/terms',   [HomeController::class, 'terms'])->name('ua.front.terms');
 });

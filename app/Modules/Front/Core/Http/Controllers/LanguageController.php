@@ -16,6 +16,8 @@ class LanguageController extends Controller
         app()->setLocale($lang);
 
         $route = app('router')->getRoutes()->match(app('request')->create(URL::previous()))->getName();
+        $routeParams = app('router')->getRoutes()->match(app('request')->create(URL::previous()))->parameters();
+        //dd($route, $routeParams);
 
         if (strpos($route, 'ua.') !== false AND $lang === 'ru') {
             $route = str_replace('ua.', '', $route);
@@ -25,6 +27,6 @@ class LanguageController extends Controller
             $route = 'ua.' . $route;
         }
 
-        return redirect()->to(route($route));
+        return redirect()->to(route($route, $routeParams));
     }
 }

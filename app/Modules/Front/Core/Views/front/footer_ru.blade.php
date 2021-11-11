@@ -13,7 +13,7 @@
                             Доставка и оплата
                         </a>
                     </li> -->
-                    <li class="footer-menu__item">
+                    {{--<li class="footer-menu__item">
                         <a href="{{ route('front.policy') }}" class="footer-menu__link">
                             Конфиденциальность
                         </a>
@@ -22,7 +22,7 @@
                         <a href="{{ route('front.terms') }}" class="footer-menu__link">
                             Условия использования
                         </a>
-                    </li>
+                    </li>--}}
 
                 </ul>
             </div>
@@ -31,38 +31,105 @@
     <div class="footer-info">
         <div class="wrapper">
             <div class="footer-info__inner">
-
-                <div class="footer-info__time"></div>
+                <div class="footer-info__button">
+                    {{__('ГОРЯЧАЯ ЛИНИЯ')}}
+                </div>
+                <a href="tel:74993411849" class="footer-info__phone">
+                    7 499 341 18 49
+                </a>
+                <div class="footer-info__time">
+                    <img style="width:150px;" src="/images/pdparis-white-logo.png">
+                    <!--c <b>9:00</b> до <b>21:00</b> <span>• БЕСПЛАТНО ПО УКРАИНЕ</span>
+                        <br/>
+                        <br/> -->
+                    <div class="text-center" style="margin-top: 15px;">
+                        <p><a href="mailto:info@pdparis.com">info@pdparis.com</a></p>
+                        <!--<p><a href="mailto:support@pdparis-shop.com">support@pdparis-shop.com</a></p>
+                             <p>ФОП "Успешный Игорь Олегович", ЕГРПОУ 3119020313</p>
+                             <p>669006 г. Запорожье, ул. Добролюбова 12/29</p>-->
+                    </div>
+                </div>
                 <div class="footer-description">
-                    <div class="footer-description__text" style="text-align:center;">PdParis</div>
+                    <!-- <div class="footer-description__text">
+                        ПОДПИСКА НА СПЕЦИАЛЬНОЕ ПРЕДЛОЖЕНИЕ <b>PDPARIS</b>
+                    </div>
+                    <form class="footer-description__wrapper">
+                        <input v-model="email" name="subscribe" class="footer-description__input" placeholder="Введите Ваш е-мейл">
+                        <button @click="subscribe($event)" type="submit" class="footer-description__button"></button>
+                    </form> -->
+
+                    <!--<br/>-->
+
+                    <!--<div class="footer-description__text" style="text-align:center;">ООО "ИЗИМАРКЕТ" ИНН 42026686<br/>ул Криворожская 24-А,кв142</div>-->
+                    <!--<div class="footer-description__text" style="text-align:center;">PdParis</div>-->
                 </div>
 
-
-
-
                 <div class="footer-socials">
-                    <div class="footer-socials__col">
-
-                    </div>
-                    <div class="footer-socials__col">
-
-                    </div>
                     <div target="_blank" class="footer-socials__col">
                         <a target="_blank" href="https://www.instagram.com/pd_paris/" class="footer-socials__icon footer-socials__icon--instagram">
                             <img src="/images/svg/sprite.svg#instagram-white" alt="instagram">
                         </a>
                     </div>
-                    <div >
+                    <!--<div class="footer-socials__col">
+                        <a target="_blank" href="viber://pa?chatURI=pdparisbot&context=617968fd9b04756349ca7b45" >
+                            <i class="fab fa-viber fa-2x" style="color: white;"></i>
+                        </a>
+                    </div>-->
+
+                    <div style="width: 165px;">
                         <a target="_blank" href="/welcome"  class="btn-partners-program">
-                            <i class="fas fa-dollar-sign fa-2x" style="margin-right: 7px;"></i>Партнерская программа
+                            <i class="fas fa-dollar-sign fa-2x" style="margin: 0 12px 0 7px;"></i>{{ __('Партнерская программа') }}
                         </a>
                     </div>
                     <div target="_blank" class="footer-socials__col">
+                        <a target="_blank" href="https://www.youtube.com/watch?v=2BvWLy9ijtI&ab_channel=PdParis" class="footer-socials__icon footer-socials__icon--youtube">
+                            <img src="/images/svg/sprite.svg#youtube" alt="youtube">
+                        </a>
                     </div>
-                    <div target="_blank" class="footer-socials__col">
+                    <!--<div class="footer-socials__col">
+                        <a target="_blank" href="https://telegram.me/PdParisChatBot?start=617968fd9b04756349ca7b45" >
+                            <i class="fab fa-telegram-plane fa-2x" style="color: white"></i>
+                        </a>
+                    </div>-->
+
+                </div>
+
+                <div class="footer-socials" style="margin-top: 15px;">
+
+                    <div class="footer-socials__col" style="margin-left: -10px;">
+                        <a target="_blank" href="viber://pa?chatURI=pdparisbot&context=617968fd9b04756349ca7b45" class="support-chat-link">
+                            <i class="fab fa-viber fa-2x" style="color: white;"></i>
+                        </a>
+                    </div>
+
+                    <div class="footer-info__button footer-support-chat">
+                        {{__('Чат поддержки')}}
+                    </div>
+
+                    <div class="footer-socials__col">
+                        <a target="_blank" href="https://telegram.me/PdParisChatBot?start=617968fd9b04756349ca7b45" class="support-chat-link">
+                            <i class="fab fa-telegram-plane fa-2x" style="color: white"></i>
+                        </a>
                     </div>
                 </div>
+
             </div>
+
+            <div style="padding-bottom: 40px;">
+                <ul class="footer-menu__list">
+                    <li class="footer-menu__item">
+                        <a href="{{ app()->getLocale() === 'ua' ? route('ua.front.policy') : route('front.policy') }}" class="footer-menu__link" style="color: white">
+                            {{ __('Конфиденциальность') }}
+                        </a>
+                    </li>
+                    <li class="footer-menu__item">
+                        <a href="{{ app()->getLocale() === 'ua' ? route('ua.front.terms') : route('front.terms') }}" class="footer-menu__link" style="color: white">
+                            {{ __('Условия использования') }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
         </div>
     </div>
 </section>
@@ -385,7 +452,7 @@
 
                         <input v-model="order.email" class="modal-order__input feedback__input" placeholder="Email: (для индивидуальных акций и предложений)" name="email">
 
-                        <input v-model="order.name" class="modal-order__input feedback__input" placeholder="Имя" name="name">
+                        <input v-if="order.nocall || (order.kindpay == 1)" v-model="order.name" class="modal-order__input feedback__input" placeholder="Имя" name="name">
 
                         <input v-if="order.nocall || (order.kindpay == 1)" v-model="order.lastname" class="modal-order__input feedback__input" placeholder="Фамилия" name="lastname">
 
@@ -448,6 +515,8 @@
                             <div style="color:red;" class="city-issue"></div>
 
                             <div style="color:red;" class="postindex-issue"></div>
+
+                            <div v-if="((order.nocall) && (order.kindpay != 1)) || (order.kindpay == 1)" style="font-size:14px; line-height: 15px; margin-bottom:20px;"> <span style="color: red;">*</span> - обязательны все поля кроме Email</div>
 
                         </div>
 

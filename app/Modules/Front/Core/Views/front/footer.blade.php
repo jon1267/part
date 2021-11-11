@@ -49,7 +49,13 @@
                             <img src="/images/svg/sprite.svg#instagram-white" alt="instagram">
                         </a>
                     </div>
-                    <div >
+                    <!--<div class="footer-socials__col">
+                        <a target="_blank" href="viber://pa?chatURI=pdparisbot&context=617968fd9b04756349ca7b45" >
+                            <i class="fab fa-viber fa-2x" style="color: white;"></i>
+                        </a>
+                    </div>-->
+
+                    <div style="width: 165px;">
                         <a target="_blank" href="/welcome"  class="btn-partners-program">
                             <i class="fas fa-dollar-sign fa-2x" style="margin: 0 12px 0 7px;"></i>{{ __('Партнерская программа') }}
                         </a>
@@ -59,7 +65,33 @@
                             <img src="/images/svg/sprite.svg#youtube" alt="youtube">
                         </a>
                     </div>
+                    <!--<div class="footer-socials__col">
+                        <a target="_blank" href="https://telegram.me/PdParisChatBot?start=617968fd9b04756349ca7b45" >
+                            <i class="fab fa-telegram-plane fa-2x" style="color: white"></i>
+                        </a>
+                    </div>-->
+
                 </div>
+
+                <div class="footer-socials" style="margin-top: 15px;">
+
+                    <div class="footer-socials__col" style="margin-left: -10px;">
+                        <a target="_blank" href="viber://pa?chatURI=pdparisbot&context=617968fd9b04756349ca7b45" class="support-chat-link">
+                            <i class="fab fa-viber fa-2x" style="color: white;"></i>
+                        </a>
+                    </div>
+
+                    <div class="footer-info__button footer-support-chat">
+                        {{__('Чат поддержки')}}
+                    </div>
+
+                    <div class="footer-socials__col">
+                        <a target="_blank" href="https://telegram.me/PdParisChatBot?start=617968fd9b04756349ca7b45" class="support-chat-link">
+                            <i class="fab fa-telegram-plane fa-2x" style="color: white"></i>
+                        </a>
+                    </div>
+                </div>
+
             </div>
 
             <div style="padding-bottom: 40px;">
@@ -87,7 +119,7 @@
 <!--Корзина промокод-->
 <div class="modal modal__cart-promocode">
     <div class="modal__wrapper modal-promocode">
-        <div class="modal__close modal-promocode__close"></div>
+        <div @click="closeBasket()" class="modal__close modal-promocode__close"></div>
 
         <div class="modal-promocode__header">
             <div class="modal-promocode__title">
@@ -104,8 +136,9 @@
         </div>
         <div v-else>
             <div style="font-size:14px; border:2px solid rgb(133, 84, 160); padding:10px; margin: 10px 30px; text-align:center;">
-                <p v-if="host === 1"><strong>{{ __('Акция!') }}</strong><br/>{{ __('Парфюм в подарок при заказе от') }} @{{ totalAction }} {{ $valuta }}</p>
-                <p v-if="host === 2"><strong>{{ __('Акция!') }}</strong><br/>{{ __('Парфюм в подарок при заказе от') }} @{{ totalActionRu }} {{ $valuta }}</p>
+                {{--<p v-if="host === 1"><strong>{{ __('Акция!') }}</strong><br/>{{ __('Парфюм в подарок при заказе от') }} @{{ totalAction }} {{ $valuta }}</p>
+                <p v-if="host === 2"><strong>{{ __('Акция!') }}</strong><br/>{{ __('Парфюм в подарок при заказе от') }} @{{ totalActionRu }} {{ $valuta }}</p>--}}
+                <p><strong>{{__('Акция!')}}</strong><br/> {{__('Добавьте 4 парфюма в корзину и 1 из них будет в')}} <strong>{{__('подарок')}}</strong></p>
             </div>
 
             <div class="modal-promocode-table">
@@ -266,7 +299,7 @@
 <!--Оформление заказа-->
 <div class="modal modal__order">
     <div class="modal__wrapper modal-order" style="max-width:600px;">
-        <div class="modal__close modal-order__close"></div>
+        <div @click="closeBasket()" class="modal__close modal-order__close"></div>
         <div class="modal-order__inner">
             <div class="modal-order__header">
                 <h1>
@@ -408,7 +441,7 @@
 
                         <input  v-model="order.email" class="modal-order__input feedback__input" placeholder="Email" name="email">
 
-                        <input  v-model="order.name" class="modal-order__input feedback__input" placeholder="Имя" name="name">
+                        <input v-if="order.nocall || (order.kindpay == 1)" v-model="order.name" class="modal-order__input feedback__input" placeholder="Имя" name="name">
 
                         <input v-if="order.nocall || (order.kindpay == 1)" v-model="order.lastname" class="modal-order__input feedback__input" placeholder="Фамилия" name="lastname">
 
@@ -482,6 +515,8 @@
                             <div style="color:red;" class="postindex-issue"></div>
 
                             <input v-if="order.pay == 'Курьером' && order.street" v-model="order.flat" class="modal-order__input feedback__input" placeholder="Квартира" name="flat">
+
+                            <div v-if="((order.nocall) && (order.kindpay != 1)) || (order.kindpay == 1)" style="font-size:14px; line-height: 15px; margin-bottom:20px;"> <span style="color: red;">*</span> - обязательны все поля кроме Email</div>
 
                         </div>
 

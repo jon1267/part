@@ -188,7 +188,7 @@ class HomeController extends Controller
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS,
                 [
-                    'amount'    => $request->get('sum'),
+                    'amount'    => round($request->get('sum')),
                     'order_id'  => $request->get('order')
                 ]
             );
@@ -285,12 +285,39 @@ class HomeController extends Controller
         $sum = 0;
         $products = '';
         $currency = config('app.host') == 1 ? 'грн' : 'руб';
-        foreach($baskets as $item) {
-            $sum += $item['sale'];
-            $products .= $item['art'] . ' ' . $item['bname'] . ' (' . $item['name'] . ')' . ', ' . $item['sale'] . ' ' . $currency . ' ' . $item['qty'].' ед / ';
+
+        foreach ($baskets as $item) {
+
+            $sum += $item['total'];
+
+            //$products .= $item['art'] . ' ' . $item['bname'] . ' (' . $item['name'] . ')' . ', ' . $item['sale'] . ' ' . $currency . ' ' . $item['qty'].' ед / ';
+            //$sum += $item['total'];
+
+            if ($item['qty'] == 1 AND $item['total'] != $item['sale'] * $item['qty']) {
+
+                $item['sale'] = 0;
+                $products .= $item['art'] . ' ' . $item['bname'] . ' (' . $item['name'] . ')' . ', ' . $item['sale'] . ' ' . $currency . ' ' . $item['qty']. ' ед / ';
+
+            } elseif ($item['qty'] > 1 AND $item['total'] != $item['sale'] * $item['qty']) {
+
+                $fullTotal = $item['sale'] * $item['qty'];
+                $total     = $item['total'];
+                $diff      = $fullTotal - $total;
+                $freeQty   = $diff / $item['sale'];
+                $qty       = $item['qty'] - $freeQty;
+
+                $products .= $item['art'] . ' ' . $item['bname'] . ' (' . $item['name'] . ')' . ', 0 ' . $currency. ' ' . $freeQty . ' ед / ';
+                $products .= $item['art'] . ' ' . $item['bname'] . ' (' . $item['name'] . ')' . ', ' . $item['sale'] . ' ' . $currency.' ' . $qty . ' ед / ';
+
+            } else {
+
+                $products .= $item['art'] . ' ' . $item['bname'] . ' (' . $item['name'] . ')' . ', ' . $item['sale'] . ' ' . $currency.' ' . $item['qty'] . ' ед / ';
+
+            }
         }
 
         $adv = 170;
+
         if (config('app.host') == 1) {
             if ($kod) {
                 $adv = 173;
@@ -302,6 +329,10 @@ class HomeController extends Controller
             if ($kod) {
                 $adv = 205;
             }
+        }
+
+        if ($kindpay == 1) {
+            $sum = round($sum - ($sum * 0.1));
         }
 
         try {

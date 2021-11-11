@@ -33,13 +33,14 @@
                             <div style="font-size:28px; font-weight:bold;">{{__('Акция')}}</div>
 
 
+                            {{-- прошлая акция: 30мл в подарок при заказе от 600грн/1200руб от платформы
                             <a href="#" style="display: block; vertical-align: middle; margin-bottom:10px;">
                                 <span style="vertical-align: middle;">{{__('30 мл в подарок')}}</span>
                                 <img src="/images/gift.png" style="vertical-align: middle; width:32px; height:32px;"/>
                                 <span v-if="host === 1" style="vertical-align: middle;">{{__('при заказе от')}} @{{ totalAction }} {{ $valuta }}</span>
                                 <span v-if="host === 2" style="vertical-align: middle;">{{__('при заказе от')}} @{{ totalActionRu }} {{ $valuta }}</span>
-                            </a>
-
+                            </a>--}}
+                            <p style="padding:0;">{{__('Добавьте 4 парфюма в корзину и 1 из них будет в')}} <strong>{{__('подарок')}}</strong></p>
 
                         </div>
                     </div>
@@ -125,7 +126,7 @@
 
                         <div id="more-background-woman" style="height: 140px; overflow: hidden; position: relative; ">
                             @include('front.more-background')
-                            <div style="z-index: 1300; position: absolute; top: 10px; left: 0; height: 130px; width: 100%; background: linear-gradient(rgba(255,255,255,0), white);"></div>
+                            <div style="z-index: 50; position: absolute; top: 10px; left: 0; height: 130px; width: 100%; background: linear-gradient(rgba(255,255,255,0), white);"></div>
                             <!--<div style="z-index: 1300; position: absolute; top: 10px; left: 0;  height: 130px; width: 100%; background: url({{ asset('/images/gradient.png') }}) repeat-x;"> </div>-->
                         </div>
                     </div>
@@ -184,7 +185,7 @@
                         </div>
                         <div id="more-background-man" style="height: 140px; overflow: hidden; position: relative; ">
                             @include('front.more-background')
-                            <div style="z-index: 1300; position: absolute; top: 10px; left: 0; height: 130px; width: 100%; background: linear-gradient(rgba(255,255,255,0), white);"></div>
+                            <div style="z-index: 50; position: absolute; top: 10px; left: 0; height: 130px; width: 100%; background: linear-gradient(rgba(255,255,255,0), white);"></div>
                             <!--<div style="z-index: 1300; position: absolute; top: 10px; left: 0;  height: 130px; width: 100%; background: url({{ asset('/images/gradient.png') }}) repeat-x;"> </div>-->
                         </div>
                     </div>

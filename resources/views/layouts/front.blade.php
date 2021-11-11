@@ -71,6 +71,7 @@
             loop: true,
             autoplay: true,
             autoplayTimeout: 8000,
+            autoplayHoverPause: true,
             smartSpeed: 1500,
             dots: false,
             nav: true,
