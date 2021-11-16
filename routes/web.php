@@ -32,6 +32,7 @@ Route::post('/api/store', [HomeController::class, 'store']);
 Route::post('/api/status', [HomeController::class, 'status']);
 Route::post('/api/promocode', [HomeController::class, 'promocode']);
 Route::post('/api/offices-ru', [HomeController::class, 'officesRu']);
+Route::post('/api/parfumman', [HomeController::class, 'parfumman']);
 
 #Route::get('/parfumes50',  [HomeController::class, 'parfumes50']);
 #Route::get('/parfumes100', [HomeController::class, 'parfumes100']);

@@ -3,7 +3,7 @@
     <div class="product-card__img">
         <div style="display: flex;">
             <a :href="['{{ (app()->getLocale() === 'ua' ? '/ua' : '') }}/product/'+product.slug+'_'+product.art+'.html']" >
-                <img v-if="product.img" :src="[ product.img + '?2']" :alt="product.analog">
+                <img v-if="product.img" :src="[ product.img + '?5']" :alt="product.analog">
             </a>
         </div>
     </div>

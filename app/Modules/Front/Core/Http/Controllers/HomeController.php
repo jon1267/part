@@ -422,7 +422,7 @@ class HomeController extends Controller
                     'man' => $product['man'],
                     'woman' => $product['woman'],
                     'volume' => 30,
-                    'filter2' => $product['filters'],
+                    'filter2' => (\request()->get('lang') === 'ru') ? $product['filters'] : $product['filters_ua'],
                     'show' => ($counts[$category] <= 12) ? 1 : 0,
                     'slug' => preg_replace('/[^A-Za-z0-9-]+/', '-', trim(strtolower($product['bname'])) . '-' . trim(strtolower($product['name']))),
                     'new' => $product['new'],
@@ -466,7 +466,7 @@ class HomeController extends Controller
                     'man'      => $product['man'],
                     'woman'    => $product['woman'],
                     'volume'   => 50,
-                    'filter2'  => $product['filters'],
+                    'filter2'  => (\request()->get('lang') === 'ru') ? $product['filters'] : $product['filters_ua'],
                     'show'     => ($counts[$category] <= 12) ? 1 : 0,
                     'slug'     => preg_replace('/[^A-Za-z0-9-]+/', '-', trim(strtolower($product['bname'])) . '-' . trim(strtolower($product['name']))),
                     'new'      => $product['new'],
@@ -510,7 +510,7 @@ class HomeController extends Controller
                     'man'      => $product['man'],
                     'woman'    => $product['woman'],
                     'volume'   => 100,
-                    'filter2'  => $product['filters'],
+                    'filter2'  => (\request()->get('lang') === 'ru') ? $product['filters'] : $product['filters_ua'],
                     'show'     => ($counts[$category] <= 12) ? 1 : 0,
                     'slug'     => preg_replace('/[^A-Za-z0-9-]+/', '-', trim(strtolower($product['bname'])) . '-' . trim(strtolower($product['name']))),
                     'new'      => $product['new'],
@@ -556,7 +556,7 @@ class HomeController extends Controller
                     'art'    => $product['art100'],
                     'man'    => $product['man500'],
                     'woman'  => $product['woman500'],
-                    'filter2'=> $product['filters'],
+                    'filter2'=> (\request()->get('lang') === 'ru') ? $product['filters'] : $product['filters_ua'],
                     'show'   => ($counts[$category] <= 12) ? 1 : 0,
                     'slug'   => preg_replace('/[^A-Za-z0-9-]+/', '-',  trim(strtolower($product['bname'])).'-'.trim(strtolower($product['name']))),
                     'new'    => $product['new'],
@@ -586,7 +586,7 @@ class HomeController extends Controller
                     'price'    => $product['price100'],
                     'art'      => $product['art100'].'-50',
                     'volume'   => 50,
-                    'filter2'  => $product['filters'],
+                    'filter2'  => (\request()->get('lang') === 'ru') ? $product['filters'] : $product['filters_ua'],
                     'show'     => $index <= 12 ? 1 : 0,
                     'slug'     => preg_replace('/[^A-Za-z0-9-]+/', '-',  trim(strtolower($product['bname'])).'-'.trim(strtolower($product['name']))),
                     'new'      => $product['new'],
@@ -617,7 +617,7 @@ class HomeController extends Controller
                     'price'    => $product['price100'],
                     'art'      => $product['art100'],
                     'volume'   => 8,
-                    'filter2'  => $product['filters'],
+                    'filter2'  => (\request()->get('lang') === 'ru') ? $product['filters'] : $product['filters_ua'],
                     'show'     => $index <= 12 ? 1 : 0,
                     'slug'     => preg_replace('/[^A-Za-z0-9-]+/', '-',  trim(strtolower($product['bname'])).'-'.trim(strtolower($product['name']))),
                     'new'      => $product['new'],
@@ -649,5 +649,27 @@ class HomeController extends Controller
     public function parfumes500()
     {
         return view('front.parfumes-500');
+    }
+
+    public function  parfumman(Request $request)
+    {
+        $ip = isset($_SERVER['HTTP_X_REAL_IP']) ? $_SERVER['HTTP_X_REAL_IP'] : (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '');
+        $ch = curl_init('http://kleopatra0707.com/getorderlanding');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS,
+            [
+                'product'   => '',
+                'phone'     => $request->post('tel'), //'phone' => $this->input->post('tel', TRUE),
+                'sum'       => 0,
+                'mess'      => 'Подбор аромата',
+                'host'      => $_SERVER['HTTP_HOST'],
+                'adv'       => config('app.host') == 1 ? 391 : 392,
+                'ip'        => $ip,
+                'useragent' => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '',
+            ]
+        );
+        $crm_order_id = curl_exec($ch);
+        curl_close($ch);
     }
 }

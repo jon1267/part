@@ -45,6 +45,9 @@
 
 </div>
 
+<!-- for lang switch -->
+<input type="hidden" class="lang" value="{{ app()->getLocale() }}">
+
 <!--Модалки конец-->
 <script src="/js/libs/vue.min.js"></script>
 

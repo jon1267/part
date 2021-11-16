@@ -85,6 +85,17 @@
 <button @click="filterBrands()" class="hide-button" id="filter-brands-button"></button>
 <div class="overlay-black"></div>
 
+<header @click="openParfumMan()" v-cloak v-if="basket.length === 0" class="header">
+    <div class="parfum-panel" v-cloak>
+        <div class="text_desktop"><a class="product-card__button sex_button">Хочу бесплатный подбор аромата аромастилистом</a></div>
+
+        <a class="product-card__button sex_button button_mobile">
+            <span>Хочу бесплатный подбор аромата </span>
+            АРОМАСТИЛИСТОМ
+        </a>
+    </div>
+</header>
+
 <header @click="openBasket()" v-cloak v-if="basket.length > 0" class="header">
     <div v-cloak class="left-panel">
         {{ __('В корзине:') }} @{{ basket.length }}

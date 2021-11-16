@@ -55,7 +55,6 @@
             <section class="regular slider top-sales-slider" id="top-sales-slider" >
                 <template v-cloak v-for="group in productsTop">
                     <div v-for="product in group.products" v-if="product.show">
-                        {{--<?=$this->include('tmp/product-card') ?>--}}
                         @include('front.product-card')
                     </div>
                 </template>
@@ -68,7 +67,6 @@
             <section class="regular2 slider top-sales-slider" id="new-sales-slider" >
                 <template v-cloak v-for="group in productsNew">
                     <div v-for="product in group.products" v-if="product.show">
-                        {{--<?=$this->include('tmp/product-card') ?>--}}
                         @include('front.product-card')
                     </div>
                 </template>

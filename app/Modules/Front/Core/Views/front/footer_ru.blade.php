@@ -35,7 +35,7 @@
                     {{__('ГОРЯЧАЯ ЛИНИЯ')}}
                 </div>
                 <a href="tel:74993411849" class="footer-info__phone">
-                    7 499 341 18 49
+                    7&nbsp;499&nbsp;341&nbsp;18&nbsp;49
                 </a>
                 <div class="footer-info__time">
                     <img style="width:150px;" src="/images/pdparis-white-logo.png">
@@ -549,7 +549,46 @@
 </div>
 <!--Оформление заказа конец-->
 
-<!--</div>-->
+<!-- модальное окно для стилиста -->
+<div class="modal modal__parfumer">
+    <div class="modal__wrapper modal-promocode" style="max-width:800px;">
+
+        <div class="modal__close modal-promocode__close"></div>
+
+        <div class="modal-promocode__header">
+            <div class="modal-promocode__title">
+                @{{ parfumManRequest ? 'Спасибо с Вами свяжутся!' : 'Бесплатный подбор парфюма аромастилистом' }}
+            </div>
+        </div>
+
+        <div v-if="! parfumManRequest" class="modal-promocode-table">
+
+            <div style="padding: 13px 30px;">
+                <div style="font-size:14px; line-height: 18px; margin-bottom:5px;">Ваш номер телефона: <span style="color: red;">*</span> </div>
+                <input type="tel" v-mask="'+38 (###) ###-##-##'" v-model="phone" class="modal-order__input feedback__input" placeholder="Ваш телефон" name="modal-order-phone">
+
+                <div class="modal-promocode-table__footer-col-btn" style="margin: 0 auto;">
+                    <button :disabled="loading" @click="saveParfumMan($event)" type="submit" class="modal-order__btn feedback__btn">
+                        @{{ loading ? 'Пожалуйста, подождите...' : 'Подтвердить' }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal-promocode-table__footer">
+
+
+            <div class="modal-promocode-table__footer-col-link" style="margin: 0 auto;">
+                <a @click="closeParfumMan()" href="javascript:void(0)" class="modal-promocode-table__footer-link">
+                    Вернуться к выбору
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- модальное окно для стилиста конец -->
 
 <!--Модалки конец-->
 
