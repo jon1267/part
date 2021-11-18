@@ -12,10 +12,8 @@
             </h1>
 
             <div class="product-info-content">
-                <!--<div style="align-self: start;">-->
                 <div style="display: flex; align-items: center; justify-content: center;">
-                    <!--<img src="/files/< $product['img'] >" style="max-width: 400px;"  alt="">-->
-                    <img src="{{ $product['img'] }}" style="max-width: 400px;"  alt="">
+                    <img class="product-info-img" src="{{ $product['img'] }}"  alt="">
                 </div>
 
                 <div style="margin-left: 30px;">

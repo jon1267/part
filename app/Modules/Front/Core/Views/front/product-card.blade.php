@@ -37,10 +37,10 @@
                 </div>
             </a>
 
-            <div v-if="product.arrow">
-                <a @click="setVolumeCard(group, 30)"  class="vol-button" :class="[product.volume == 30 ? 'vol-active' : '']"> 30 мл </a>
-                <a @click="setVolumeCard(group, 50)"  class="vol-button" :class="[product.volume == 50 ? 'vol-active' : '']"> 50 мл </a>
-                <a @click="setVolumeCard(group, 100)" class="vol-button" :class="[product.volume == 100 ? 'vol-active' : '']"> 100 мл </a>
+            <div v-if="product.variants">
+                <a @click="setVolumeCard(product, 30)"  class="vol-button" :class="[product.volume == 30 ? 'vol-active' : '']"> 30 мл </a>
+                <a @click="setVolumeCard(product, 50)"  class="vol-button" :class="[product.volume == 50 ? 'vol-active' : '']"> 50 мл </a>
+                <a @click="setVolumeCard(product, 100)" class="vol-button" :class="[product.volume == 100 ? 'vol-active' : '']"> 100 мл </a>
             </div>
 
             <a :href="['/product/'+product.slug+'_'+product.art+'.html']" >
@@ -51,14 +51,7 @@
 
         </div>
 
-        <!-- <form class="product-card__controllers">
-                <button @click="addToCart(product, $event)" type="submit" class="product-card__button">
-                @{{ hasInBasket(product.art) ? 'Добавлено в корзину' : 'В корзину' }}
-            </button>
-        </form> -->
-
         <div class="card-button" style="margin-bottom: 10px;">
-            <!--<a class="card-link" href="/product/shanel_w068.html">Карточка товара</a>-->
             <a class="card-link"
                :href="['{{ (app()->getLocale() === 'ua' ? '/ua' : '') }}/product/'+product.slug+'_'+product.art+'.html']">
                 {{ __('Карточка товара') }}

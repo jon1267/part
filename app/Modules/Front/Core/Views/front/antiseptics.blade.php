@@ -26,18 +26,6 @@
                 </div>
             </div>
 
-            <!--<div style="display: flex; justify-content: flex-end; margin-top: 15px; width: 220px;">-->
-            <!--</div>-->
-            <div id="show-more-9" class="product__header show-more-all" style="padding: 15px 0 15px;">
-                <div class="wrapper sample-title">
-                    <h2>
-                        <a @click="showMore(9)" class="product-card__button our_green">
-                            <i class="fas fa-sync" style="margin-right: 10px;"></i> {{ __('показать еще') }}
-                        </a>
-                    </h2>
-                </div>
-            </div>
-
         </div>
     </div>
 </section>

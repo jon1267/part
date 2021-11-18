@@ -38,9 +38,15 @@
     <ul style="margin-top: 15px;">
         <li><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#woman">{{ __('Женская парфюмерия') }}</a></li>
         <li><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#man">{{ __('Мужская парфюмерия') }}</a></li>
-        <!--<li><a href="#">Унисекс парфюмерия</a></li>-->
+
+        <li v-if="countGel > 0"><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#gel">{{ __('Парфюмированные гели') }}</a></li>
         <li v-if="countAuto > 0"><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#auto">{{ __('Автопарфюмы') }}</a></li>
         <li v-if="countSeptics > 0"><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#septics">{{ __('Антисептики') }}</a></li>
+
+        <li v-if="countMan500 || countWoman500" ><strong>Годовой запас парфюма 500мл</strong></li>
+        <li v-if="countWoman500"><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#woman500">{{ __('Женская парфюмерия') }}</a></li>
+        <li v-if="countMan500"><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#man500">{{ __('Мужская парфюмерия') }}</a></li>
+
     </ul>
 
     <ul style="margin-top: 15px;">

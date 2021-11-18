@@ -78,7 +78,22 @@ class HomeController extends Controller
                             'art' => $art.'-'.$volume,
                             'link' => $uaPrefix . '#septics',
                         ];
-                    } elseif ($value === $art && $volume === '30') {
+                    }
+                    // Parfumes Gel for Bathroom vol 250 ml
+                    elseif ($value === $art && (strpos($art,'GEL') !== false)) {
+                        $productArt[] = [
+                            //'img' => '/files/'.$product['img'],//$art.'.jpg', //
+                            'img' => '/files/glass/'.$art.'.jpg', //
+                            'name' => str_replace('100ml','',$product['name']),
+                            'bname' => $product['bname'],
+                            'text' => $ua ? $product['text_ua'] : $product['text'],
+                            'price' => $product['price100'],
+                            'id' => $product['id'],
+                            'art' => $art.'-'.$volume,
+                            'link' => $uaPrefix . '#gel',
+                        ];
+                    }
+                    elseif ($value === $art && $volume === '30') {
                         $productArt[] = [
                             'img' => '/files/plastic/'.$art.'.jpg',//$art.'.jpg',//$product['img'],
                             'name' => str_replace('100ml.','30ml',$product['name']),
@@ -142,14 +157,21 @@ class HomeController extends Controller
 
     public function samples()
     {
-        $products   = json_decode(file_get_contents('https://parfumdeparis.biz/page/json_tap'), true);
-        $product30  = $this->getProducts30($products);
-        $product50  = $this->getProducts50($products);
-        $product100 = $this->getProducts100($products);
-        $product500 = $this->getProducts500($products);
-        $septics    = $this->getAntiSeptics($products);
-        $auto       = $this->getAuto($products);
-        $products = array_merge($product30, $product50, $product100, $product500, $septics, $auto);
+        $data   = json_decode(file_get_contents('https://parfumdeparis.biz/page/json_tap'), true);
+
+        $product      = $this->getProducts($data);
+        $septics      = $this->getAntiSeptics($data);
+        $auto         = $this->getAuto($data);
+        $gel          = $this->getGel($data);
+        $product500   = $this->getProducts500($data); //dd($product500);
+
+        $products = array_merge(
+            $product,
+            $septics,
+            $auto,
+            $gel,
+            $product500
+        );
 
         print json_encode($products);
     }
@@ -290,9 +312,6 @@ class HomeController extends Controller
 
             $sum += $item['total'];
 
-            //$products .= $item['art'] . ' ' . $item['bname'] . ' (' . $item['name'] . ')' . ', ' . $item['sale'] . ' ' . $currency . ' ' . $item['qty'].' ед / ';
-            //$sum += $item['total'];
-
             if ($item['qty'] == 1 AND $item['total'] != $item['sale'] * $item['qty']) {
 
                 $item['sale'] = 0;
@@ -389,10 +408,10 @@ class HomeController extends Controller
         print $result;
     }
 
-    private function getProducts30($products)
+    private function getProducts($products)
     {
         $output = [];
-        $counts = ['man30' => 0, 'woman30' => 0];
+        $counts = ['man' => 0, 'woman' => 0];
         $category = '';
 
         foreach ($products as $product)
@@ -400,121 +419,60 @@ class HomeController extends Controller
             if (($product['man'] === '1' || $product['woman'] === '1') AND $this->getActivePlatform($product)) {
 
                 if ($product['man'] === '1') {
-                    $counts['man30']++;
-                    $category = 'man30';
+                    $counts['man']++;
+                    $category = 'man';
                 }
 
                 if ($product['woman'] === '1') {
-                    $counts['woman30']++;
-                    $category = 'woman30';
+                    $counts['woman']++;
+                    $category = 'woman';
                 }
 
-                $price = config('app.host') == 1 ? 179 : 490;
+                $price    = config('app.host') == 1 ? 179 : 490;
+                $price50  = config('app.host') == 1 ? $product['price50'] : 1090;
+                $price100 = config('app.host') == 1 ? $product['price100'] : 1590;
+                //$price500 = config('app.host') == 1 ? $product['price100'] : 4490;
 
                 $output[] = [
-                    'category' => $product['woman'] ? 1 : 2,
-                    'img' => '/files/plastic300/' . $product['art100'] . '.jpg',
-                    //'name' => (strpos($product['name'], '100ml.') === false) ? $product['name'] . ' 30ml' : str_replace('100ml.', '30ml', $product['name']),
+                    'img' => config('app.host') == 1 ? '/files/glass-50-350/' . $product['art100'] . '.jpg' : '/files/glass300/' . $product['art100'] . '.jpg',
                     'name' => (strpos($product['name'], '100ml.') === false) ? $product['name'] : str_replace('100ml.', '', $product['name']),
                     'bname' => $product['bname'],
-                    'price' => $price,
-                    'art' => $product['art100'] . '-30',// add Jon it need card info
+                    'price' => $price50,
+                    'art' => $product['art100'] . '-50',
                     'man' => $product['man'],
                     'woman' => $product['woman'],
-                    'volume' => 30,
+                    'volume' => 50,
                     'filter2' => (\request()->get('lang') === 'ru') ? $product['filters'] : $product['filters_ua'],
-                    'show' => ($counts[$category] <= 12) ? 1 : 0,
+                    'show' => ($counts[$category] <= 32) ? 1 : 0,
                     'slug' => preg_replace('/[^A-Za-z0-9-]+/', '-', trim(strtolower($product['bname'])) . '-' . trim(strtolower($product['name']))),
                     'new' => $product['new'],
                     'hit' => $product['hit'],
-                ];
-            }
-        }
-
-        return $output;
-    }
-
-    private function getProducts50($products)
-    {
-        $output = [];
-        $counts = ['man50' => 0, 'woman50' => 0];
-        $category = '';
-
-        foreach ($products as $product) {
-
-            if (($product['man'] === '1' || $product['woman'] === '1') AND $this->getActivePlatform($product)) {
-
-                if ($product['man'] === '1') {
-                    $counts['man50']++;
-                    $category = 'man50';
-                }
-
-                if ($product['woman'] === '1') {
-                    $counts['woman50']++;
-                    $category = 'woman50';
-                }
-
-                $price = config('app.host') == 1 ? $product['price50'] : 1090;
-
-                $output[] = [
-                    'category' => $product['woman'] ? 3 : 4,
-                    'img'      => config('app.host') == 1 ? '/files/glass-50-350/' . $product['art100'] . '.jpg' : '/files/glass300/' . $product['art100'] . '.jpg',
-                    'name'     => (strpos($product['name'], '100ml.') === false) ? $product['name'] : str_replace('100ml.', '', $product['name']),
-                    'bname'    => $product['bname'],
-                    'price'    => $price,
-                    'art'      => $product['art100'] . '-50',// add Jon it need card info
-                    'man'      => $product['man'],
-                    'woman'    => $product['woman'],
-                    'volume'   => 50,
-                    'filter2'  => (\request()->get('lang') === 'ru') ? $product['filters'] : $product['filters_ua'],
-                    'show'     => ($counts[$category] <= 12) ? 1 : 0,
-                    'slug'     => preg_replace('/[^A-Za-z0-9-]+/', '-', trim(strtolower($product['bname'])) . '-' . trim(strtolower($product['name']))),
-                    'new'      => $product['new'],
-                    'hit'      => $product['hit'],
-                ];
-            }
-        }
-
-        return $output;
-    }
-
-    private function getProducts100($products)
-    {
-        $output = [];
-        $counts = ['man100' => 0, 'woman100' => 0];
-        $category = '';
-
-        foreach ($products as $product)
-        {
-            if (($product['man'] ==='1' || $product['woman'] === '1') AND $this->getActivePlatform($product)) {
-
-                if ($product['man'] === '1') {
-                    $counts['man100']++;
-                    $category = 'man100';
-                }
-
-                if ($product['woman'] === '1') {
-                    $counts['woman100']++;
-                    $category = 'woman100';
-                }
-
-                $price = config('app.host') == 1 ? $product['price100'] : 1590;
-
-                $output[] = [
-                    'category' => $product['woman'] ? 5 : 6,
-                    'img'      => config('app.host') == 1 ? '/files/glass-100-350/' . $product['art100'] . '.jpg' : '/files/glass300/' . $product['art100'] . '.jpg',
-                    'name'     => (strpos($product['name'], '100ml.') === false) ? $product['name'] : str_replace('100ml.', '', $product['name']),
-                    'bname'    => $product['bname'],
-                    'price'    => $price,
-                    'art'      => $product['art100'], // .'-100' add Jon it need card info
-                    'man'      => $product['man'],
-                    'woman'    => $product['woman'],
-                    'volume'   => 100,
-                    'filter2'  => (\request()->get('lang') === 'ru') ? $product['filters'] : $product['filters_ua'],
-                    'show'     => ($counts[$category] <= 12) ? 1 : 0,
-                    'slug'     => preg_replace('/[^A-Za-z0-9-]+/', '-', trim(strtolower($product['bname'])) . '-' . trim(strtolower($product['name']))),
-                    'new'      => $product['new'],
-                    'hit'      => $product['hit'],
+                    'variants' => [
+                        [
+                            'volume'   => 30,
+                            'art'   => $product['art100'] . '-30',
+                            'price' => $price,
+                            'img'   => '/files/plastic300/' . $product['art100'] . '.jpg',
+                        ],
+                        [
+                            'volume'   => 50,
+                            'art'   => $product['art100'] . '-50',
+                            'price' => $price50,
+                            'img'   => config('app.host') == 1 ? '/files/glass-50-350/' . $product['art100'] . '.jpg' : '/files/glass300/' . $product['art100'] . '.jpg',
+                        ],
+                        [
+                            'volume'   => 100,
+                            'art'   => $product['art100'],
+                            'price' => $price100,
+                            'img'   => config('app.host') == 1 ? '/files/glass-100-350/' . $product['art100'] . '.jpg' : '/files/glass300/' . $product['art100'] . '.jpg',
+                        ],
+//                        [
+//                              'volume'   => 500,
+//                            'art'   => $product['art100'] . '-500',
+//                            'price' => $price500,
+//                            'img'   => '/files/'.$product['art100'].'.jpg',
+//                        ],
+                    ]
                 ];
             }
         }
@@ -525,45 +483,45 @@ class HomeController extends Controller
     private function getProducts500($products)
     {
         $output = [];
-
-        $counts = ['woman500' => 0, 'man500' => 0];
+        $counts = ['man500' => 0, 'woman500' => 0];
         $category = '';
-        $volume = 500;
 
-        foreach ($products as $product) {
-
-            if (($product['man500'] ==='1' || $product['woman500'] === '1') AND $this->getActivePlatform($product)) {
+        foreach ($products as $product)
+        {
+            if (($product['man500'] === '1' || $product['woman500'] === '1') AND $this->getActivePlatform($product)) {
 
                 if ($product['man500'] === '1') {
                     $counts['man500']++;
                     $category = 'man500';
-
                 }
+
                 if ($product['woman500'] === '1') {
                     $counts['woman500']++;
                     $category = 'woman500';
                 }
 
-                $price = config('app.host') == 1 ? $product['price100'] : 4490;
+                $price500 = config('app.host') == 1 ? $product['price100'] : 4490;
 
                 $output[] = [
-                    'category' => $product['woman500'] ? 7 : 8,
-                    'img'    => '/files/'.$product['art100'].'.jpg',
-                    'name'   => $product['name'],
-                    'bname'  => $product['bname'],
-                    'price'  => $price,
-                    'volume' => $volume,
-                    'art'    => $product['art100'],
-                    'man'    => $product['man500'],
-                    'woman'  => $product['woman500'],
-                    'filter2'=> (\request()->get('lang') === 'ru') ? $product['filters'] : $product['filters_ua'],
-                    'show'   => ($counts[$category] <= 12) ? 1 : 0,
-                    'slug'   => preg_replace('/[^A-Za-z0-9-]+/', '-',  trim(strtolower($product['bname'])).'-'.trim(strtolower($product['name']))),
-                    'new'    => $product['new'],
-                    'hit'    => $product['hit'],
+                    //'category' => $category,
+                    'img' => '/files/glass500/' . $product['art100'].'.png',
+                    'name' => (strpos($product['name'], '100ml.') === false) ? $product['name'] : str_replace('100ml.', '', $product['name']),
+                    'bname' => $product['bname'],
+                    'price' => $price500,
+                    'man500' => $product['man500'],
+                    'woman500' => $product['woman500'],
+                    'art'   => $product['art100'],
+                    'volume'   => 500,
+                    'filter2' => (\request()->get('lang') === 'ru') ? $product['filters'] : $product['filters_ua'],
+                    'show' => ($counts[$category] <= 32) ? 1 : 0,
+                    'slug' => preg_replace('/[^A-Za-z0-9-]+/', '-', trim(strtolower($product['bname'])) . '-' . trim(strtolower($product['name']))),
+                    'new' => $product['new'],
+                    'hit' => $product['hit'],
+
                 ];
             }
         }
+
         return $output;
     }
 
@@ -629,11 +587,42 @@ class HomeController extends Controller
         return $output;
     }
 
+    private function getGel($products)
+    {
+        $output = [];
+        $index = 0;
+
+        foreach ($products as $product)
+        {
+            if (strpos($product['art100'], 'GEL') !== false AND $this->getActivePlatform($product))
+            {
+                $index++;
+
+                $output[] = [
+                    'category' => 11,
+                    'img'      => '/files/'.$product['img'],
+                    'name'     => $product['name'],
+                    'bname'    => $product['bname'],
+                    'price'    => $product['price100'],
+                    'art'      => $product['art100'].'-250',
+                    'volume'   => 250,
+                    'filter2'  => (\request()->get('lang') === 'ru') ? $product['filters'] : $product['filters_ua'],
+                    'show'     => $index <= 12 ? 1 : 0,
+                    'slug'     => preg_replace('/[^A-Za-z0-9-]+/', '-',  trim(strtolower($product['bname'])).'-'.trim(strtolower($product['name']))),
+                    'new'      => $product['new'],
+                    'hit'      => $product['hit'],
+                ];
+            }
+        }
+
+        return $output;
+    }
+
     private function getActivePlatform($product)
     {
-        return (config('app.host') === '1') ?
-            ($product['active_ua'] === '1' AND $product['active'] === '1') :
-            ($product['active_ru'] === '1' AND $product['active'] === '1') ;
+        return (config('app.host') === '1')
+            ? ($product['active_ua'] === '1' AND $product['active'] === '1')
+            : ($product['active_ru'] === '1' AND $product['active'] === '1') ;
     }
 
     public function parfumes50()

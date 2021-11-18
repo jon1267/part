@@ -136,10 +136,10 @@
         </div>
         <div v-else>
             <div style="font-size:14px; border:2px solid rgb(133, 84, 160); padding:10px; margin: 10px 30px; text-align:center;">
-                {{--<p v-if="host === 1"><strong>{{ __('Акция!') }}</strong><br/>{{ __('Парфюм в подарок при заказе от') }} @{{ totalAction }} {{ $valuta }}</p>
-                <p v-if="host === 2"><strong>{{ __('Акция!') }}</strong><br/>{{ __('Парфюм в подарок при заказе от') }} @{{ totalActionRu }} {{ $valuta }}</p>--}}
-                <p><strong>{{__('Акция!')}}</strong><br/> {{__('Добавьте 4 парфюма в корзину и 1 из них будет в')}} <strong>{{__('подарок')}}</strong></p>
+                <p><strong>{{__('Акция!')}}</strong><br/> {{__('Добавьте 4 товара в корзину и 1 из них будет в')}} <strong>{{__('подарок')}}</strong></p>
             </div>
+
+{{--            <pre>@{{ basketVisible }}</pre>--}}
 
             <div class="modal-promocode-table">
                 <div class="modal-promocode-table__header">
@@ -175,7 +175,7 @@
                             <!--Дубль объема для мобильной версии-->
                             <div class="modal-promocode-table__mobile-volume">
 
-                                <select v-if="product.category < 7" style="padding:4px; font-size:13px; border:1px solid silver; background:#fff;" @change="changeBasketVolume(product)" v-model=product.volume>
+                                <select v-if="product.variants.length > 0" style="padding:4px; font-size:13px; border:1px solid silver; background:#fff;" @change="changeBasketVolume(product)" v-model=product.volume>
                                     <option value="30">30 мл</option>
                                     <option value="50">50 мл</option>
                                     <option value="100">100 мл</option>
@@ -193,7 +193,7 @@
                         </div>
                         <div class="modal-promocode-table__col-volume">
 
-                            <select v-if="product.category < 7" style="padding:5px; font-size:18px; border:1px solid silver; background:#fff;" @change="changeBasketVolume(product)" v-model=product.volume>
+                            <select v-if="product.variants.length > 0" style="padding:5px; font-size:18px; border:1px solid silver; background:#fff;" @change="changeBasketVolume(product)" v-model=product.volume>
                                 <option value="30">30</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>

@@ -162,7 +162,7 @@
             </div> -->
             <!-- </div> -->
             <div style="font-size:14px; border:2px solid rgb(133, 84, 160); padding:10px; margin: 10px 30px; text-align:center;">
-                <!--<p><strong>Акция!</strong><br/>Добавьте 4 парфюма в корзину и 1 из них будет в <strong>подарок</strong></p>-->
+                <!--<p><strong>Акция!</strong><br/>Добавьте 4 товара в корзину и 1 из них будет в <strong>подарок</strong></p>-->
                 <p><strong>Акция!</strong><br/>Парфюм в подарок при заказе от 600 {{ $valuta }}</p>
             </div>
 

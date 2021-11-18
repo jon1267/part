@@ -18,6 +18,12 @@
     <link rel="stylesheet" type="text/css" href="/js/slick/slick.css">
     <link rel="stylesheet" type="text/css" href="/js/slick/slick-theme.css">
 
+    <!-- cdnjs -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/egjs-flicking/4.4.0/flicking.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/egjs-flicking/4.4.0/flicking-inline.css" crossorigin="anonymous" />
+
+
+
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -62,7 +68,7 @@
 <script src="https://cdn.jsdelivr.net/npm/v-mask/dist/v-mask.min.js"></script>
 <script src="/js/libs/select2.min.js"></script>
 
-<script src="/js/main.js?<?=mt_rand(1111,9999)?>"></script>
+<script src="/js/main.js?<?=mt_rand(1111,9999)?>" type="module"></script>
 
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v6.0"></script>
 
