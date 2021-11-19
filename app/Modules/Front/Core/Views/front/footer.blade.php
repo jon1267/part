@@ -447,7 +447,7 @@
 
                         <input v-if="order.nocall || (order.kindpay == 1)" v-model="order.prelastname" class="modal-order__input feedback__input" placeholder="Отчество" name="prelastname">
 
-                        <div v-if="(!order.nocall) && (order.kindpay != 1)" style="font-size:14px; line-height: 15px; margin-bottom:20px;"> <span style="color: red;">*</span> - обязательное поле только телефон</div>
+                        <div v-if="(!order.nocall) && (order.kindpay != 1)" style="font-size:14px; line-height: 15px; margin-bottom:20px;"> <span style="color: red;">*</span> - {{__('обязательное поле только телефон')}}</div>
 
                         <!--<div v-if="order.lastname">-->
                         <div v-if="order.nocall || (order.kindpay == 1)">
@@ -516,7 +516,7 @@
 
                             <input v-if="order.pay == 'Курьером' && order.street" v-model="order.flat" class="modal-order__input feedback__input" placeholder="Квартира" name="flat">
 
-                            <div v-if="((order.nocall) && (order.kindpay != 1)) || (order.kindpay == 1)" style="font-size:14px; line-height: 15px; margin-bottom:20px;"> <span style="color: red;">*</span> - обязательны все поля кроме Email</div>
+                            <div v-if="((order.nocall) && (order.kindpay != 1)) || (order.kindpay == 1)" style="font-size:14px; line-height: 15px; margin-bottom:20px;"> <span style="color: red;">*</span> - {{__('обязательны все поля кроме Email')}}</div>
 
                         </div>
 
@@ -524,10 +524,18 @@
                             <!-- <div class="modal-order__text-small">
                                 Нажимая на кнопку “Подтвердить”, вы даете согласие на обработку своих <a target="_blank" href="/policy.html">персональных данных</a>
                             </div> -->
-                            <!-- :disabled="loading" -->
-                            <button :disabled="loading" @click="acceptOrder($event)" type="submit" class="modal-order__btn feedback__btn">
+
+                            <!-- так не локализуется на укр... причем ломается главн. стр. (vue не дружит с локализов. строками ???) -->
+                            {{--<button :disabled="loading" @click="acceptOrder($event)" type="submit" class="modal-order__btn feedback__btn">
                                 @{{ loading ? 'Пожалуйста, подождите...' : 'Подтвердить' }}
+                            </button>--}}
+                            <button v-if="!loading" @click="acceptOrder($event)" type="submit" class="modal-order__btn feedback__btn">
+                                {{ __('Подтвердить') }}
                             </button>
+                            <button v-else :disabled="loading" type="submit" class="modal-order__btn feedback__btn">
+                                {{ __('Пожалуйста, подождите...') }}
+                            </button>
+
                         </div>
                     </div>
 

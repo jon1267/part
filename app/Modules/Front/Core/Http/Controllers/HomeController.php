@@ -56,7 +56,7 @@ class HomeController extends Controller
                     // auto parfumes vol 8 ml
                     if ($value === $art.'-8' && (strpos($art,'A') !== false)) {
                         $productArt[] = [
-                            'img' => '/files/'.$product['img'],
+                            'img' => '/files/glass/'.$art.'.jpg', //'img' => '/files/'.$product['img'],
                             'name' => str_replace('100ml','',$product['name']),
                             'bname' => $product['bname'],
                             'text' => $ua ? $product['text_ua'] : $product['text'],
@@ -69,7 +69,7 @@ class HomeController extends Controller
                     // Antiseptics & Parfumes Antiseptics
                     elseif ($value === $art && (strpos($art,'AS') !== false)) {
                         $productArt[] = [
-                            'img' => '/files/'.$product['img'],//$art.'.jpg', //
+                            'img' => '/files/glass/'.$art.'.jpg', //'img' => '/files/'.$product['img'],
                             'name' => str_replace('100ml','',$product['name']),
                             'bname' => $product['bname'],
                             'text' => $ua ? $product['text_ua'] : $product['text'],
@@ -82,8 +82,7 @@ class HomeController extends Controller
                     // Parfumes Gel for Bathroom vol 250 ml
                     elseif ($value === $art && (strpos($art,'GEL') !== false)) {
                         $productArt[] = [
-                            //'img' => '/files/'.$product['img'],//$art.'.jpg', //
-                            'img' => '/files/glass/'.$art.'.jpg', //
+                            'img' => '/files/glass/'.$art.'.jpg', //'img' => '/files/'.$product['img'],
                             'name' => str_replace('100ml','',$product['name']),
                             'bname' => $product['bname'],
                             'text' => $ua ? $product['text_ua'] : $product['text'],
@@ -429,9 +428,10 @@ class HomeController extends Controller
                 }
 
                 $price    = config('app.host') == 1 ? 179 : 490;
-                $price50  = config('app.host') == 1 ? $product['price50'] : 1090;
-                $price100 = config('app.host') == 1 ? $product['price100'] : 1590;
-                //$price500 = config('app.host') == 1 ? $product['price100'] : 4490;
+                //$price50  = config('app.host') == 1 ? $product['price50'] : 1090;
+                //$price100 = config('app.host') == 1 ? $product['price100'] : 1590;
+                $price50  = config('app.host') == 1 ? 390 : 1090;
+                $price100 = config('app.host') == 1 ? 590 : 1590;
 
                 $output[] = [
                     'img' => config('app.host') == 1 ? '/files/glass-50-350/' . $product['art100'] . '.jpg' : '/files/glass300/' . $product['art100'] . '.jpg',
