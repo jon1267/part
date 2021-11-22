@@ -66,10 +66,10 @@
                         </div>
                     </div>
 
-                    <div id="show-more-woman500" class="product__header show-more-all" style="padding: 15px 0 15px;">
+                    <div v-if="countWoman500 > 32" id="show-more-woman500" class="product__header show-more-all" style="padding: 15px 0 15px;">
                         <div class="wrapper sample-title">
                             <h2>
-                                <a @click="showMore(7)" class="product-card__button">
+                                <a @click="showMore('woman500')" class="product-card__button">
                                     <i class="fas fa-sync" style="margin-right: 10px;"></i> {{ __('показать еще') }}
                                 </a>
                             </h2>
@@ -109,10 +109,10 @@
                         </div>
                     </div>
 
-                    <div id="show-more-man500" class="product__header show-more-all" style="padding: 15px 0 15px;">
+                    <div v-if="countMan500 > 32" id="show-more-man500" class="product__header show-more-all" style="padding: 15px 0 15px;">
                         <div class="wrapper sample-title">
                             <h2>
-                                <a @click="showMore(8)" class="product-card__button">
+                                <a @click="showMore('man500')" class="product-card__button">
                                     <i class="fas fa-sync" style="margin-right: 10px;"></i> {{ __('показать еще') }}
                                 </a>
                             </h2>

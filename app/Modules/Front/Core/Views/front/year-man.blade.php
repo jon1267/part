@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <div v-if="brandsSelected.length === 0">
+            <div v-if="brandsSelected.length === 0 && countMan500 > 32">
                 <div id="show-more-man500" class="product__header" style="padding: 15px 0 15px;">
                     <div class="wrapper sample-title">
                         <h2>

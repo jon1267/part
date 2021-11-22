@@ -79,7 +79,7 @@
             items: 1,
             loop: true,
             autoplay: true,
-            autoplayTimeout: 8000,
+            autoplayTimeout: 15000,
             autoplayHoverPause: true,
             smartSpeed: 1500,
             dots: false,

@@ -18,7 +18,6 @@
     <div class="product__list">
         <div class="wrapper">
             <div class="product-list">
-
                 <div v-cloak v-for="product in products"
                      v-if="((product.show && brandsSelected.length === 0) || (brandsSelected.length > 0 && brandsSelected.indexOf(product.bname) > -1 )) && product.woman500 == 1"
                      class="product-list__col">
@@ -26,7 +25,7 @@
                 </div>
             </div>
 
-            <div v-if="brandsSelected.length === 0">
+            <div v-if="brandsSelected.length === 0 && countWoman500 > 32">
                 <div id="show-more-woman500" class="product__header" style="padding: 15px 0 15px;">
                     <div class="wrapper sample-title">
                         <h2>
@@ -41,7 +40,6 @@
                     <div style="z-index: 50; position: absolute; top: 10px; left: 0; height: 130px; width: 100%; background: linear-gradient(rgba(255,255,255,0), white);"></div>
                 </div>
             </div>
-
 
         </div>
     </div>

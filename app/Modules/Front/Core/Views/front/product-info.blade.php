@@ -13,7 +13,7 @@
 
             <div class="product-info-content">
                 <div style="display: flex; align-items: center; justify-content: center;">
-                    <img class="product-info-img" src="{{ $product['img'] }}"  alt="">
+                    <img class="product-info-img" src="{{ $product['img'] }}"  alt="" @if(isset($product['volume']) AND $product['volume'] == 500) style="max-width:225px" @endif>
                 </div>
 
                 <div style="margin-left: 30px;">
@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-            <div style="font-size: 20px; text-align: center; margin-top: 20px;">
+            <div class="return-catalog">
                 <a href="{{ $product['link'] }}" >{{ __('Вернуться в каталог') }}</a>
             </div>
 

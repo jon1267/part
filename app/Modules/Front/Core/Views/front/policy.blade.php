@@ -245,6 +245,10 @@
                 <p>9.4. Действующая Политика конфиденциальности размещена на странице по адресу "<?=((isset($_SERVER['HTTPS']) AND $_SERVER['HTTPS']) ? 'https' : 'http')?>://<?=$_SERVER['HTTP_HOST'] ?>/policy.html".
                 </p>
 
+                <div class="return-catalog">
+                    <a href="{{ route('front.index') }}" >{{ __('Вернуться в каталог') }}</a>
+                </div>
+
             </div>
         </div>
     </section>

@@ -245,6 +245,10 @@
                 <p>9.4. Діюча Політика конфіденційності розміщена на сторінці за адресою "<?=((isset($_SERVER['HTTPS']) AND $_SERVER['HTTPS']) ? 'https' : 'http')?>://<?=$_SERVER['HTTP_HOST'] ?>/policy.html".
                 </p>
 
+                <div class="return-catalog">
+                    <a href="{{ route('ua.front.index') }}" >{{ __('Повернутися в каталог') }}</a>
+                </div>
+
             </div>
         </div>
     </section>

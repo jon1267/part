@@ -49,6 +49,11 @@ class HomeController extends Controller
         $ua = app()->getLocale() === 'ua';
         $uaPrefix = app()->getLocale() === 'ua' ? '/ua' : '/';
 
+        // новая цена только для тап версии
+        $price    = config('app.host') == 1 ? 179 : 490;
+        $price50  = config('app.host') == 1 ? 390 : 1090;
+        $price100 = config('app.host') == 1 ? 590 : 1590;
+
         if (count($products)) {
             foreach ($products as $product) {
                 foreach ($product as $key => $value) {
@@ -56,7 +61,7 @@ class HomeController extends Controller
                     // auto parfumes vol 8 ml
                     if ($value === $art.'-8' && (strpos($art,'A') !== false)) {
                         $productArt[] = [
-                            'img' => '/files/glass/'.$art.'.jpg', //'img' => '/files/'.$product['img'],
+                            'img' => '/files/glass/'.$art.'.jpg',
                             'name' => str_replace('100ml','',$product['name']),
                             'bname' => $product['bname'],
                             'text' => $ua ? $product['text_ua'] : $product['text'],
@@ -69,7 +74,7 @@ class HomeController extends Controller
                     // Antiseptics & Parfumes Antiseptics
                     elseif ($value === $art && (strpos($art,'AS') !== false)) {
                         $productArt[] = [
-                            'img' => '/files/glass/'.$art.'.jpg', //'img' => '/files/'.$product['img'],
+                            'img' => '/files/glass/'.$art.'.jpg',
                             'name' => str_replace('100ml','',$product['name']),
                             'bname' => $product['bname'],
                             'text' => $ua ? $product['text_ua'] : $product['text'],
@@ -82,7 +87,7 @@ class HomeController extends Controller
                     // Parfumes Gel for Bathroom vol 250 ml
                     elseif ($value === $art && (strpos($art,'GEL') !== false)) {
                         $productArt[] = [
-                            'img' => '/files/glass/'.$art.'.jpg', //'img' => '/files/'.$product['img'],
+                            'img' => '/files/glass/'.$art.'.jpg',
                             'name' => str_replace('100ml','',$product['name']),
                             'bname' => $product['bname'],
                             'text' => $ua ? $product['text_ua'] : $product['text'],
@@ -94,11 +99,11 @@ class HomeController extends Controller
                     }
                     elseif ($value === $art && $volume === '30') {
                         $productArt[] = [
-                            'img' => '/files/plastic/'.$art.'.jpg',//$art.'.jpg',//$product['img'],
+                            'img' => '/files/plastic/'.$art.'.jpg',
                             'name' => str_replace('100ml.','30ml',$product['name']),
                             'bname' => $product['bname'],
                             'text' => $ua ? nl2br($product['text1_ua']) : nl2br($product['text1']),
-                            'price' => 179,//$product['price25'] ??
+                            'price' => $price, //179,
                             'id' => $product['id'],
                             'volume' => $volume,
                             'art' => $art.'-'.$volume,
@@ -111,11 +116,11 @@ class HomeController extends Controller
                             'name' => str_replace('100ml.','50ml',$product['name']),
                             'bname' => $product['bname'],
                             'text' => $ua ? nl2br($product['text1_ua']) : nl2br($product['text1']),
-                            'price' => $product['price50'] ?? 290,
+                            'price' => $price50, //$product['price50'] ?? 290,
                             'id' => $product['id'],
                             'volume' => $volume,
                             'art' => $art.'-'.$volume,
-                            'link' => $uaPrefix . (substr($art, 0, 1) === 'W' ? '#woman50' : '#man50'),
+                            'link' => $uaPrefix . (substr($art, 0, 1) === 'W' ? '#woman' : '#man'),
                         ];
                     } elseif ($value === $art && $volume === '100' && (strpos($art,'AS') !== true)) {
                         $productArt[] = [
@@ -123,11 +128,11 @@ class HomeController extends Controller
                             'name' => $product['name'],
                             'bname' => $product['bname'],
                             'text' => $ua ? nl2br($product['text1_ua']) : nl2br($product['text1']),
-                            'price' => $product['price100'] ?? 390,
+                            'price' => $price100, //$product['price100'] ?? 390,
                             'id' => $product['id'],
                             'volume' => $volume,
                             'art' => $art,
-                            'link' => $uaPrefix . (substr($art, 0, 1) === 'W' ? '#woman100' : '#man100'),
+                            'link' => $uaPrefix . (substr($art, 0, 1) === 'W' ? '#woman' : '#man'),
                         ];
                     } elseif ($value === $art && $volume === '500') {
                         $productArt[] = [

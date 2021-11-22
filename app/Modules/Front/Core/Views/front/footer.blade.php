@@ -181,7 +181,7 @@
                                     <option value="100">100 мл</option>
                                 </select>
 
-                                <span v-if="product.category > 6">@{{ product.volume }} </span> мл<br/>
+                                <span v-if="product.variants.length === 0">@{{ product.volume }} </span> мл<br/>
                                 <span>@{{ product.sale }} {{ $valuta }}</span>
                             </div>
                             <!--Дубль объема для мобильной версии конец-->
@@ -199,7 +199,7 @@
                                 <option value="100">100</option>
                             </select>
 
-                            <span v-if="product.category > 6">@{{ product.volume }}</span> мл
+                            <span v-if="product.variants.length === 0">@{{ product.volume }}</span> мл
                         </div>
 
                         <div class="modal-promocode-table__col-product">
