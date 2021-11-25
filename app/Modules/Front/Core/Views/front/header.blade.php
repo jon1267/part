@@ -29,17 +29,21 @@
 
     <div style="margin-top:20px; display: flex; align-items: center">
         <span style="margin-right: 3px; white-space: nowrap;">{{__('Выберите язык:')}}</span>
-        <a href="{{ route('language.update', ['ru']) }}"><img style="height:20px; border:1px solid silver; padding:1px;" src="/images/ru_icon.png"></a> &nbsp;
-        <a href="{{ route('language.update', ['ua']) }}"><img style="height:20px; border:1px solid silver; padding:1px;" src="/images/ua_icon.png"></a>
+        <a href="{{ route('language.update', ['ua']) }}"><img style="height:20px; border:1px solid silver; padding:1px;" src="/images/ua_icon.png"></a> &nbsp;
+        <a href="{{ route('language.update', ['ru']) }}"><img style="height:20px; border:1px solid silver; padding:1px;" src="/images/ru_icon.png"></a>
     </div>
 
     <div style="border-bottom: solid 1px #cccccc; margin-top: 20px;"></div>
 
     <ul style="margin-top: 15px;">
-        <li><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#woman">{{ __('Женская парфюмерия') }}</a></li>
-        <li><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#man">{{ __('Мужская парфюмерия') }}</a></li>
+        <li><strong>{{__('Парфюмерия')}}</strong></li>
+        <li><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#woman">{{ __('Женская') }}</a></li>
+        <li><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#man">{{ __('Мужская') }}</a></li>
 
-        <li v-if="countGel > 0"><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#gel">{{ __('Парфюмированные гели') }}</a></li>
+        <li v-if="countGel > 0"><strong>{{__('Парфюмированные гели для душа')}}</strong></li>
+        <li v-if="countGel > 0"><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#gel">{{ __('Женские гели') }}</a></li>
+        <li v-if="countGel > 0"><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#gel">{{ __('Мужские гели') }}</a></li>
+
         <li v-if="countAuto > 0"><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#auto">{{ __('Автопарфюмы') }}</a></li>
         <li v-if="countSeptics > 0"><a href="{{ app()->getLocale() === 'ua' ? route('ua.front.index') : route('front.index') }}#septics">{{ __('Антисептики') }}</a></li>
 
@@ -49,17 +53,16 @@
 
     </ul>
 
-    <ul style="margin-top: 15px;">
+    <!-- !!! временно отключен фильтр по брендам. включить - раскомментировать весь <ul> ... <li скрыть список> оставить закомментированным-->
+    {{--<ul style="margin-top: 15px;">
         <li>
             <a href="javascript:void(0)" @click="toggleFilter()">{{ __('Фильтр по брендам') }}
-                {{--<i v-if="showFilter" class="fas fa-minus" style="color: #7e7e7e; margin-left: 10px;"></i>
-                <i v-else class="fas fa-plus" style="color: #7e7e7e;  margin-left: 10px;"></i>--}}
                 <span v-if="showFilter" style="color: #7e7e7e; margin-left: 10px; font-size: 18px;">-</span>
                 <span v-else  style="color: #7e7e7e;  margin-left: 10px; font-size: 18px;">+</span>
             </a>
         </li>
-        {{--<li v-if="showFilter"><a href="javascript:void(0)" @click="toggleFilter()">{{ __('скрыть список') }}</a></li>--}}
-    </ul>
+        <!--<li v-if="showFilter"><a href="javascript:void(0)" @click="toggleFilter()">{{ __('скрыть список') }}</a></li>-->
+    </ul>--}}
 
     <div v-if="showFilter">
 
@@ -91,15 +94,24 @@
 <button @click="filterBrands()" class="hide-button" id="filter-brands-button"></button>
 <div class="overlay-black"></div>
 
-<header @click="openParfumMan()" v-cloak v-if="basket.length === 0" class="header">
-    <div class="parfum-panel" v-cloak>
-        <div class="text_desktop"><a class="product-card__button sex_button">Хочу бесплатный подбор аромата аромастилистом</a></div>
+<header v-cloak v-if="basket.length === 0" class="header">
 
-        <a class="product-card__button sex_button button_mobile">
-            <span>Хочу бесплатный подбор аромата </span>
-            АРОМАСТИЛИСТОМ
-        </a>
+    <div style="display: flex; justify-content: center; align-items: center; align-self: center; margin: auto auto;">
+        <div style="margin-right: 35px;">
+            <a href="{{ route('front.index') }}"><img style="max-width:120px; " src="/images/pdparis-white-logo.png"></a>
+        </div>
+
+        <div class="parfum-panel" v-cloak @click="openParfumMan()">
+            <div class="text_desktop"><a class="product-card__button sex_button">{{__('хочу бесплатный подбор аромата ')}} {{__('аромастилистом')}}</a></div>
+
+            <a class="product-card__button sex_button button_mobile">
+                <span>{{__('хочу бесплатный подбор аромата ')}}</span>
+                {{__('аромастилистом')}}
+            </a>
+        </div>
+        <p style="color: white; margin-left: 35px;">{{__('улучшенные версии ароматов')}}</p>
     </div>
+
 </header>
 
 <header @click="openBasket()" v-cloak v-if="basket.length > 0" class="header">

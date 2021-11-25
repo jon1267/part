@@ -8,7 +8,7 @@
                             <!--<img src="/images/advantages_1_old.png" alt="" class="desktop">-->
                             <!--<img src="/images/advantages_1_mobile_old.png" alt="" class="mobile">-->
                             <img src="/images/advantages_1.png" alt=""  class="desktop h-125">
-                            <img src="/images/advantages_1_mobile.png" alt="" class="mobile h-30">
+                            <img src="/images/advantages_1_mobile.png" alt="" class="mobile h-50">
                         </div>
                         <div class="advantages-card__info">
                             <div class="advantages-card__text">
@@ -27,7 +27,7 @@
                             <!--<img src="/images/advantages_2_old.png" alt="" class="desktop">-->
                             <!--<img src="/images/advantages_2_mobile_old.png" alt="" class="mobile">-->
                             <img src="/images/advantages_2.png" alt=""  class="desktop h-125">
-                            <img src="/images/advantages_2_mobile.png" alt="" class="mobile h-30">
+                            <img src="/images/advantages_2_mobile.png" alt="" class="mobile h-50">
                         </div>
                         <div class="advantages-card__info">
                             <div class="advantages-card__text">
@@ -43,7 +43,7 @@
                             <!--<img src="/images/advantages_3_old.png" alt="" class="desktop">-->
                             <!--<img src="/images/advantages_3_mobile_old.png" alt="" class="mobile">-->
                             <img src="/images/advantages_3.png" alt="" class="desktop h-125">
-                            <img src="/images/advantages_3_mobile.png" alt="" class="mobile h-30">
+                            <img src="/images/advantages_3_mobile.png" alt="" class="mobile h-50">
                         </div>
                         <div class="advantages-card__info">
                             <div class="advantages-card__text">
@@ -59,7 +59,7 @@
                             <!--<img src="/images/advantages_4_old.png" alt="" class="desktop">-->
                             <!--<img src="/images/advantages_4_mobile_old.png" alt="" class="mobile">-->
                             <img src="/images/advantages_4.png" alt="" class="desktop h-125">
-                            <img src="/images/advantages_4_mobile.png" alt="" class="mobile h-30">
+                            <img src="/images/advantages_4_mobile.png" alt="" class="mobile h-50">
                         </div>
                         <div class="advantages-card__info">
                             <div class="advantages-card__text">
@@ -79,7 +79,7 @@
 
             <div class="info__inner">
                 <div class="text">
-                    <p class="instagram-box__title text-center">О Нас</p>
+                    <p class="instagram-box__title text-center">{{__('О Нас')}}</p>
                     <p style="text-align: justify">{{ __('PdParis — парфюмерная компания, которая с 2018 года предлагает своим клиентам улучшенные версии известных композиций.')}}
                         {{ __('В составе нашей продукции только качественные и натуральные компоненты, которые доставляются на производство прямиком из французского города Грасс.')}}</p>
                     <p style="text-align: justify">{{ __('Наша цель — вывести на рынок качественный нишевый парфюм по доступной цене. А лучшая гарантия качества — база наших постоянных клиентов, которая насчитывает уже более 1 000 000 довольных покупателей.') }}</p>

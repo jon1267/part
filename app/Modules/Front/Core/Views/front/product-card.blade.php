@@ -14,6 +14,8 @@
 
             <a :href="['/product/'+product.slug+'_'+product.art+'.html']" >
                 <div class="product-name">
+                    {{-- <strong>@{{ product.bname }}</strong><br/> --}}
+                    <strong>PdParis</strong><br/>
                     <strong>@{{ product.bname }}</strong><br/>
                     @{{ product.name }}
                 </div>

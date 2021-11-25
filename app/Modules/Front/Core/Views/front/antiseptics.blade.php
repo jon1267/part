@@ -6,9 +6,9 @@
             <h2 class="font-weight-400">
                 {{ __('Антисептики') }}&nbsp; &nbsp;
 
-                <a href="#auto" class="product-card__button sex_button">
+                {{--<a href="#auto" class="product-card__button sex_button">
                     {{ __('перейти к автопарфюмам') }}
-                </a>
+                </a>--}}
             </h2>
             <br/>
             <div>{{ __('Выберите') }} <div class="basket-circle" style="position:relative; right:20px; margin: 0; right:0; top:7px; "><div class="horizontal-plus"></div><div class="vertical-plus"></div></div> {{ __('свои парфюмы') }}</div>

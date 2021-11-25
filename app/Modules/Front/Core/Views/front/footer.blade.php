@@ -336,9 +336,9 @@
                                         <div style="font-size:9px; text-transform:uppercase; border:1px solid #5676d5; padding:3px 5px; padding-bottom:1px; border-radius:10px; display:inline-block; color:#5676d5; font-weight:bold;">{{__('Выбор клиентов')}}</div>
                                         <br/>
 
-
-                                        <!--<div v-if="!order.kindpay">Выберите этот способ оплаты, и сэкономьте <span style="color:green; font-weight:bold;">40 грн.</span> <span style="font-weight:bold;">на каждом</span> флаконе. Ваша цена <span style="color:green; font-weight:bold;">139 грн</span> за флакон.</div>-->
-                                        <div v-if="!order.kindpay">{{__('Выберите этот способ оплаты, и получите')}} <span style="color:green; font-weight:bold;">10% {{__('скидку')}} </span> {{__('на весь заказ')}} <span style="font-weight:bold;">{{__('дополнительно.')}}</span> </div>
+                                        {{--<div v-if="!order.kindpay">Выберите этот способ оплаты, и сэкономьте <span style="color:green; font-weight:bold;">40 грн.</span> <span style="font-weight:bold;">на каждом</span> флаконе. Ваша цена <span style="color:green; font-weight:bold;">139 грн</span> за флакон.</div>--}}
+                                        {{--<div v-if="!order.kindpay">{{__('Выберите этот способ оплаты, и получите')}} <span style="color:green; font-weight:bold;">10% {{__('скидку')}} </span> {{__('на весь заказ')}} <span style="font-weight:bold;">{{__('дополнительно.')}}</span> </div>--}}
+                                        <div v-if="!order.kindpay">{{__('Выберите этот способ оплаты, и получите')}} <span style="color:green; font-weight:bold;">10% {{__('скидку')}} </span> </div>
 
                                     </div>
                                 </label>
@@ -348,7 +348,7 @@
                                     <div class="modal-order__box"></div>
                                     <div class="modal-order__text">
                                         <b>{{__('Оплата при получении')}}</b><br/>
-                                        <div>{{__('При выборе этого способа доставки, Вы получаете стандартную цену.')}}</div>
+                                        {{--<div>{{__('При выборе этого способа доставки, Вы получаете стандартную цену.')}}</div>--}}
                                     </div>
                                 </label>
 
@@ -382,7 +382,7 @@
                                         <div class="modal-order__box"></div>
                                         <div class="modal-order__text">
                                             <b>{{__('На отделение')}} </b><br/>
-                                            {{__('Доставка на отделение Новая Почта в Вашем населенном пункте.')}}
+                                            {{__('Доставка на отделение Новая Почта в вашем населенном пункте.')}}
                                             <div v-if="order.kindpay == 1"><strong>{{__('Стоимость доставки:')}} 40 грн</strong></div>
                                             <div v-if="order.kindpay == 2"><strong>{{__('Стоимость доставки:')}} 60 грн</strong></div>
                                         </div>
@@ -434,7 +434,7 @@
 
                         <div v-if="order.kindpay != 1" style="display: flex; margin-bottom: 20px;">
                             <input type="checkbox" v-model="order.nocall" id="nocall" name="nocall" style="height: 23px; width: 23px;">
-                            <div class="modal-order__text">{{__('Мне не звонить')}}</div>
+                            <div class="modal-order__text">{{__('Оформлю самостоятельно')}}</div>
                         </div>
 
                         <input type="tel" v-mask="'+38 (###) ###-##-##'" v-model="order.phone" class="modal-order__input feedback__input" placeholder="Ваш телефон" name="modal-order-phone">
@@ -563,19 +563,27 @@
 
         <div class="modal-promocode__header">
             <div class="modal-promocode__title">
-                @{{ parfumManRequest ? 'Спасибо с Вами свяжутся!' : 'Бесплатный подбор парфюма аромастилистом' }}
+                {{-- @{{ parfumManRequest ? 'Спасибо с Вами свяжутся!' : 'Бесплатный подбор парфюма аромастилистом' }} --}}
+                <span v-if="parfumManRequest">{{__('Спасибо с Вами свяжутся!')}}</span>
+                <span v-else>{{__('Бесплатный подбор парфюма аромастилистом')}}</span>
             </div>
         </div>
 
         <div v-if="! parfumManRequest" class="modal-promocode-table">
 
             <div style="padding: 13px 30px;">
-                <div style="font-size:14px; line-height: 18px; margin-bottom:5px;">Ваш номер телефона: <span style="color: red;">*</span> </div>
+                <div style="font-size:14px; line-height: 18px; margin-bottom:5px;">{{__('Ваш номер телефона:')}} <span style="color: red;">*</span> </div>
                 <input type="tel" v-mask="'+38 (###) ###-##-##'" v-model="phone" class="modal-order__input feedback__input" placeholder="Ваш телефон" name="modal-order-phone">
 
                 <div class="modal-promocode-table__footer-col-btn" style="margin: 0 auto;">
-                    <button :disabled="loading" @click="saveParfumMan($event)" type="submit" class="modal-order__btn feedback__btn">
+                    {{--<button :disabled="loading" @click="saveParfumMan($event)" type="submit" class="modal-order__btn feedback__btn">
                         @{{ loading ? 'Пожалуйста, подождите...' : 'Подтвердить' }}
+                    </button>--}}
+                    <button v-if="!loading" @click="saveParfumMan($event)" type="submit" class="modal-order__btn feedback__btn">
+                        {{ __('Подтвердить') }}
+                    </button>
+                    <button v-else :disabled="loading" type="submit" class="modal-order__btn feedback__btn">
+                        {{ __('Пожалуйста, подождите...') }}
                     </button>
                 </div>
             </div>
@@ -587,7 +595,7 @@
 
             <div class="modal-promocode-table__footer-col-link" style="margin: 0 auto;">
                 <a @click="closeParfumMan()" href="javascript:void(0)" class="modal-promocode-table__footer-link">
-                    Вернуться к выбору
+                    {{__('Вернуться к выбору')}}
                 </a>
             </div>
         </div>

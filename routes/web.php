@@ -40,7 +40,7 @@ Route::post('/api/parfumman', [HomeController::class, 'parfumman']);
 #Route::get('/welcome', [PartnerCabinetController::class, 'index']);
 
 Auth::routes();
-Route::get('/password/reset/{token}/{email}', 'App\Http\Controllers\Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::get('/password/reset/{token}/{email}', 'App\Http\Controllers\Auth\ResetPasswordController@showResetForm');
 
 Route::get('/welcome', [PartnerCabinetController::class, 'index'])->name('welcome');
 Route::group(['middleware' => 'auth'], function () {

@@ -22,7 +22,7 @@
                 <div class="advantages__inner">
                     <div class="text">
                         <p style="text-align:center">
-                            {{ __('Познакомьтесь очень легко с мировыми парфюмерными шедеврами. Единая цена на все!') }}
+                            {{ __('Познакомьтесь очень легко с мировыми парфюмерными шедеврами.') }}
                             <br/>
                         </p>
                         <div style="border:2px solid rgb(133, 84, 160); margin: 0 auto; max-width:580px; width:100%; text-align:center;">
@@ -61,7 +61,7 @@
                         {{__('Женская парфюмерия')}}
 
                         <a v-cloak v-if="brandsSelected.length === 0" href="#man" class="product-card__button sex_button">
-                            {{__('перейти к мужским')}}
+                            {{__('перейти к мужской')}}
                         </a>
                     </h2>
 
@@ -90,6 +90,12 @@
 
 
                     <div v-if="brandsSelected.length === 0">
+
+                        <div id="more-background-woman" style="height: 140px; overflow: hidden; position: relative; ">
+                            @include('front.more-background')
+                            <div style="z-index: 50; position: absolute; top: 10px; left: 0; height: 130px; width: 100%; background: linear-gradient(rgba(255,255,255,0), white);"></div>
+                        </div>
+
                         <div id="show-more-woman" class="product__header" style="padding: 15px 0 15px;">
                             <div class="wrapper sample-title">
                                 <h2>
@@ -100,10 +106,6 @@
                             </div>
                         </div>
 
-                        <div id="more-background-woman" style="height: 140px; overflow: hidden; position: relative; ">
-                            @include('front.more-background')
-                            <div style="z-index: 50; position: absolute; top: 10px; left: 0; height: 130px; width: 100%; background: linear-gradient(rgba(255,255,255,0), white);"></div>
-                        </div>
                     </div>
 
                 </div>
@@ -118,7 +120,7 @@
                     <h2 class="font-weight-400">
                         {{__('Мужская парфюмерия')}}
                         <a v-cloak v-if="brandsSelected.length === 0" href="#woman" class="product-card__button sex_button">
-                            {{__('вернуться к женским')}}
+                            {{__('перейти к женской')}}
                         </a>
                     </h2>
 
@@ -146,6 +148,12 @@
                     </div>
 
                     <div v-if="brandsSelected.length === 0">
+
+                        <div id="more-background-man" style="height: 140px; overflow: hidden; position: relative; ">
+                            @include('front.more-background')
+                            <div style="z-index: 50; position: absolute; top: 10px; left: 0; height: 130px; width: 100%; background: linear-gradient(rgba(255,255,255,0), white);"></div>
+                        </div>
+
                         <div id="show-more-man" class="product__header" style="padding: 15px 0 15px;">
                             <div class="wrapper sample-title">
                                 <h2>
@@ -155,10 +163,7 @@
                                 </h2>
                             </div>
                         </div>
-                        <div id="more-background-man" style="height: 140px; overflow: hidden; position: relative; ">
-                            @include('front.more-background')
-                            <div style="z-index: 50; position: absolute; top: 10px; left: 0; height: 130px; width: 100%; background: linear-gradient(rgba(255,255,255,0), white);"></div>
-                        </div>
+
                     </div>
 
 

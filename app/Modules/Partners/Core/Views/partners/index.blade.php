@@ -78,7 +78,7 @@
 
         <br/>
 
-        <div style="font: 12px tahoma; text-align:center; ">Забыли пароль?<b> <a style="color:#A3476D" href="/reset">нажмите здесь для восстановления</a></b></div>
+        <div style="font: 12px tahoma; text-align:center; ">Забыли пароль?<b> <a style="color:#A3476D" href="/password/reset">нажмите здесь для восстановления</a></b></div>
 
         <br/>
 
