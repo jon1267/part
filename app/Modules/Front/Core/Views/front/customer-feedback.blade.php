@@ -55,6 +55,7 @@
                 ОТКРЫТЬ InSTAGRAM
             </a>-->
 
+            <!-- эти 2 дива, новый блок инста с телефоном ... -->
             <div class="instagram-box__text  instagram-box__back" >
                 <div class="instagram-box__desktop ">
                     <div style="margin-left: 50px; padding: 25px;">
@@ -65,22 +66,26 @@
                         {{__('в котором вы найдете отзывы клиентов, полезную информацию о парфюмерии и не только, а также — много всего интересного.') }}<br /><br />
                         <strong>{{__('Присоединяйтесь:)')}}</strong> <br /><br />
                     </div>
-                    <div style="position: absolute; right: 75px;">
+                    <div  style="position: absolute; right: 75px;">
                         <img src="{{ asset('/images/phone-des.png') }}" alt="phone"  >
                     </div>
-
                 </div>
             </div>
 
-            <div class="instagram-box__mobile text-center" >
-                <p class="instagram-box__title">
-                    {{ __('А это — наш ') }}<a target="_blank" href="https://www.instagram.com/pd_paris/"> Instagram </a>
-                </p><br />
-                <p>
-                    {{__('в котором вы найдете отзывы клиентов, полезную информацию о парфюмерии и не только, а также — много всего интересного.') }}
-                </p>
-                <br />
-                <strong>{{__('Присоединяйтесь:)')}}</strong> <br /><br />
+            <div style="position: relative;">
+                <div class="instagram-box__mobile text-center" >
+                    <p class="instagram-box__title">
+                        {{ __('А это — наш ') }}<a target="_blank" href="https://www.instagram.com/pd_paris/"> Instagram </a>
+                    </p><br />
+                    <p>
+                        {{__('в котором вы найдете отзывы клиентов, полезную информацию о парфюмерии и не только, а также — много всего интересного.') }}
+                    </p>
+                    <br />
+                    <strong>{{__('Присоединяйтесь:)')}}</strong> <br /><br />
+                </div>
+                <div class="instagram-mobile-phone" >
+                    <img src="{{ asset('/images/phone-des.png') }}" alt="phone-mobile" width="225px;" >
+                </div>
             </div>
 
         </div>
