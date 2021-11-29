@@ -1,113 +1,60 @@
 <section id="footer" class="footer">
-    <div class="footer-menu">
-        <div class="wrapper">
-            <div class="footer-menu__inner">
-                <ul class="footer-menu__list">
-                </ul>
+    <div class="footer-container"  >
+        <div class="footer-logo" >
+            <img src="{{ asset('/images/pdparis-black-logo.png') }}" alt=""  >
+        </div>
+        <div class="footer-part1" >
+            <div style="margin-bottom: 30px;">
+                <a href="{{ app()->getLocale() === 'ua' ? route('ua.front.policy') : route('front.policy') }}" class="footer-menu__link" style="color: #000000; font-size: 21px;">
+                    {{ __('Конфиденциальность') }}
+                </a>
+            </div>
+            <div>
+                <a href="{{ app()->getLocale() === 'ua' ? route('ua.front.terms') : route('front.terms') }}" class="footer-menu__link" style="color: #000000; font-size: 21px;">
+                    {{ __('Условия использования') }}
+                </a>
             </div>
         </div>
-    </div>
-    <div class="footer-info">
-        <div class="wrapper">
-            <div class="footer-info__inner">
-                <div class="footer-info__button">
-                    {{__('ГОРЯЧАЯ ЛИНИЯ')}}
-                </div>
+        <div class="footer-part2" >
+            <div style="margin-bottom: 30px;">
+                <a href="{{ app()->getLocale() === 'ua' ? route('ua.front.offers') : route('front.offers') }}" class="footer-menu__link" style="color: #000000; font-size: 21px;">
+                    {{ __('Договор оферты') }}
+                </a>
+            </div>
+            <div>
+                <a target="_blank" href="/welcome"  class="footer-menu__link" style="color: #000000; font-size: 21px;">
+                    {{ __('Партнерская программа') }}
+                </a>
+            </div>
+        </div>
+        <div class="footer-part3" >
+            <div style="margin-bottom: 15px;">
                 <a href="tel:0800334869" class="footer-info__phone">
                     0&nbsp;800&nbsp;33&nbsp;48&nbsp;69
                 </a>
-                <div class="footer-info__time">
-                    <img style="width:150px;" src="/images/pdparis-white-logo.png">
-                    <!--c <b>9:00</b> до <b>21:00</b> <span>• БЕСПЛАТНО ПО УКРАИНЕ</span>
-                        <br/>
-                        <br/> -->
-                    <div class="text-center" style="margin-top: 15px;">
-                        <p><a href="mailto:info@pdparis.com">info@pdparis.com</a></p>
-                    <!--<p><a href="mailto:support@pdparis-shop.com">support@pdparis-shop.com</a></p>
-                     	<p>ФОП "Успешный Игорь Олегович", ЕГРПОУ 3119020313</p>
-                     	<p>669006 г. Запорожье, ул. Добролюбова 12/29</p>-->
-                    </div>
-                </div>
-                <div class="footer-description">
-                    <!-- <div class="footer-description__text">
-                        ПОДПИСКА НА СПЕЦИАЛЬНОЕ ПРЕДЛОЖЕНИЕ <b>PDPARIS</b>
-                    </div>
-                    <form class="footer-description__wrapper">
-                        <input v-model="email" name="subscribe" class="footer-description__input" placeholder="Введите Ваш е-мейл">
-                        <button @click="subscribe($event)" type="submit" class="footer-description__button"></button>
-                    </form> -->
+            </div>
+            <div style="margin-bottom: 15px;">
 
-                    <!--<br/>-->
+                <a target="_blank" href="https://www.youtube.com/watch?v=2BvWLy9ijtI&ab_channel=PdParis">
+                    <i class="fab fa-youtube fa-2x footer-soc-links" ></i>
+                </a>
+                <a target="_blank" href="https://www.instagram.com/pd_paris/">
+                    <i class="fab fa-instagram fa-2x footer-soc-links" ></i>
+                </a>
+                <a target="_blank" href="viber://pa?chatURI=pdparisbot&context=617968fd9b04756349ca7b45" class="support-chat-link">
+                    <i class="fab fa-viber fa-2x footer-soc-links"></i>
+                </a>
+                <a target="_blank" href="https://telegram.me/PdParisChatBot?start=617968fd9b04756349ca7b45" >
+                    <i class="fab fa-telegram-plane fa-2x footer-soc-links" ></i>
+                </a>
 
-                    <!--<div class="footer-description__text" style="text-align:center;">ООО "ИЗИМАРКЕТ" ИНН 42026686<br/>ул Криворожская 24-А,кв142</div>-->
-                    <!--<div class="footer-description__text" style="text-align:center;">PdParis</div>-->
-                </div>
 
-                <div class="footer-socials">
-                    <div target="_blank" class="footer-socials__col">
-                        <a target="_blank" href="https://www.instagram.com/pd_paris/" class="footer-socials__icon footer-socials__icon--instagram">
-                            <img src="/images/svg/sprite.svg#instagram-white" alt="instagram">
-                        </a>
-                    </div>
-                    <!--<div class="footer-socials__col">
-                        <a target="_blank" href="viber://pa?chatURI=pdparisbot&context=617968fd9b04756349ca7b45" >
-                            <i class="fab fa-viber fa-2x" style="color: white;"></i>
-                        </a>
-                    </div>-->
-
-                    <div style="width: 165px;">
-                        <a target="_blank" href="/welcome"  class="btn-partners-program">
-                            <i class="fas fa-dollar-sign fa-2x" style="margin: 0 12px 0 7px;"></i>{{ __('Партнерская программа') }}
-                        </a>
-                    </div>
-                    <div target="_blank" class="footer-socials__col">
-                        <a target="_blank" href="https://www.youtube.com/watch?v=2BvWLy9ijtI&ab_channel=PdParis" class="footer-socials__icon footer-socials__icon--youtube">
-                            <img src="/images/svg/sprite.svg#youtube" alt="youtube">
-                        </a>
-                    </div>
-                    <!--<div class="footer-socials__col">
-                        <a target="_blank" href="https://telegram.me/PdParisChatBot?start=617968fd9b04756349ca7b45" >
-                            <i class="fab fa-telegram-plane fa-2x" style="color: white"></i>
-                        </a>
-                    </div>-->
-
-                </div>
-
-                <div class="footer-socials" style="margin-top: 15px;">
-
-                    <div class="footer-socials__col" style="margin-left: -10px;">
-                        <a target="_blank" href="viber://pa?chatURI=pdparisbot&context=617968fd9b04756349ca7b45" class="support-chat-link">
-                            <i class="fab fa-viber fa-2x" style="color: white;"></i>
-                        </a>
-                    </div>
-
-                    <div class="footer-info__button footer-support-chat">
-                        {{__('Чат поддержки')}}
-                    </div>
-
-                    <div class="footer-socials__col">
-                        <a target="_blank" href="https://telegram.me/PdParisChatBot?start=617968fd9b04756349ca7b45" class="support-chat-link">
-                            <i class="fab fa-telegram-plane fa-2x" style="color: white"></i>
-                        </a>
-                    </div>
-                </div>
 
             </div>
 
-            <div style="padding-bottom: 40px;">
-                <ul class="footer-menu__list">
-                    <li class="footer-menu__item">
-                        <a href="{{ app()->getLocale() === 'ua' ? route('ua.front.policy') : route('front.policy') }}" class="footer-menu__link" style="color: white">
-                            {{ __('Конфиденциальность') }}
-                        </a>
-                    </li>
-                    <li class="footer-menu__item">
-                        <a href="{{ app()->getLocale() === 'ua' ? route('ua.front.terms') : route('front.terms') }}" class="footer-menu__link" style="color: white">
-                            {{ __('Условия использования') }}
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <p>
+                {{ __('Сайт создан в соответствии с Директивами Европейского Союза 2006/114/ЕС и 2005/29/ЕС, а также законом Украины «О рекламе».') }}
+            </p>
 
         </div>
     </div>

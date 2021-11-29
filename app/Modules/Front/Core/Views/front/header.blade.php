@@ -97,19 +97,32 @@
 <header v-cloak v-if="basket.length === 0" class="header">
 
     <div style="display: flex; justify-content: center; align-items: center; align-self: center; margin: auto auto;">
-        <div style="margin-right: 35px;">
+        <div class="hide-mobile-white-logo">
             <a href="{{ route('front.index') }}"><img style="max-width:120px; " src="/images/pdparis-white-logo.png"></a>
         </div>
 
-        <div class="parfum-panel" v-cloak @click="openParfumMan()">
+        {{--<div class="parfum-panel" v-cloak @click="openParfumMan()">
             <div class="text_desktop"><a class="product-card__button sex_button">{{__('хочу бесплатный подбор аромата ')}} {{__('аромастилистом')}}</a></div>
 
             <a class="product-card__button sex_button button_mobile">
                 <span>{{__('хочу бесплатный подбор аромата ')}}</span>
                 {{__('аромастилистом')}}
             </a>
+        </div>--}}
+
+        <div class="parfum-panel" v-cloak>
+            <div class="text_desktop">
+                <a href="tel:0800334869" >
+                    <span style="padding: 0 30px; margin: auto; font-size: 24px;">0&nbsp;800&nbsp;33&nbsp;48&nbsp;69</span>
+                </a>
+            </div>
+
+            <a href="tel:0800334869" class="button_mobile">
+                <span style="padding: 0 30px; margin: auto; font-size: 21px;">0&nbsp;800&nbsp;33&nbsp;48&nbsp;69</span>
+            </a>
         </div>
-        <p style="color: white; margin-left: 35px;">{{__('улучшенные версии ароматов')}}</p>
+
+        <p class="hide-mobile-advanced-aromas">{{__('улучшенные версии ароматов')}}</p>
     </div>
 
 </header>

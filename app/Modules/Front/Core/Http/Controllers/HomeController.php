@@ -36,6 +36,12 @@ class HomeController extends Controller
         return view($terms);
     }
 
+    public function offers()
+    {
+        $offers = app()->getLocale() === "ua" ? 'front.offers_ua' : 'front.offers';
+        return view($offers);
+    }
+
     public function productArt($art)
     {
         $art = str_replace(['.html', '.htm'], ['',''], ucfirst($art));

@@ -1,5 +1,30 @@
 <div class="product-card">
-    <div class="product-card__volume" style="margin: 15px 0 0 20px;">@{{ product.volume }} мл</div>
+
+    <div style="display: flex; justify-content: space-between;">
+        <div class="product-card__volume" style="margin: 15px 0 0 20px;">@{{ product.volume }} мл</div>
+
+        <div @click="switcherCart(product, $event)" class="card-button" style="margin: 10px 15px 0 0;">
+
+            <div v-if="hasInBasket(product.art)" class="added" style="margin-right: 5px;">{{ __('Добавлено') }}</div>
+            <div v-if=" ! hasInBasket(product.art)" class="add" style="margin-right: 5px;">{{ __('Добавить') }}</div>
+
+            <div
+                v-if=" ! hasInBasket(product.art)"
+                class="basket-circle"
+            >
+                <div class="horizontal-plus"></div>
+                <div class="vertical-plus"></div>
+            </div>
+
+            <div v-if="hasInBasket(product.art)" class="checkmark">
+                <div class="checkmark-stem"></div>
+                <div class="checkmark-kick"></div>
+            </div>
+
+        </div>
+    </div>
+
+
     <div class="product-card__img">
         <div style="display: flex;">
             <a :href="['{{ (app()->getLocale() === 'ua' ? '/ua' : '') }}/product/'+product.slug+'_'+product.art+'.html']" >
@@ -60,7 +85,8 @@
             </a>
         </div>
 
-        <div @click="switcherCart(product, $event)" class="card-button">
+        <!-- нижняя ссылка с плюсиком, добавить в корзину (убрать из корзины) -->
+        {{--<div @click="switcherCart(product, $event)" class="card-button">
             <div
                 v-if=" ! hasInBasket(product.art)"
                 class="basket-circle"
@@ -76,7 +102,7 @@
 
             <div v-if="hasInBasket(product.art)" class="added">{{ __('Добавлено') }}</div>
             <div v-if=" ! hasInBasket(product.art)" class="add">{{ __('Добавить') }}</div>
-        </div>
+        </div>--}}
 
 
     </div>

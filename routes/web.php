@@ -15,6 +15,7 @@ Route::group(['middleware' => 'language.ru'], function () {
     Route::get('/product/{art}', [HomeController::class, 'productArt'])->name('front.product');
     Route::get('/policy', [HomeController::class, 'policy'])->name('front.policy');
     Route::get('/terms', [HomeController::class, 'terms'])->name('front.terms');
+    Route::get('/offers', [HomeController::class, 'offers'])->name('front.offers');
 });
 
 Route::group(['middleware' => 'language.ua'], function () {
@@ -23,6 +24,7 @@ Route::group(['middleware' => 'language.ua'], function () {
     Route::get('/ua/product/{art}', [HomeController::class, 'productArt'])->name('ua.front.product');
     Route::get('/ua/policy',  [HomeController::class, 'policy'])->name('ua.front.policy');
     Route::get('/ua/terms',   [HomeController::class, 'terms'])->name('ua.front.terms');
+    Route::get('/ua/offers',   [HomeController::class, 'offers'])->name('ua.front.offers');
 });
 
 Route::get('/api/samples', [HomeController::class, 'samples']);
