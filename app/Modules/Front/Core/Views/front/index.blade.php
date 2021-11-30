@@ -181,15 +181,6 @@
         <div v-if="countSeptics > 0">
             @include('front.antiseptics')
         </div>
-        <div v-if="countWoman500 > 0">
-            @include('front.year-woman')
-        </div>
-        <div v-if="countMan500 > 0">
-            @include('front.year-man')
-        </div>
-
-
-
 
         @include('front.advantages')
 

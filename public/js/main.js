@@ -18,11 +18,6 @@ $(document).ready(function () {
         setTimeout(function(){ that.selectionStart = that.selectionEnd = 10000; }, 0);
     });
 
-    $('input[type="tel"]').click(function(){
-        var that = this;
-        setTimeout(function(){ that.selectionStart = that.selectionEnd = 10000; }, 0);
-    });
-
     $('.toggle-top-menu').click(function(){
         $('.navigation').addClass('active');
         $('.overlay-black').show();
@@ -31,6 +26,7 @@ $(document).ready(function () {
     $('#close-top-menu').click(function(){
         $('.navigation').removeClass('active');
         $('.overlay-black').hide();
+        $('#filter-brands-button').hide();
     });
 
     $('.overlay-black').click(function(){
@@ -87,7 +83,6 @@ $(document).ready(function () {
         });
     }
 
-
     function initInstagramSlider() {
         if ($('.instagram-box__slider').length > 0) {
             $('.instagram-box__slider').slick({
@@ -106,7 +101,6 @@ $(document).ready(function () {
                 ]
             });
 
-        } else {
         }
     }
 
@@ -126,17 +120,6 @@ $(document).ready(function () {
         });
     }
 
-    function openBasket() {
-        // $('.header-basket').on("click", function () {
-        //     $('.modal__cart-promocode').addClass('open');
-        //     $('body').addClass('hidden');
-        // })
-    }
-
-    //function showMore(category = '') {
-    //    console.log(this.products, category);
-    //}
-
     initMobileMenu();
     closeModal();
     changePromocodeBoxPlaceholder();
@@ -144,12 +127,9 @@ $(document).ready(function () {
     initInstagramSlider();
     initSelect();
     initSelectLanguage();
-    openBasket();
 });
 
 if ($('.vue').length) {
-
-
 
     Vue.directive('mask', VueMask.VueMaskDirective);
 
@@ -178,7 +158,7 @@ if ($('.vue').length) {
                 answer: '',
             },
             order: {
-                procent: 10,//0,
+                procent: 0,
                 streetId: '',
                 street: '',
                 house: '',
@@ -199,6 +179,8 @@ if ($('.vue').length) {
                 nocall: 0,
                 email: '',
                 url: '',
+                zip: '', // post index for search sdek office
+                sdek_to: '', //choice sdek office for order delivery
             },
 
             promocodeIssue: '',
@@ -222,41 +204,44 @@ if ($('.vue').length) {
             showStreets: false,
             showHouses: false,
 
-            countManMax: 12,
-            countWomanMax: 12,
-            pagination: 12,
+            showFilter: false,
+            token: $('meta[name="csrf-token"]').attr('content'),
+            host: parseInt($('meta[name="host"]').attr('content')),
 
-            productsGroupped: [],
+            totalAction: 600,
+            totalActionRu: 1200,
+
             productsNew: [],
             productsTop: [],
 
-            showFilter: false,
-            token: $('meta[name="csrf-token"]').attr('content'),
+            parfumManRequest: false,
+            phone: '', // for parfum Man Request
         },
 
-
+        events: {
+            filter: function () {
+                this.filterBrands();
+            }
+        },
 
         mounted: function() {
+            let that = this;
+            window.addEventListener('hashchange', () => {
+                if (window.location.hash === '') {
+                    that.closeBasket();
+                }
+            });
 
             this.$cookies.config('30d');
 
             this.getSamples();
 
-            if ($('.compare').length) {
-                this.compare = true;
-            }
-
-            if ($('.compare').length && ! this.$cookies.get('analog')) {
-                this.openAnalog();
-                $('.modal-warning__close').hide();
-            }
-
-            cookie = JSON.parse(this.$cookies.get('basket'));
+            let cookie = JSON.parse(this.$cookies.get('basket'));
             if (cookie) {
                 this.basket = cookie;
             }
 
-            promocode = this.$cookies.get('promocode');
+            let promocode = this.$cookies.get('promocode');
             if (promocode) {
                 this.order.promocode = promocode;
                 this.order.procent = this.$cookies.get('procent');
@@ -270,18 +255,13 @@ if ($('.vue').length) {
                 this.$cookies.remove('procent');
             }
 
-
-
+            if (this.host === 2) {
+                this.order.phone = '';
+            }
         },
 
         watch: {
-           countManMax: function () {
-               this.productsGrouppedPrepare();
-           },
 
-           countWomanMax: function () {
-               this.productsGrouppedPrepare();
-           },
         },
 
         computed: {
@@ -290,8 +270,8 @@ if ($('.vue').length) {
             	var list = [];
                 var that = this;
 
-            	 $.each(that.products, function (index, product){
-                    if (list.indexOf(product.bname) < 0 && product.category != 9 && product.category != 10) {
+            	 $.each(that.products, function (index, product) {
+                    if (product.variants && list.indexOf(product.bname) < 0) {
                     	list.push(product.bname);
                     }
                 });
@@ -299,38 +279,36 @@ if ($('.vue').length) {
                 return list.sort();
             },
 
-	    productsVisible: function () {
-	        var list = [];
-                var that = this;
-                var visible = [];
-
-		$.each(that.products, function (index, product) {
-
-			let added = false;
-
-			if ( ! visible[product.category]) {
-				visible[product.category] = 0;
-			}
-
-			if (product.show === 1) {
-			 	visible[product.category]++;
-			}
-
-			if (that.brandsSelected.length === 0) {
-                    		list.push(product);
-                    		added = true;
-                    	}
-
-                    	if ( ! added && that.brandsSelected.indexOf(product.bname) >= 0) {
-            			product.show = 1;
-            			visible[product.category]++;
-                    		list.push(product);
-                    	}
-
-		});
-
-		return list;
-	    },
+            productsVisible: function () {
+                // var list = [];
+                // var that = this;
+                // var visible = [];
+                //
+                // $.each(that.products, function (index, product) {
+                //     let added = false;
+                //
+                //     if ( ! visible[product.category]) {
+                //         visible[product.category] = 0;
+                //     }
+                //
+                //     if (product.show === 1) {
+                //         visible[product.category]++;
+                //     }
+                //
+                //     if (that.brandsSelected.length === 0) {
+                //         list.push(product);
+                //         added = true;
+                //     }
+                //
+                //     if ( ! added && that.brandsSelected.indexOf(product.bname) >= 0) {
+                //         product.show = 1;
+                //         visible[product.category]++;
+                //         list.push(product);
+                //     }
+                // });
+                //
+                // return list;
+            },
 
             totalEconomy: function () {
                 var total = 0;
@@ -347,23 +325,22 @@ if ($('.vue').length) {
             },
 
             promoDiscount: function () {
-                if (this.totalFull > 600) {
-                	return '+1 парфюм 30мл бесплатно';
-                }
-
                 return '';
             },
 
             total: function () {
                 var total = 0;
-                var that = this;
-                $.each(that.basketVisible, function (index, product){
-                    if (product.sale > 0) {
-                        total += (parseInt(product.sale) * product.qty);
-                    }
+                var that  = this;
+                $.each(that.basketVisible, function (index, product) {
+                    total += product.total;
                 });
 
-                return total;
+                // если оплата онлайн то еще 10% скидки
+                if (that.order.kindpay == 1) {
+                    total = total - (total * 0.1);
+                }
+
+                return Math.round(total);
             },
 
             totalFull: function () {
@@ -376,371 +353,340 @@ if ($('.vue').length) {
                 return total;
             },
 
-            basketVisible: function () {
-                var list = [];
-                var that = this;
-
-                // that.basket.sort(function(a, b){return (a.price > b.price) ? 1 : -1});
-
-                var saleCount = 0;
-                // saleCount = Math.floor(that.basket.length / 4);
-
-
-              	var total = 0;
-                $.each(that.basket, function (i, pro) {
-                    $.each(that.products, function (index, product) {
-                        if (pro.art == product.art) {
-                            total += (parseInt(product.price) * pro.qty);
-                        }
-                    });
+            basketFormat: function () {
+                let that = this;
+                $.each(that.basket, function (i, row) {
+                    let product = that.findProductByArt(row.art);
+                    if (product) {
+                        row.price = parseInt(product.price);
+                    }
                 });
 
-                $.each(that.basket, function (i, pro) {
+                return that.basket;
+            },
 
-                    $.each(that.products, function (index, product) {
+            basketVisible: function () {
+
+                let list = [];
+                let that = this;
+                let counted = 0;
+                let countBasket = 0;
+
+                $.each(that.basket, function (i, row) {
+                    countBasket = countBasket + parseInt(row.qty);
+                });
+
+                let saleCount = Math.floor(countBasket / 4);
+
+                that.basketFormat = that.basketFormat.sort(function(a,b) {
+                    return a['price'] - b['price'];
+                });
+
+                $.each(that.basketFormat, function (i, row) {
+
+                    let product = that.findProductByArt(row.art);
+
+                    if (product) {
 
                         product.discount = null;
-                        product.sale     = product.price;
 
-                        if (that.order.kindpay == 1) {
-                            product.sale = product.sale - Math.round(product.sale * 0.1);
-                            product.discount = 'Скидка 10%';
-                        }
+                            let price = parseInt(product.price);
+                            let sale  = parseInt(product.price);
 
-                        //if (that.order.procent) {
-                        //     product.sale = product.sale - Math.round(product.sale * that.order.procent / 100);
-                        //     product.discount = 'Скидка ' + that.order.procent + '%';
-                        //}
+                            if (that.order.procent && product.category !== 11 && product.category !== 9) {
+                                sale = sale - Math.round(sale * that.order.procent / 100);
+                                product.discount = 'Скидка ' + that.order.procent + '%';
+                            }
 
-                        if (total >= 600) {
+                            let total = 0;
+                            let free  = 0;
 
-                        }
+                            for (var i = 0; i < row.qty; i++) {
+                                if (counted < saleCount && ( product.volume !== 500 && product.category !== 11)) {
+                                    free ++;
+                                    counted ++;
+                                    product.discount = free + ' в подарок!';
+                                } else {
+                                    total = total + sale;
+                                }
+                            }
 
-                        if (i + 1 <= saleCount) {
-                            product.sale = 0;
-                            product.discount = 'В подарок!';
-                        }
-
-                        if (pro.art == product.art) {
-                            list.push({
-                                qty:      pro.qty,
-
-                                art:      product.art,
-                                price:    product.price,
-                                sale:     product.sale,
-                                volume:   product.volume,
-                                bname:    product.bname,
-                                name:     product.name,
-                                img:      product.img,
-                                discount: product.discount,
-                                analog:   product.analog,
-                                samples:  product.samples,
-                                total:    product.sale * pro.qty,
+                            let has = false;
+                            $.each(list, function (ind, li) {
+                                if (li.art == row.art) {
+                                    li.qty += row.qty;
+                                    li.total = sale * li.qty;
+                                    has = true;
+                                }
                             });
+
+                            let variants = [];
+                            if (product.variants) {
+                                variants = product.variants;
+                            }
+
+                            if ( ! has) {
+                                list.push({
+                                    qty:      row.qty,
+                                    art:      row.art,
+                                    volume:   row.vol,
+
+                                    price:    price,
+                                    sale:     sale,
+
+                                    bname:    product.bname,
+                                    name:     product.name,
+                                    img:      product.img,
+                                    discount: product.discount,
+                                    analog:   product.analog,
+                                    samples:  product.samples,
+                                    category: product.category,
+
+                                    total:    total,
+                                    variants:  variants
+                                });
+                            }
                         }
-                    });
+
                 });
 
                 return list;
-            }
+            },
+
+            countSeptics: function () {
+                let that = this;
+                let count = 0;
+                $.each(that.products, function (index, product){
+                    if (product.category == 9 ) {
+                        count++;
+                    }
+                });
+                return count;
+            },
+
+            countAuto: function () {
+                let that = this;
+                let count = 0;
+                $.each(that.products, function (index, product){
+                    if (product.category == 10 ) {
+                        count++;
+                    }
+                });
+                return count;
+            },
+
+            countGel: function () {
+                let that = this;
+                let count = 0;
+                $.each(that.products, function (index, product){
+                    if (product.category == 11 ) {
+                        count++;
+                    }
+                });
+                return count;
+            },
+
+            countMan500: function () {
+                let that = this;
+                let count = 0;
+                $.each(that.products, function (index, product){
+                    if (product.man500 == 1) {
+                        count++;
+                    }
+                });
+                return count;
+            },
+
+            countWoman500: function () {
+                let that = this;
+                let count = 0;
+                $.each(that.products, function (index, product){
+                    if (product.woman500 == 1) {
+                        count++;
+                    }
+                });
+                return count;
+            },
 
         },
 
         methods: {
 
-	     toggleFilter: function () {
-	        this.showFilter = ! this.showFilter;
-	     },
+            prepareProductsNew: function () {
+                var that   = this;
+                that.productsNew = [];
+                var limit  = 10;
+                $.each(that.products, function (index, product) {
+                    if (product.new == 1 && that.productsNew.length < limit) {
+                        that.productsNew.push(product);
+                    }
+                });
+
+                return that.productsNew;
+            },
+
+            prepareProductsTop: function () {
+                var that   = this;
+                that.productsTop = [];
+                var limit  = 10;
+                $.each(that.products, function (index, product) {
+                    if (product.hit == 1 && that.productsNew.length < limit) {
+                        that.productsTop.push(product);
+                    }
+                });
+
+                return that.productsTop;
+            },
+
+            findProductByArt: function(art) {
+                let that = this;
+                let pro = null;
+                $.each(that.products, function (index, product) {
+                    if (product.art == art) {
+                        pro = Object.assign({}, product);
+                    }
+
+                    if (product.variants) {
+                        $.each(product.variants, function (i, variant) {
+                            if (variant.art == art) {
+                                pro = Object.assign({}, product);
+                                pro.price = variant.price;
+                                pro.img = variant.img;
+                                pro.img1000 = variant.img1000;
+                                pro.volume = variant.volume;
+                                pro.art = variant.art;
+                            }
+                        });
+                    }
+                });
+
+                return pro;
+            },
+
+            findProductVariantsByArt: function(art) {
+                let result;
+                let that = this;
+                result = that.findProductByArt(art);
+                if ((result !== null) && result.variants) {
+                    console.log(art, result.variants);
+                    return result.variants;
+                }
+                return null;
+            },
+
+            setProductVariantPrice: function(price, volume, img) {
+                //console.log(price, volume);
+                $('span#product-variant-price').text(price);
+                $('a.vol-button').removeClass('vol-active');
+                $('a#variant-'+volume).addClass('vol-active');
+                $("img.product-info-img").attr("src",img);
+                if (volume == 500) {
+                    $("img.product-info-img").css("max-width", "225px");
+                } else {
+                    $("img.product-info-img").css("max-width", "400px");
+                }
+            },
+
+            toggleFilter: function () {
+                this.showFilter = ! this.showFilter;
+            },
 
             setPosition: function (index) {
-
-                let position = $('#brand-' + index).offset().top;
-                let scrolled = $(document).scrollTop();
-                let scrolledNavigation = $('.navigation').scrollTop();
-                position = position - scrolled + scrolledNavigation;
-
-
-                $('#filter-brands-button').show();
-                $('#filter-brands-button').css('top', position - 15);
-                $('#filter-brands-button').css('left', 120);
-
+                $('.filter-button').remove();
+                $('#wrap-brand-' + index).after('<button onClick="$(\'.hide-button\').click();" class="product-card__button sex_button filter-button" style="font-size: 12px; padding: 8px 30px; margin-bottom: 10px;">Фильтровать</button>');
             },
 
-	    reloadSliderNew: function () {
-	       $(".regular2").slick({
-			dots: true,
-			infinite: true,
-			slidesToShow: 4,
-			slidesToScroll: 1,
-			autoplay: true,
-			dots: false,
-			responsive: [
-			    {
-				breakpoint: 990,
-				settings: {slidesToShow: 3}
-			    }, {
-				breakpoint: 800,
-				settings: {slidesToShow: 2}
-			    }, {
-				breakpoint: 400,
-				settings: {slidesToShow: 1}
-			    }
-			]
-		    });
-	    },
-
-	    reloadSliderTop: function () {
-	       $(".regular").slick({
-			dots: true,
-			infinite: true,
-			slidesToShow: 4,
-			slidesToScroll: 1,
-			autoplay: true,
-			dots: false,
-			responsive: [
-			    {
-				breakpoint: 990,
-				settings: {slidesToShow: 3}
-			    }, {
-				breakpoint: 800,
-				settings: {slidesToShow: 2}
-			    }, {
-				breakpoint: 400,
-				settings: {slidesToShow: 1}
-			    }
-			]
-		    });
-	    },
-
-            productsNewPrepare: function () {
-            	var groups = [];
-            	var that   = this;
-            	var limit  = 10;
-            	let products = JSON.parse(JSON.stringify(that.products));
-
-            	$.each(products, function (ind, product) {
-
-            	    if (product.new == 1) {
-
-            	    	let artParts = product.art.split('-');
-	    	        let art = artParts[0];
-
-	    	        let index = that.findInArrByAttr(groups, 'art', art);
-
-	    	        if (index < 0) {
-
-	    	            if (groups.length <= limit - 1 && product.volume == 30) {
-
-            	    	        let pro = [];
-	    	    	        product.show = true;
-
-	    	    	        pro.push(product);
-	    	    	        groups.push({
-	    	    	           art: art,
-	    	    	           products: pro,
-	    	    	           man: parseInt(product.man),
-	    	    	           woman: parseInt(product.woman),
-	    	    	           show: true,
-	    	    	        });
-
-            	            }
-
-	    	        } else {
-	    	      	    product.show = false;
-	    	    	    groups[index].products.push(product);
-	    	        }
-            	    }
-            	});
-
-            	that.productsNew = groups;
-
-            	setTimeout(function(){ that.reloadSliderNew(); }, 500);
-
-            	return that.productsNew;
+            reloadSliderNew: function () {
+               $(".regular2").slick({
+                infinite: true,
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                autoplay: false,
+                dots: false,
+                responsive: [
+                    {
+                    breakpoint: 990,
+                    settings: {slidesToShow: 3}
+                    }, {
+                    breakpoint: 800,
+                    settings: {slidesToShow: 2}
+                    }, {
+                    breakpoint: 600,
+                    settings: {slidesToShow: 1}
+                    }
+                ]
+                });
             },
 
-            productsTopPrepare: function () {
-            	var groups = [];
-            	var that   = this;
-            	var limit  = 10;
-            	let products = JSON.parse(JSON.stringify(that.products));
-
-            	$.each(products, function (ind, product) {
-
-            	    if (product.hit == 1) {
-
-            	    	let artParts = product.art.split('-');
-	    	        let art = artParts[0];
-
-	    	        let index = that.findInArrByAttr(groups, 'art', art);
-
-	    	        if (index < 0) {
-
-	    	            if (groups.length <= limit - 1 && product.volume == 30) {
-
-            	    	        let pro = [];
-	    	    	        product.show = true;
-
-	    	    	        pro.push(product);
-	    	    	        groups.push({
-	    	    	            art: art,
-	    	    	            products: pro,
-	    	    	            man: parseInt(product.man),
-	    	    	            woman: parseInt(product.woman),
-	    	    	            show: true,
-	    	    	        });
-
-            	            }
-
-	    	        } else {
-	    	      	    product.show = false;
-	    	    	    groups[index].products.push(product);
-	    	        }
-            	    }
-            	});
-
-            	that.productsTop = groups;
-
-            	setTimeout(function(){ that.reloadSliderTop(); }, 500);
-
-            	return that.productsTop;
+            reloadSliderTop: function () {
+               $(".regular").slick({
+                infinite: true,
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                autoplay: false,
+                dots: false,
+                responsive: [
+                    {
+                    breakpoint: 990,
+                    settings: {slidesToShow: 3}
+                    }, {
+                    breakpoint: 800,
+                    settings: {slidesToShow: 2}
+                    }, {
+                    breakpoint: 600,
+                    settings: {slidesToShow: 1}
+                    }
+                ]
+                });
             },
 
-            productsGrouppedPrepare: function () {
-            	var groups = [];
-            	var that = this;
-            	var countMan = 0;
-            	var countWoman = 0;
+            setVolumeCard: function(product, volume) {
+                let that = this;
+                $.each(product.variants, function (index, variant) {
+                    if (variant.volume === parseInt(volume)) {
+                        product.volume = variant.volume;
+                        product.art = variant.art;
+                        product.img = variant.img;
+                        product.price = variant.price;
 
-            	let products = JSON.parse(JSON.stringify(that.products));
-
-            	$.each(products, function (ind, product) {
-
-            	    product.arrow = true;
-
-            	    let artParts = product.art.split('-');
-            	    let art = artParts[0];
-
-            	    let index = that.findInArrByAttr(groups, 'art', art);
-
-            	    if (index < 0) {
-
-            	   	let show = false;
-
-            	   	if (product.man === "1") {
-            	    	    countMan++;
-            	    	    if (countMan <= that.countManMax) {
-            	    	    	show = true;
-            	    	    }
-            	    	}
-
-            	    	if (product.woman === "1") {
-            	    	    countWoman++;
-            	    	    if (countWoman <= that.countWomanMax) {
-            	    	    	show = true;
-            	    	    }
-            	    	}
-
-            	    	if ( that.brandsSelected.length === 0 || (that.brandsSelected.length > 0 && that.brandsSelected.indexOf(product.bname) >= 0) ) {
-            		    let pro = [];
-	    	    	    product.show = true;
-	    	    	    pro.push(product);
-	    	    	    groups.push({
-	    	    	       art: art,
-	    	    	       products: pro,
-	    	    	       man: parseInt(product.man),
-	    	    	       woman: parseInt(product.woman),
-	    	    	       show: show,
-
-	    	    	    });
-                    	}
-
-            	    } else {
-            	    	product.show = false;
-            	    	groups[index].products.push(product);
-            	    }
-
-            	});
-
-            	that.productsGroupped = groups;
-
-            	return that.productsGroupped;
+                        that.$forceUpdate();
+                    }
+                });
             },
 
-            prevProductInGroup(group) {
-                console.log('prev');
-            	let count = group.products.length;
-            	let index = this.findInArrByAttr(group.products, 'show', true);
+            removeBrand: function (brand) {
+                let index = this.brandsSelected.indexOf(brand);
+                if (index !== -1) {
+                    this.brandsSelected.splice(index, 1);
+                }
 
-            	index--;
+                let index2 = this.brandsPreSelected.indexOf(brand);
+                if (index2 !== -1) {
+                    this.brandsPreSelected.splice(index2, 1);
+                }
 
-            	if (index < 0) {
-            	   index = count - 1;
-            	}
-
-            	$.each(group.products, function (ind, product) {
-            	    if (index === ind) {
-            	    	product.show = true;
-            	    } else {
-            	    	product.show = false;
-            	    }
-            	});
-            },
-
-            nextProductInGroup(group) {
-                console.log('next');
-            	let count = group.products.length;
-            	let index = this.findInArrByAttr(group.products, 'show', true);
-
-            	index++;
-
-            	if (index > count - 1) {
-            	   index = 0;
-            	}
-
-            	$.each(group.products, function (ind, product) {
-            	    if (index === ind) {
-            	    	product.show = true;
-            	    } else {
-            	    	product.show = false;
-            	    }
-            	});
-            },
-
-            findInArrByAttr(array, attr, value) {
-	        for(var i = 0; i < array.length; i += 1) {
-		    if(array[i][attr] === value) {
-		        return i;
-		    }
-	        }
-    	        return -1;
+                if (this.brandsSelected.length === 0) {
+                    this.clearBrands();
+                }
             },
 
             filterBrands: function () {
-                this.countManMax = 1000;
-                this.countWomanMax = 1000;
                 this.brandsSelected = Object.assign([], this.brandsPreSelected);
-
-                this.productsGrouppedPrepare();
                 $('.show-more-all').hide();
                 $('#filter-brands-button').hide();
-
-
-                if (window.location.hash !== '#man' && window.location.hash !== '#woman') {
-                    location.href="/#woman";
-                }
+                location.href="#woman";
 
                 $('.navigation').removeClass('active');
                 $('.overlay-black').hide();
+                $('.filter-button').remove();
             },
 
             clearBrands: function () {
                 this.brandsPreSelected = [];
                 this.brandsSelected = [];
-                this.countManMax = 12;
-                this.countWomanMax = 12;
-                this.productsGrouppedPrepare();
+
                 $('.show-more-all').show();
+                $('.filter-button').remove();
             },
 
             clearBasker: function () {
@@ -764,7 +710,7 @@ if ($('.vue').length) {
                 }
 
                 if (this.order.pay == 'Курьером') {
-                    this.searchStreets();
+                    //this.searchStreets();
                 }
 
             },
@@ -870,6 +816,12 @@ if ($('.vue').length) {
                 this.order.officeId = row.number;
             },
 
+            //setOffice - оффис новой почты для ua, это СДЕК ru
+            setOfficeSdek: function (row) {
+                this.showOffices = false;
+                this.order.sdek_to = row;
+            },
+
             searchOffices: function (office, force = false) {
                 var that = this;
 
@@ -911,6 +863,29 @@ if ($('.vue').length) {
                             item.name_ru.toLowerCase().indexOf(that.order.office.toLowerCase()) > -1;
                     });
                 }
+            },
+
+            // Sdek search RU offices on zip code (=== post code)
+            searchOfficesSdek: function () {
+                let that = this;
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/offices-ru',
+                    data: {
+                        _token: that.token,
+                        zip: that.order.zip
+                    },
+                    cache: false,
+                    success: function(data) {
+                        that.offices = JSON.parse(data);
+                        that.officesFiltered = JSON.parse(data);
+                        that.showOffices = true;
+                        that.loading = false;
+
+                    }
+                });
+
             },
 
             clearIssue: function () {
@@ -977,67 +952,65 @@ if ($('.vue').length) {
                     error = true;
                 }
 
-                if ( that.order.pay == 'Отделение' && ! that.order.name) {
-                    $('input[name="name"]').addClass('issue');
-                    error = true;
-                }
-
-                if ( that.order.pay == 'Отделение' && ! that.order.city) {
+                if ( that.order.nocall && that.order.pay == 'Отделение' && ! that.order.city) {
                     $('input[name="city"]').addClass('issue');
                     $('input.city').addClass('issue');
                     error = true;
                 }
 
-                if ( that.order.pay == 'Отделение' && ! that.order.office) {
+                if ( that.order.nocall && that.order.pay == 'Отделение' && ! that.order.office) {
                     $('input[name="office"]').addClass('issue');
                     $('input.office').addClass('issue');
                     error = true;
                 }
 
-                if ( that.order.pay == 'Курьером' && ! that.order.city) {
+                if ( that.order.nocall && that.order.pay == 'Курьером' && ! that.order.city) {
                     $('input[name="city"]').addClass('issue');
                     $('input.city').addClass('issue');
                     error = true;
                 }
 
-                if ( that.order.pay == 'Курьером' && ! that.order.street) {
+                if ( that.order.nocall && that.order.pay == 'Курьером' && ! that.order.street) {
                     $('input.street').addClass('issue');
                     error = true;
                 }
 
-                if ( that.order.pay == 'Курьером' && ! that.order.house) {
+                if ( that.order.nocall && that.order.pay == 'Курьером' && ! that.order.house) {
                     $('input.house').addClass('issue');
                     error = true;
                 }
 
                 if ( that.order.pay == 'Отделение' || that.order.pay == 'Курьером') {
-                    if ( ! that.order.name) {
+                    //не уверен... сделано, чтоб при оплате при получении, name было необязательным (обязат.только телефон)
+                    //if ( ! that.order.name) {
+                    if ( ! that.order.name && that.order.kindpay == 1) {
                          $('input[name="name"]').addClass('issue');
                          error = true;
                     }
 
-                    if ( ! that.order.lastname) {
+                    if ( that.order.nocall && ! that.order.lastname) {
                          $('input[name="lastname"]').addClass('issue');
                          error = true;
                     }
                 }
 
-                if ( that.order.pay == 'Отделение' && that.order.city && ! that.order.cityId) {
+                if ( that.order.nocall && that.order.pay == 'Отделение' && that.order.city && ! that.order.cityId) {
                     $('.city-issue').html('Выберите город из списка');
                     error = true;
                 }
 
-                if ( that.order.pay == 'Отделение' && ! that.order.office) {
+                if ( that.order.nocall && that.order.pay == 'Отделение' && ! that.order.office) {
                     $('.postindex-issue').html('Выберите Отделение из списка');
                     error = true;
                 }
 
-                if ( that.order.pay == 'Курьером' && ! that.order.house) {
+                if ( that.order.nocall && that.order.pay == 'Курьером' && ! that.order.house) {
                     $('.postindex-issue').html('Выберите номер дома из списка');
                     error = true;
                 }
 
                 if (error) {
+                    console.log('error');
                     return false;
                 }
 
@@ -1143,9 +1116,8 @@ if ($('.vue').length) {
             },
 
             addToCart: function (product, event) {
-
                 event.preventDefault();
-                this.basket.push({art: product.art, qty: 1});
+                this.basket.push({art: product.art, vol: product.volume, qty: 1});
                 this.$cookies.set('basket', JSON.stringify(this.basket));
             },
 
@@ -1156,6 +1128,9 @@ if ($('.vue').length) {
 
             closeBasket: function () {
                 this.closeModal('modal__cart-promocode');
+                this.closeModal('modal__order');
+
+                window.history.pushState({}, document.title, "/");
             },
 
             openBasket: function () {
@@ -1170,6 +1145,8 @@ if ($('.vue').length) {
                         let height = parseInt($('.modal-promocode').height()) / 2;
                         $('.modal-promocode').css('top', height + 'px');
                     }
+
+                    document.location.hash = 'basket';
                 }, 100);
             },
 
@@ -1179,12 +1156,27 @@ if ($('.vue').length) {
             },
 
             getSamples: function () {
-                var that = this;
-                $.get('/api/samples', function(data) {
+                let that = this;
+                let lang = $('.lang').val();
+
+                $.get('/api/samples?lang='+lang, function(data) {
                     that.products = JSON.parse(data);
-                    that.productsGrouppedPrepare();
-                    that.productsTopPrepare();
-                    that.productsNewPrepare();
+
+                    that.prepareProductsTop();
+                    that.prepareProductsNew();
+
+                    setTimeout(function(){
+                        that.reloadSliderTop();
+                        that.reloadSliderNew();
+                    }, 100);
+
+                    if (window.location.hash && window.location.hash !== '#basket') {
+                        setTimeout(function(){
+                            $([document.documentElement, document.body]).animate({
+                                scrollTop: $(window.location.hash).offset().top
+                            }, 500);
+                        }, 200);
+                    }
                 });
             },
 
@@ -1265,38 +1257,119 @@ if ($('.vue').length) {
                 });
             },
 
-            showMoreGroup: function (category) {
-                if (category === 'man') {
-                    this.countManMax = this.countManMax + this.pagination;
-                }
-
-                if (category === 'woman') {
-                    this.countWomanMax = this.countWomanMax + this.pagination;
-                }
-
-                if (this.productsGroupped.filter(function (group) {return (group.show === false && group[category] == 1) }).length === 0) {
-                        $('#show-more-' + category).hide();
-                   }
-            },
-
             showMore: function (category) {
                 let that = this;
                 let count = 0;
-                let categoryNames = {3:"woman50", 4:"man50", 5:"woman100", 6:"man100", 7:"woman500", 8:"man500",};
 
-                $.each(that.productsVisible, function (index, product) {
-                    if (product.category == category && product.show === 0 && count < 12) {
+                $.each(that.products, function (index, product) {
+                    if ( ((product.man == 1 && category == "man") || (product.woman == 1 && category == "woman")) && product.show === 0 && count < 32) {
                       product.show = 1;
                       count++;
                     }
                 });
 
-                if (this.productsVisible.filter(function (product) {return (product.show === 0 && product.category == category) }).length === 0) {
-                    //$('#show-more-' + category).hide();//this not work on pages /parfumes50 (100,500)
-                    $('#show-more-' + categoryNames[category]).hide();
+                if (this.products.filter(function (product) {
+                    return (product.show === 0 && ((product.man == 1 && category == "man") || (product.woman == 1 && category == "woman") ))
+                }).length === 0) {
+                    $('#show-more-' + category).hide();
+                    $('#more-background-' + category).hide();
                 }
             },
 
+            changeBasketVolume: function (product) {
+                var that = this;
+                var arts = [];
+                $.each(that.basket, function (index, row) {
+
+                    if (row.art === product.art) {
+
+                        let art = product.art
+                            .replace('-30', '')
+                            .replace('-500', '')
+                            .replace('-50', '')
+                        ;
+
+                        if (product.volume == 30) {
+                            row.art = art + '-30';
+                        }
+
+                        if (product.volume == 50) {
+                            row.art = art + '-50';
+                        }
+
+                        if (product.volume == 100) {
+                            row.art = art;
+                        }
+
+                        if (product.volume == 500) {
+                            row.art = art + '-500';
+                        }
+
+                        row.vol = product.volume;
+                    }
+                });
+
+                $.each(that.basket, function (index, row) {
+                    if (row) {
+                        if (that.contains(arts, row.art)) {
+                            that.basket.splice(index, 1);
+                        } else {
+                            arts.push(row.art);
+                        }
+                    }
+
+                });
+
+                that.$cookies.set('basket', JSON.stringify(that.basket));
+
+                that.$forceUpdate();
+            },
+
+            contains: function (a, obj) {
+                var i = a.length;
+                while (i--) {
+                    if (a[i] === obj) {
+                        return true;
+                    }
+                }
+                return false;
+            },
+
+            openParfumMan: function () {
+                this.openModal('modal__parfumer');
+            },
+
+            closeParfumMan: function () {
+                this.closeModal('modal__parfumer');
+            },
+
+            saveParfumMan: function () {
+                var error = false;
+                var that  = this;
+
+                $('input[name="modal-order-phone"]').removeClass('issue');
+
+                if ( ! this.phone || this.phone.replace(/[^0-9]/g,"").length < 12) {
+                    $('input[name="modal-order-phone"]').addClass('issue');
+                    error = true;
+                }
+
+                if ( ! error) {
+                    $.ajax({
+                        type: 'POST',
+                        url:  '/api/parfumman',
+                        data: {
+                            _token: that.token,
+                            tel: that.phone,
+                            subdomain: $('.subdomain').val(),
+                        },
+                        cache: false,
+                        success: function(data) {
+                            that.parfumManRequest = true;
+                        }
+                    });
+                }
+            },
 
         }
     });

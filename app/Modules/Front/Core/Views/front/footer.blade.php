@@ -144,6 +144,7 @@
                                 <option value="30">30</option>
                                 <option value="50">50</option>
                                 <option value="100">100</option>
+                                <option v-if="product.variants.length > 3" value="500">500</option>
                             </select>
 
                             <span v-if="product.variants.length === 0">@{{ product.volume }}</span> мл

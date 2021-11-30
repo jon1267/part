@@ -433,13 +433,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return (function(origbg) {
 	          return _this._undoEmphasise.push(function($t) {
 	            return $t.css({
-	              background: origbg
+	              background: origbg,
+                    opacity: 1
 	            });
 	          });
 	        });
 	      })(this)(origbg);
 	      $target.css({
-	        background: 'white'
+              background: 'white',
+              opacity: 0.2
 	      });
 	    }
 	    origzindex = $target.prop('style').zIndex;

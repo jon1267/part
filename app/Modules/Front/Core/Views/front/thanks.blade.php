@@ -11,7 +11,7 @@
                     {{ __('Скоро посылка будет отправлена по указанному Вами адресу. Смс оповещение о прибытии поступит на Ваш телефон.') }}
 
                     <script>
-                        setTimeout(function(){ window.location.href = encodeURI("https://wep.wf/gz5i5k"); }, 1000);
+                        setTimeout(function(){ window.location.href = encodeURI("https://wep.wf/gz5i5k"); }, 5000);
                     </script>
                 @endif
 
@@ -31,7 +31,7 @@
                     <br/>{{ __('Скоро посылка будет отправлена по указанному Вами адресу. Смс оповещение о прибытии поступит на Ваш телефон.') }}
 
                     <script>
-                        setTimeout(function(){ window.location.href = encodeURI("https://wep.wf/gz5i5k"); }, 1000);
+                        setTimeout(function(){ window.location.href = encodeURI("https://wep.wf/gz5i5k"); }, 5000);
                     </script>
                 @endif
             </h1>

@@ -40,12 +40,15 @@
     border: none;
     outline: none;
     background: transparent;
+
+    /* to slider arrows hide behind cart */
+    z-index: 1;
 }
 
 @media (min-width: 1200px) {
     .slick-prev,
     .slick-next {
-        width: 20px;
+        /*width: 20px;*/
     }
 }
 

@@ -64,10 +64,11 @@
                 </div>
             </a>
 
-            <div v-if="product.variants">
+            <div class="product_variants" v-if="product.variants">
                 <a @click="setVolumeCard(product, 30)"  class="vol-button" :class="[product.volume == 30 ? 'vol-active' : '']"> 30 мл </a>
                 <a @click="setVolumeCard(product, 50)"  class="vol-button" :class="[product.volume == 50 ? 'vol-active' : '']"> 50 мл </a>
                 <a @click="setVolumeCard(product, 100)" class="vol-button" :class="[product.volume == 100 ? 'vol-active' : '']"> 100 мл </a>
+                <a v-if="product.variants.length > 3" @click="setVolumeCard(product, 500)" class="vol-button" :class="[product.volume == 500 ? 'vol-active' : '']"> 500 мл </a>
             </div>
 
             <a :href="['/product/'+product.slug+'_'+product.art+'.html']" >
